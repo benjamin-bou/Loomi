@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
@@ -30,9 +31,14 @@ function BoxesList() {
             /> */}
             <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" />
 
-            <h2 className="text-2xl font-semibold text-[#5B2B95] mb-2">{box.name}</h2>
+            <h2 className="text-2xl font-semibold text-[#5B2B95] mb-2">
+              {box.name}
+            </h2>
             <p className="text-[#5B2B95] mb-4">{box.description}</p>
-            <button className="bg-[#FA5D5D] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#e04d4d] transition">
+            <button
+              className="bg-[#FA5D5D] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#e04d4d] transition"
+              onClick={() => window.location.href = `/boxes/${box.id}`}
+            >
               Voir le produit
             </button>
           </div>
