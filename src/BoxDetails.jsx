@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./Navbar";
 
 function BoxPage() {
   const { id } = useParams();
@@ -28,8 +29,11 @@ function BoxPage() {
   }
 
   return (
-    <div className="bg-[#FFF7F0] min-h-screen py-10 px-4">
+    <div className="bg-[#FFF7F0] min-h-screen">
+      {/* Navbar */}
+      <Navbar />
       {/* Détails principaux */}
+      <div className="bg-[#FFF7F0] py-10 px-6 rounded-[4rem] m-10">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-10">
         <div className="flex-1">
           {/* <img
@@ -95,11 +99,12 @@ function BoxPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {relatedBoxes.slice(0, 3).map((related) => (
               <Link to={`/boxes/${related.id}`} key={related.id} className="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
-                <img
+                {/* <img
                   src={`/images/${related.image}`}
                   alt={related.name}
                   className="rounded-xl mb-4 w-full h-48 object-cover"
-                />
+                /> */}
+                <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" />
                 <h3 className="text-xl font-semibold text-[#5B2B95] mb-2">{related.name}</h3>
                 <p className="text-[#FA5D5D] font-medium">{related.base_price} €</p>
               </Link>
@@ -107,6 +112,7 @@ function BoxPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }
