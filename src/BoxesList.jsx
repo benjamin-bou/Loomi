@@ -1,41 +1,48 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { fetchData } from "./api";
+import Navbar from "./Navbar";
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
 
   useEffect(() => {
-    async function fetchBoxes() {
-      try {
-        const response = await fetch('/api/boxes', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.REACT_APP_API_TOKEN}` // Use an environment variable for security
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch boxes');
-        }
-
-        const data = await response.json();
+    fetchData("/boxes")
+      .then(data => {
         setBoxes(data);
-      } catch (error) {
-        console.error('Error fetching boxes:', error);
-      }
-    }
-
-    fetchBoxes();
+        console.log("Boxes fetched:", data);
+      })
+      .catch(error => {
+        console.error("Error fetching boxes:", error);
+      });
   }, []);
 
   return (
-    <div>
-      <h1>Boxes List</h1>
-      <ul>
-        {boxes.map(box => (
-          <li key={box.id}>{box.name}</li>
+    <div className="bg-[#FFF7F0] min-h-screen">
+      <Navbar />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {boxes.map((box) => (
+          <div key={box.id} className="bg-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">
+            {/* <img
+              src={`/images/${box.image}`} // Ex: "kit-tricot.png"
+              alt={`Boîte ${box.name}`}
+              className="w-full max-w-[220px] rounded-xl mb-4"
+            /> */}
+            <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" />
+
+            <h2 className="text-2xl font-semibold text-[#5B2B95] mb-2">
+              {box.name}
+            </h2>
+            <p className="text-[#5B2B95] mb-4">{box.description}</p>
+            <button
+              className="bg-[#FA5D5D] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#e04d4d] transition"
+              onClick={() => window.location.href = `/boxes/${box.id}`}
+            >
+              Voir le produit
+            </button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
