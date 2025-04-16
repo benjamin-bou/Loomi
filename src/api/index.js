@@ -20,4 +20,15 @@ export const fetchData = async (endpoint) => {
     }
 };
 
+// requête POST
+export const postData = async (endpoint, data) => {
+    try {
+        const response = await apiClient.post(endpoint, data);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de l'envoi des données: ", error);
+        throw error;
+    }
+};
+
 export default apiClient;
