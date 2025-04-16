@@ -3,6 +3,8 @@ import Home from './Home';
 import BoxesList from './BoxesList';
 import BoxDetails from './BoxDetails';
 import NotFound from './NotFound';
+import Login from './Login';
+import Register from './Register';
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/boxes" element={<BoxesList />} />
         <Route path="/boxes/:id" element={<BoxDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
