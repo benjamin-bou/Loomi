@@ -7,18 +7,33 @@ function BoxPage() {
   const { id } = useParams();
   const [box, setBox] = useState(null);
   const [relatedBoxes, setRelatedBoxes] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchData(`/boxes/${id}`)
       .then(data => setBox(data))
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        setError("Une erreur est survenue lors du chargement des détails de la boîte.");
+      });
   }, [id]);
 
   useEffect(() => {
     fetchData(`/boxes`)
       .then(data => setRelatedBoxes(data.filter(b => b.id !== parseInt(id))))
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        setError("Une erreur est survenue lors du chargement des boîtes suggérées.");
+      });
   }, [id]);
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
+        <p className="text-lg text-[#FA5D5D]">{error}</p>
+      </div>
+    );
+  }
 
   if (!box) {
     return (

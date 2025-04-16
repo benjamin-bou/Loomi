@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchData("/boxes")
@@ -13,8 +14,25 @@ function BoxesList() {
       })
       .catch(error => {
         console.error("Error fetching boxes:", error);
+        setError("Une erreur est survenue lors du chargement des boîtes.");
       });
   }, []);
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
+        <p className="text-lg text-[#FA5D5D]">{error}</p>
+      </div>
+    );
+  }
+
+  if (!boxes) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
+        <p className="text-lg text-[#5B2B95]">Chargement...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
