@@ -9,6 +9,20 @@ const apiClient = axios.create({
     },
 });
 
+// Intercepteur de requêtes pour ajouter le token d'accès dans les en-têtes
+apiClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 // requête GET
 export const fetchData = async (endpoint) => {
     try {
