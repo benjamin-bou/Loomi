@@ -72,7 +72,7 @@ const AdminBoxesList = () => {
             <p className="text-[#5B2B95] mb-4">{box.description}</p>
             <button
               className="bg-[#FA5D5D] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#e04d4d] transition"
-              onClick={() => window.location.href = `/boxes/${box.id}`}
+              onClick={() => window.location.href = `/admin/boxes/${box.id}`}
             >
               Voir le produit
             </button>

@@ -45,4 +45,15 @@ export const postData = async (endpoint, data) => {
     }
 };
 
+// requête PUT
+export const updateBox = async (endpoint, data) => {
+    try {
+        const response = await apiClient.put(endpoint, data);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour de la boîte: ", error);
+        throw error;
+    }
+};
+
 export default apiClient;

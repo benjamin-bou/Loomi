@@ -7,6 +7,7 @@ import Login from './Login';
 import Register from './Register';
 import AdminBoxesList from './AdminBoxesList';
 import PrivateRoute from './PrivateRoute';
+import AdminBoxDetails from './AdminBoxDetails';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           path="/admin/boxes/:id"
           element={
             <PrivateRoute roleRequired="admin">
-              <BoxDetails />
+              <AdminBoxDetails />
             </PrivateRoute>
           }
         />
