@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import Navbar from "./Navbar";
+import { fetchData } from "./api";
 
 function BoxPage() {
   const { id } = useParams();
@@ -9,14 +9,14 @@ function BoxPage() {
   const [relatedBoxes, setRelatedBoxes] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/boxes/${id}`)
-      .then(res => setBox(res.data))
+    fetchData(`/boxes/${id}`)
+      .then(data => setBox(data))
       .catch(err => console.error(err));
   }, [id]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/boxes")
-      .then(res => setRelatedBoxes(res.data.filter(b => b.id !== parseInt(id))))
+    fetchData(`/boxes`)
+      .then(data => setRelatedBoxes(data.filter(b => b.id !== parseInt(id))))
       .catch(err => console.error(err));
   }, [id]);
 

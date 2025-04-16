@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchData } from "./api";
 import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/boxes")
-      .then(response => {
-        setBoxes(response.data);
-        console.log("Boxes fetched:", response.data);
+    fetchData("/boxes")
+      .then(data => {
+        setBoxes(data);
+        console.log("Boxes fetched:", data);
       })
       .catch(error => {
         console.error("Error fetching boxes:", error);
