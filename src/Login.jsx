@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postData } from "./api";
+import close from "/images/picto/close.svg"; // Assurez-vous que le chemin est correct
 
-function Login() {
+function Login({showLogin, setShowLogin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -19,7 +20,9 @@ function Login() {
       }
 
       localStorage.setItem("token", data.access_token);
-      navigate("/");
+      setShowLogin(false); // Fermer la fenêtre de connexion
+      setEmail("");
+      setPassword("");
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || "Une erreur est survenue.";
       setError(errorMessage);
@@ -28,8 +31,13 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+    <div
+      className={`fixed top-0 right-0 h-full bg-white z-50 flex flex-col p-8 transition-all duration-300 ease-in-out ${showLogin ? "w-80 opacity-100" : "w-0 opacity-0 pointer-events-none"}`}
+      style={{ boxShadow: showLogin ? "-2px 0 8px rgba(0,0,0,0.1)" : "none" }}
+    >
+      {/* <button className="self-end text-xl mb-4" onClick={() => setShowLogin(false)}>&times;</button> */}
+      <a onClick={() => setShowLogin(false)} href="/" className="w-[fit-content] self-end"><img src={close} alt="logo" className="p-2 cursor-pointer select-none" /></a>
+      <form onSubmit={handleSubmit} className="bg-white p-6">
         <h2 className="text-2xl font-bold mb-4">Connexion</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <input
@@ -46,7 +54,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           className="block w-full mb-4 p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-loomilightpink text-white px-4 py-2 rounded cursor-pointer">
           Se connecter
         </button>
       </form>

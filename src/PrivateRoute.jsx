@@ -5,7 +5,7 @@ const PrivateRoute = ({ children, roleRequired }) => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   try {
@@ -15,7 +15,7 @@ const PrivateRoute = ({ children, roleRequired }) => {
     }
   } catch (e) {
     console.error('Invalid token', e);
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Navbar from "./Navbar";
 import { fetchData, updateBox } from "./api";
 
 function AdminBoxDetails() {
@@ -59,7 +58,6 @@ function AdminBoxDetails() {
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <Navbar />
       <div className="bg-[#FFF7F0] py-10 px-6 rounded-[4rem] m-10">
         <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-10">
           <div className="flex-1">
