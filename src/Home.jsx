@@ -4,7 +4,7 @@ import MainHeader from "./components/MainHeader";
 
 function App() {
   return (
-    <div className="font-sans bg-[var(--loomibeige)] min-h-screen flex flex-col">
+    <div className="font-sans bg-loomibeige min-h-screen flex flex-col">
       {/* Navbar */}
       <MainHeader />
 
@@ -15,7 +15,7 @@ function App() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Apprenez de nouvelles passions
             </h2>
-            <button className="bg-[var(--loomilightpink)] text-white font-semibold text-lg px-6 py-3 rounded-full">
+            <button className="bg-loomilightpink text-white font-semibold text-lg px-6 py-3 rounded-full">
               Acheter une boîte
             </button>
           </div>

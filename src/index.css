@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-:root {
-    --loomilightpink: #F4AECC;
-    --loomipink: #E72787;
-    --loomibeige: #FFF7F0;
-}
-
 * {
     font-family: 'neulis-neue', sans-serif;
+}
+
+@theme {
+    --color-loomilightpink: #F4AECC;
+    --color-loomipink: #E72787;
+    --color-loomibeige: #FFF7F0;
 }

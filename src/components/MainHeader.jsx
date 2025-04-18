@@ -32,7 +32,7 @@ const MainHeader = () => {
       </div>
 
       {/* Barre de navigation */}
-      <nav className="bg-loomilightpink bg-[var(--loomilightpink)] h-[63px] flex items-center justify-center">
+      <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
         <ul className="flex justify-center gap-12 text-black font-medium">
           <li><a href="/boxes">Nos box</a></li>
           <li><a href="/subscriptions">Nos abonnements</a></li>
