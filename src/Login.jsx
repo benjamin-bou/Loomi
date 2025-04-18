@@ -1,63 +1,108 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { postData } from "./api";
-import close from "/images/picto/close.svg"; // Assurez-vous que le chemin est correct
+import close from "/images/picto/close.svg";
+// import { FaFacebookF } from "react-icons/fa";
+import logo from "/images/picto/logo_phase_1.svg";
 
-function Login({showLogin, setShowLogin}) {
+function Login({ showLogin, setShowLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await postData("/login", { email, password });
-      console.log("Réponse de l'API:", data);
 
       if (data.access_token === true) {
         throw new Error("Le token d'accès est invalide.");
       }
 
       localStorage.setItem("token", data.access_token);
-      setShowLogin(false); // Fermer la fenêtre de connexion
+      setShowLogin(false);
       setEmail("");
       setPassword("");
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || "Une erreur est survenue.";
+      const errorMessage =
+        err.response?.data?.message || err.message || "Une erreur est survenue.";
       setError(errorMessage);
       console.error("Erreur lors de la connexion:", err);
     }
   };
 
   return (
+    <div className={showLogin ? `fixed top-0 left-0 w-full h-full bg-[#5f5f5f7d] z-40 transition-all duration-300 ` : ""} onClick={() => setShowLogin(false)}>
     <div
-      className={`fixed top-0 right-0 h-full bg-white z-50 flex flex-col p-8 transition-all duration-300 ease-in-out ${showLogin ? "w-80 opacity-100" : "w-0 opacity-0 pointer-events-none"}`}
+      className={`fixed top-0 right-0 h-full bg-white z-50 flex flex-col p-6 transition-all duration-300 ease-in-out ${
+        showLogin ? "w-[400px] opacity-100" : "w-0 opacity-0 pointer-events-none"
+      }`}
       style={{ boxShadow: showLogin ? "-2px 0 8px rgba(0,0,0,0.1)" : "none" }}
     >
-      {/* <button className="self-end text-xl mb-4" onClick={() => setShowLogin(false)}>&times;</button> */}
-      <a onClick={() => setShowLogin(false)} href="/" className="w-[fit-content] self-end"><img src={close} alt="logo" className="p-2 cursor-pointer select-none" /></a>
-      <form onSubmit={handleSubmit} className="bg-white p-6">
-        <h2 className="text-2xl font-bold mb-4">Connexion</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+      {/* Close button */}
+      <button onClick={() => setShowLogin(false)} className="p-2 cursor-pointer">
+        <img src={close} alt="fermer" className="h-6 w-6" />
+      </button>
+
+      {/* Logo */}
+      <div className="flex justify-center my-4">
+        <img src={logo} alt="logo" className="h-28" />
+      </div>
+
+      {/* Titre */}
+      <h2 className="text-xl text-center font-bold mb-6">Connecte-toi ou crée ton compte</h2>
+
+      {/* Formulaire */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="block w-full mb-4 p-2 border rounded"
+          className="p-3 border border-gray-300 rounded w-full"
         />
         <input
           type="password"
           placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="block w-full mb-4 p-2 border rounded"
+          className="p-3 border border-gray-300 rounded w-full"
         />
-        <button type="submit" className="bg-loomilightpink text-white px-4 py-2 rounded cursor-pointer">
-          Se connecter
+
+        {/* Session + mot de passe oublié */}
+        <div className="text-sm">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+              className="w-4 h-4"
+            />
+            Conserver la session
+          </label>
+        </div>
+
+        {/* Bouton connexion */}
+        <button
+          type="submit"
+          className="bg-black text-white py-3 rounded font-bold mt-2"
+        >
+          SE CONNECTER
         </button>
+        <a href="#" className="text-black underline self-end text-sm">
+            Tu as oublié ton mot de passe ?
+          </a>
       </form>
+
+      {/* Inscription */}
+      <p className="text-center text-sm mt-6">
+        Tu n'as pas de compte ?{" "}
+        <a href="#" className="font-bold underline">
+          Inscris-toi
+        </a>
+      </p>
+    </div>
     </div>
   );
 }
