@@ -1,12 +1,12 @@
 // src/App.jsx
 import React from "react";
-import Navbar from "./Navbar";
+import MainHeader from "./components/MainHeader";
 
 function App() {
   return (
     <div className="font-sans bg-[#f28585] min-h-screen flex flex-col">
       {/* Navbar */}
-      <Navbar />
+      <MainHeader />
 
       {/* Hero section */}
       <section className="bg-[#2EC4B6] text-white py-16 px-6 rounded-[4rem] m-10">
