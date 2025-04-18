@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from './api';
-import Navbar from './Navbar';
-import MainHeader from './components/MainHeader';
 
 const AdminBoxesList = () => {
     const [boxes, setBoxes] = useState([]);
@@ -54,8 +52,6 @@ const AdminBoxesList = () => {
 
     return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
-
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto py-10">
         {boxes.map((box) => (
           <div key={box.id} className="bg-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center">

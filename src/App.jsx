@@ -12,10 +12,12 @@ import AdminBoxDetails from './AdminBoxDetails';
 import AdminDashboard from './AdminDashboard';
 import AdminPayments from './AdminPayments';
 import AdminLayout from './components/AdminLayout';
+import MainHeader from './components/MainHeader';
 
 function App() {
   return (
     <Router>
+      {/* <MainHeader/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/boxes" element={<BoxesList />} />
