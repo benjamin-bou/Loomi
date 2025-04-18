@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import Home from './Home';
 import BoxesList from './BoxesList';
 import BoxDetails from './BoxDetails';
@@ -12,7 +11,6 @@ import AdminBoxDetails from './AdminBoxDetails';
 import AdminDashboard from './AdminDashboard';
 import AdminPayments from './AdminPayments';
 import AdminLayout from './components/AdminLayout';
-import MainHeader from './components/MainHeader';
 
 function App() {
   return (

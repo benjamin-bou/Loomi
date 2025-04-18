@@ -9,3 +9,7 @@
     --color-loomipink: #E72787;
     --color-loomibeige: #FFF7F0;
 }
+
+.cursor-close {
+    cursor: url('/images/picto/close.svg') 12 12, pointer;
+}

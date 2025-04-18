@@ -7,6 +7,7 @@ import shoppingCart from "/images/picto/shopping-cart.svg";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
+import AuthModal from "./AuthModal";
 
 const MainHeader = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -73,9 +74,9 @@ const MainHeader = () => {
       </nav>
 
       {/* Bandeau de connexion */}
-        <Login 
-        showLogin={showLogin}
-        setShowLogin={setShowLogin}
+        <AuthModal 
+        show={showLogin}
+        setShow={setShowLogin}
         />
         {/* // <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 flex flex-col p-8 animate-slide-in">
         //   <button className="self-end text-xl mb-4" onClick={handleClose}>&times;</button>

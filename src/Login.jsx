@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { postData } from "./api";
 import close from "/images/picto/close.svg";
-// import { FaFacebookF } from "react-icons/fa";
 import logo from "/images/picto/logo_phase_1.svg";
 
-function Login({ showLogin, setShowLogin }) {
+function Login({ showLogin, setShowLogin, onShowRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -32,7 +31,8 @@ function Login({ showLogin, setShowLogin }) {
   };
 
   return (
-    <div className={showLogin ? `fixed top-0 left-0 w-full h-full bg-[#5f5f5f7d] z-40 transition-all duration-300 ` : ""} onClick={() => setShowLogin(false)}>
+    <div>
+      <div className={showLogin ? `fixed top-0 left-0 w-full h-full bg-[#5f5f5f7d] z-40 transition-all duration-300 cursor-pointer` : ""} onClick={() => setShowLogin(false)}></div>
     <div
       className={`fixed top-0 right-0 h-full bg-white z-50 flex flex-col p-6 transition-all duration-300 ease-in-out ${
         showLogin ? "w-[400px] opacity-100" : "w-0 opacity-0 pointer-events-none"
@@ -98,7 +98,7 @@ function Login({ showLogin, setShowLogin }) {
       {/* Inscription */}
       <p className="text-center text-sm mt-6">
         Tu n'as pas de compte ?{" "}
-        <a href="#" className="font-bold underline">
+        <a onClick={() => onShowRegister()} className="font-bold underline cursor-pointer">
           Inscris-toi
         </a>
       </p>
