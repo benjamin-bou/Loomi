@@ -16,7 +16,6 @@ const AdminBoxesList = () => {
                     navigate('/login');
                     return;
                 }
-                // Added code to decode the token from localStorage
                 try {
                     const payload = JSON.parse(atob(token.split('.')[1]));
                     console.log('Decoded token:', payload);

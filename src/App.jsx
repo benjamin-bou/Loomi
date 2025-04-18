@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Home from './Home';
 import BoxesList from './BoxesList';
 import BoxDetails from './BoxDetails';
