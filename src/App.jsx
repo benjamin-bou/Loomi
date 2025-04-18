@@ -10,6 +10,8 @@ import AdminBoxesList from './AdminBoxesList';
 import PrivateRoute from './PrivateRoute';
 import AdminBoxDetails from './AdminBoxDetails';
 import AdminDashboard from './AdminDashboard';
+import AdminPayments from './AdminPayments';
+import AdminLayout from './components/AdminLayout';
 
 function App() {
   return (
@@ -22,30 +24,12 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Admin routes */}
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute roleRequired="admin">
-              <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/admin/boxes"
-          element={
-            <PrivateRoute roleRequired="admin">
-              <AdminBoxesList />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/admin/boxes/:id"
-          element={
-            <PrivateRoute roleRequired="admin">
-              <AdminBoxDetails />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="boxes" element={<AdminBoxesList />} />
+          <Route path="boxes/:id" element={<AdminBoxDetails />} />
+          <Route path="payments" element={<AdminPayments />} />
+        </Route>
 
         {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<NotFound />} />
