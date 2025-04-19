@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { postData } from "./api";
 
-function Login({ onShowRegister, onClose }) {
+function Login({ onShowRegister, onClose, onShowForgot }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -42,6 +42,7 @@ function Login({ onShowRegister, onClose }) {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className="p-3 border border-gray-300 rounded w-full"
+        required
       />
       <div className="text-sm">
         <label className="flex items-center gap-2 cursor-pointer">
@@ -50,6 +51,7 @@ function Login({ onShowRegister, onClose }) {
             checked={rememberMe}
             onChange={() => setRememberMe(!rememberMe)}
             className="w-4 h-4"
+            required
           />
           Conserver la session
         </label>
@@ -60,7 +62,11 @@ function Login({ onShowRegister, onClose }) {
       >
         SE CONNECTER
       </button>
-      <a href="#" className="text-black underline self-end text-sm">
+      <a
+        href="#"
+        className="text-black underline self-end text-sm"
+        onClick={e => { e.preventDefault(); if (typeof onShowForgot === 'function') onShowForgot(); }}
+      >
         Tu as oublié ton mot de passe ?
       </a>
       <p className="text-center text-sm mt-6">

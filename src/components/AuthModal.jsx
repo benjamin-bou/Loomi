@@ -3,6 +3,7 @@ import logo from '/images/picto/logo_phase_1.svg';
 import { useEffect, useState } from 'react';
 import Login from '../Login';
 import Register from '../Register';
+import ForgotPassword from '../ForgotPassword';
 
 export default function AuthModal({ show, setShow }) {
   const [mode, setMode] = useState('login');
@@ -19,7 +20,7 @@ export default function AuthModal({ show, setShow }) {
     <>
       {/* Overlay */}
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-[#5f5f5f7d] z-40 transition-opacity duration-300 ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed top-0 left-0 w-full h-full bg-[#5f5f5f7d] z-40 transition-opacity duration-300 cursor-pointer ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={handleClose}
         aria-hidden="true"
       ></div>
@@ -46,14 +47,17 @@ export default function AuthModal({ show, setShow }) {
         </div>
         {/* Titre */}
         <h2 className="text-xl text-center font-bold mb-6">
-          {mode === 'login' ? 'Connecte-toi ou crée ton compte' : 'Créer un compte'}
+          {mode === 'login' ? 'Connecte-toi ou crée ton compte' : mode === 'register' ? 'Créer un compte' : 'Réinitialiser le mot de passe'}
         </h2>
         {/* Contenu dynamique */}
         {mode === 'login' ? (
-          <Login onShowRegister={handleShowRegister} onClose={handleClose} />
-        ) : (
+          <Login onShowRegister={handleShowRegister} onClose={handleClose} onShowForgot={() => setMode('forgot')} />
+        ) : mode === 'register' ? (
           <Register onShowLogin={handleShowLogin} onClose={handleClose} />
-        )}
+        ) : (
+          <ForgotPassword onShowLogin={handleShowLogin} onClose={handleClose} />
+        )
+        }
       </div>
     </>
   );

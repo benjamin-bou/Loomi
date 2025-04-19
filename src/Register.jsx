@@ -28,35 +28,39 @@ function Register({ onShowLogin, onClose }) {
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <input
         type="text"
-        placeholder="Nom"
+        placeholder="Nom*"
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}
         className="p-3 border border-gray-300 rounded w-full"
+        required
       />
       <input
         type="text"
-        placeholder="Prénom"
+        placeholder="Prénom*"
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
         className="p-3 border border-gray-300 rounded w-full"
+        required
       />
       <input
         type="email"
-        placeholder="E-mail"
+        placeholder="E-mail*"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className="p-3 border border-gray-300 rounded w-full"
+        required
       />
       <input
         type="password"
-        placeholder="Mot de passe"
+        placeholder="Mot de passe*"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className="p-3 border border-gray-300 rounded w-full"
+        required
       />
       <button
         type="submit"
-        className="bg-black text-white py-3 rounded font-bold mt-2"
+        className="bg-loomilightpink hover:bg-loomipink cursor-pointer transition duration-300 text-white py-3 rounded font-bold mt-2"
       >
         S'INSCRIRE
       </button>
