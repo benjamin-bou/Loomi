@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ForgotPassword({ onShowLogin, onClose }) {
+function ForgotPassword({ onShowLogin }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -23,6 +23,7 @@ function ForgotPassword({ onShowLogin, onClose }) {
       setEmail("");
     } catch (err) {
       setError("Une erreur est survenue. Veuillez réessayer.");
+      console.error("Erreur lors de la réinitialisation du mot de passe:", err);
     } finally {
       setLoading(false);
     }

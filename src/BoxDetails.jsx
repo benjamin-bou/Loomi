@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchData } from "./api";
 import MainHeader from "./components/MainHeader";
+import { useCart } from './context/CartContext';
 
 function BoxPage() {
   const { id } = useParams();
   const [box, setBox] = useState(null);
   const [relatedBoxes, setRelatedBoxes] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetchData(`/boxes/${id}`)
@@ -47,7 +49,10 @@ function BoxPage() {
           <h1 className="text-4xl font-bold text-[#5B2B95] mb-4">{box.name}</h1>
           <p className="text-[#5B2B95] mb-6 text-lg">{box.description}</p>
           <p className="text-2xl font-semibold text-[#FA5D5D] mb-6">Prix : {box.base_price} €</p>
-          <button className="bg-[#FA5D5D] text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-[#e14d4d] transition">
+          <button
+            className="bg-[#FA5D5D] text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-[#e14d4d] transition"
+            onClick={() => addToCart({ id: box.id, name: box.name, price: box.base_price })}
+          >
             Ajouter au panier
           </button>
         </div>

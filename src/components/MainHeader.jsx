@@ -8,12 +8,16 @@ import logo_phase_1 from "/images/picto/logo_phase_1.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
 import AuthModal from "./AuthModal";
+import CartModal from "./CartModal";
+import { useCart } from '../context/CartContext';
 
 const MainHeader = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const { cart } = useCart();
 
 
   useEffect(() => {
@@ -32,6 +36,10 @@ const MainHeader = () => {
       setShowLogin(true);
     }
   };
+
+  const handleCartClick = () => {
+      setShowCart(true);
+  }
 
   return (
     <header className="w-full shadow-md">
@@ -57,7 +65,22 @@ const MainHeader = () => {
               <img src={user} alt="user" className="w-8 h-8 cursor-pointer select-none"/>
               <p className="font-bold cursor-pointer select-none">{userName || "Se connecter"}</p>
             </div>
-            <img src={shoppingCart} alt="shopping cart" className="w-8 h-8 cursor-pointer select-none" />
+            <div className="flex items-center gap-4 relative">
+              <img
+                src={shoppingCart}
+                onClick={handleCartClick}
+                alt="shopping cart"
+                className="w-8 h-8 cursor-pointer select-none"
+              />
+              {cart.length > 0 && (
+                <div
+                  className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  style={{ transform: 'translate(50%, -50%)' }}
+                >
+                  {cart.length}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -78,16 +101,11 @@ const MainHeader = () => {
         show={showLogin}
         setShow={setShowLogin}
         />
-        {/* // <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 flex flex-col p-8 animate-slide-in">
-        //   <button className="self-end text-xl mb-4" onClick={handleClose}>&times;</button>
-        //   <h2 className="text-2xl font-bold mb-4">Connexion</h2>
-        //   <form className="flex flex-col gap-4">
-        //     <input type="email" placeholder="Email" className="border p-2 rounded" />
-        //     <input type="password" placeholder="Mot de passe" className="border p-2 rounded" />
-        //     <button type="submit" className="bg-loomilightpink text-white py-2 rounded">Se connecter</button>
-        //   </form>
-        // </div> */}
-      
+      {/* Bandeau de panier */}
+        <CartModal 
+        show={showCart} 
+        setShow={setShowCart} 
+        />
     </header>
   );
 };

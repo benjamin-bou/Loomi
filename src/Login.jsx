@@ -51,7 +51,6 @@ function Login({ onShowRegister, onClose, onShowForgot }) {
             checked={rememberMe}
             onChange={() => setRememberMe(!rememberMe)}
             className="w-4 h-4"
-            required
           />
           Conserver la session
         </label>
