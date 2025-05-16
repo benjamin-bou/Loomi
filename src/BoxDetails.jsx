@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { fetchData } from "./api";
 import MainHeader from "./components/MainHeader";
 import { useCart } from './context/CartContext';
+import { useNavigate } from "react-router-dom";
+import favorite from "/images/picto/favorite.svg";
 
 function BoxPage() {
   const { id } = useParams();
@@ -10,6 +12,7 @@ function BoxPage() {
   const [relatedBoxes, setRelatedBoxes] = useState([]);
   const [error, setError] = useState(null);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData(`/boxes/${id}`)
@@ -20,12 +23,16 @@ function BoxPage() {
       });
   }, [id]);
 
+  console.log(box);
+
   useEffect(() => {
     fetchData(`/boxes`)
-      .then(data => setRelatedBoxes(data.filter(b => b.id !== parseInt(id))))
+      .then(data => setRelatedBoxes(
+      data.filter(b => b.id !== parseInt(id)).slice(0, 4)
+      ))
       .catch(err => {
-        console.error(err);
-        setError("Une erreur est survenue lors du chargement des boîtes suggérées.");
+      console.error(err);
+      setError("Une erreur est survenue lors du chargement des boîtes suggérées.");
       });
   }, [id]);
 
@@ -48,90 +55,75 @@ function BoxPage() {
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
       <MainHeader />
+      <div className="w-[calc(100vw-100px)] m-[50px]">
+      {/* Route */}
+      <div>
+        <p>Nos box / {box.name}</p>
+      </div>
       {/* Détails principaux */}
-      <div className="bg-[#FFF7F0] py-10 px-6 rounded-[4rem] m-10">
-      <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-10">
-        <div className="flex-1">
-          {/* <img
-            src={`/images/${box.image}`}
-            alt={box.name}
-            className="rounded-2xl shadow-md w-full max-w-sm mx-auto"
-          /> */}
-          <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" />
+      <div className="flex flex-col md:flex-row justify-between mt-4 w-full">
+        {/* Images de la box */}
+        <div className="grid grid-cols-2 gap-6 w-[58%]">
+          <div className="col-span-1 h-96 bg-gray-300 rounded-4xl"></div>
+          <div className="col-span-1 h-96 bg-gray-300 rounded-4xl"></div>
+          <div className="col-span-2 h-96 bg-gray-300 rounded-4xl"></div>
         </div>
 
-        <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl font-bold text-[#5B2B95] mb-4">{box.name}</h1>
-          <p className="text-[#5B2B95] mb-6 text-lg">{box.description}</p>
-          <p className="text-2xl font-semibold text-[#FA5D5D] mb-6">Prix : {box.base_price} €</p>
-          <button
-            className="bg-[#FA5D5D] text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-[#e14d4d] transition"
-            onClick={() => addToCart({ id: box.id, name: box.name, price: box.base_price })}
-          >
-            Ajouter au panier
-          </button>
+        {/* Infos de la box */}
+        <div className="w-[34%]">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-col">
+              <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{box.name}</h2>
+              <p className="!text-[18px] text-[#666] mt-1">{box.category}</p>
+              <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
+            </div>
+            <img src={favorite} alt="favorite" className="w-8 h-8 ml-4 cursor-pointer select-none" />
+          </div>
+          <p className="mt-14 text-[#333] text-justify font-normal">
+            {box.description || "Lorem Ipsum is simply dummy text of the printing and typesetting industry..."}
+          </p>
+
+          {/* Boutons */}
+          <div className="mt-4 flex flex-col gap-5">
+            <button
+              onClick={() => addToCart(box)}
+              className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
+            >
+              Ajouter au panier
+            </button>
+            <button className="neulis text-[15px] bg-[#DB3D88] text-white py-2 rounded-xl hover:bg-[#b83272] hover:cursor-pointer transition">
+              S’abonner
+            </button>
+          </div>
+
+          {/* Accordéon infos */}
+          <div className="mt-13 text-sm">
+            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Détails du produit <span className="float-right mr-3">+</span></div>
+            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Avis client <span className="float-right mr-3">+</span></div>
+            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Livraison et retour <span className="float-right mr-3">+</span></div>
+          </div>
         </div>
       </div>
 
-      {/* Liste du contenu */}
-      {box.items && box.items.length > 0 && (
-      <div className="max-w-5xl mx-auto mt-10 bg-white rounded-2xl p-6 shadow">
-          <h2 className="text-2xl font-bold text-[#5B2B95] mb-4">Ce que contient la boîte :</h2>
-          <ul className="list-disc pl-6 text-[#5B2B95] text-lg space-y-2">
-          {box.items.map((item) => (
-              <li key={item.id}>
-              {item.name} - {item.pivot.quantity} pièce(s)
-              </li>
-          ))}
-          </ul>
       </div>
-      )}
 
-      {/* Avis clients */}
-      {box.reviews && box.reviews.length > 0 && (
-        <div className="max-w-5xl mx-auto mt-10 bg-white rounded-2xl p-6 shadow">
-          <h2 className="text-2xl font-bold text-[#5B2B95] mb-6">Avis des utilisateurs</h2>
-          <div className="space-y-6">
-            {box.reviews.map((review, index) => (
-              <div key={index} className="bg-[#F4EFFF] p-4 rounded-xl shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="font-semibold text-[#5B2B95]">{review.username}</p>
-                  <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i}>
-                        {i < review.rating ? "⭐" : "☆"}
-                      </span>
-                    ))}
+        {/* Suggestions */}
+        {relatedBoxes.length > 0 && (
+          <div className="p-[50px] mx-auto">
+            <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
+            <div className="flex justify-between gap-4 w-full">
+              {relatedBoxes.map((related) => (
+                <div onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
+                  {/* <img
+                    src={`/images/${related.image}`}
+                    alt={related.name}
+                    className="rounded-xl mb-4 w-full h-48 object-cover"
+                  /> */}
                   </div>
-                </div>
-                <p className="text-[#5B2B95]">{review.comment}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-
-      {/* Suggestions */}
-      {relatedBoxes.length > 0 && (
-        <div className="mt-16 max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold text-[#5B2B95] mb-6">Vous aimerez aussi</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {relatedBoxes.slice(0, 3).map((related) => (
-              <Link to={`/boxes/${related.id}`} key={related.id} className="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
-                {/* <img
-                  src={`/images/${related.image}`}
-                  alt={related.name}
-                  className="rounded-xl mb-4 w-full h-48 object-cover"
-                /> */}
-                <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" />
-                <h3 className="text-xl font-semibold text-[#5B2B95] mb-2">{related.name}</h3>
-                <p className="text-[#FA5D5D] font-medium">{related.base_price} €</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+        )}
     </div>
   );
 }
