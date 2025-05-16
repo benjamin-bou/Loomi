@@ -5,6 +5,7 @@ import MainHeader from "./components/MainHeader";
 import { useCart } from './context/CartContext';
 import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
+import Newsletter from "./components/Newsletter";
 
 function BoxPage() {
   const { id } = useParams();
@@ -159,6 +160,8 @@ function BoxPage() {
             </div>
           </div>
         )}
+      {/* Newsletter */}
+      <Newsletter />
     </div>
   );
 }
