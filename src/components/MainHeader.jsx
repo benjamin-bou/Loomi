@@ -42,7 +42,7 @@ const MainHeader = () => {
   }
 
   return (
-    <header className="w-full shadow-md">
+    <header className="w-full">
       {/* Partie haute */}
       <div className="bg-white h-[111px] flex justify-between items-center px-[50px]">
         <div className="flex justify-between items-center bg-white w-full">
@@ -87,12 +87,12 @@ const MainHeader = () => {
 
       {/* Barre de navigation */}
       <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
-        <ul className="flex justify-center gap-12 text-black font-medium">
-          <li><a href="/boxes">Nos box</a></li>
-          <li><a href="/subscriptions">Nos abonnements</a></li>
-          <li><a href="/gift-cards">Cartes cadeaux</a></li>
-          <li><a href="/about">À propos</a></li>
-          <li><a href="/blog">Blog</a></li>
+        <ul className="flex justify-center gap-12 text-white font-medium">
+          <li><a className="neulis font-light" href="/boxes">Nos box</a></li>
+          <li><a className="neulis font-light" href="/subscriptions">Nos abonnements</a></li>
+          <li><a className="neulis font-light" href="/gift-cards">Cartes cadeaux</a></li>
+          <li><a className="neulis font-light" href="/about">À propos</a></li>
+          <li><a className="neulis font-light" href="/blog">Blog</a></li>
         </ul>
       </nav>
 
