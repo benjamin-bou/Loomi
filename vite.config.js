@@ -17,6 +17,6 @@ export default defineConfig({
   ],
   define: {
     // eslint-disable-next-line no-undef
-    'process.env': process.env
+    'process.env.MY_ENV_VAR': JSON.stringify(process.env.MY_ENV_VAR),
   }
 })
