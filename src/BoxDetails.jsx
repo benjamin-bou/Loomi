@@ -13,6 +13,22 @@ function BoxPage() {
   const [error, setError] = useState(null);
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const [openAccordion, setOpenAccordion] = useState(null);
+
+  const accordionData = [
+    {
+      title: "Détails du produit",
+      content: box?.details || "Ici s'affichent les détails du produit."
+    },
+    {
+      title: "Avis client",
+      content: box?.reviews || "Ici s'affichent les avis clients."
+    },
+    {
+      title: "Livraison et retour",
+      content: box?.delivery || "Ici s'affichent les informations de livraison et de retour."
+    }
+  ];
 
   useEffect(() => {
     fetchData(`/boxes/${id}`)
@@ -98,9 +114,28 @@ function BoxPage() {
 
           {/* Accordéon infos */}
           <div className="mt-13 text-sm">
-            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Détails du produit <span className="float-right mr-3">+</span></div>
-            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Avis client <span className="float-right mr-3">+</span></div>
-            <div className="text-[16px] w-[90%] border-b my-7 pb-2 tracking-[0.5px]">Livraison et retour <span className="float-right mr-3">+</span></div>
+            {accordionData.map((item, idx) => (
+              <div key={idx} className="w-[90%] border-b my-7 pb-2 tracking-[0.5px]">
+                <div
+                  className="flex justify-between items-center cursor-pointer select-none text-[16px]"
+                  onClick={() => setOpenAccordion(openAccordion === idx ? null : idx)}
+                >
+                  <span>{item.title}</span>
+                  <span className="float-right mr-3 flex items-center h-6 w-6 relative">
+                    <span className={`transition-transform duration-300 block h-[1.5px] w-3 bg-[#1B1B1B] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${openAccordion === idx ? 'rotate-45 translate-y-1' : ''}`}></span>
+                    <span className={`transition-transform duration-300 block h-[1.5px] w-3 bg-[#1B1B1B] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${openAccordion === idx ? '-rotate-45 translate-y-1' : 'rotate-90'}`}></span>
+                  </span>
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'}`}
+                  style={{}}
+                >
+                  <div className="text-[#666] text-[15px] pr-4">
+                    {item.content}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -112,8 +147,8 @@ function BoxPage() {
           <div className="p-[50px] mx-auto">
             <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
             <div className="flex justify-between gap-4 w-full">
-              {relatedBoxes.map((related) => (
-                <div onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
+              {relatedBoxes.map((related, index) => (
+                <div key={index} onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
                   {/* <img
                     src={`/images/${related.image}`}
                     alt={related.name}
