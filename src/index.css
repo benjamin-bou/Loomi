@@ -28,10 +28,14 @@ h2 {
     --color-loomibeige: #FFF7F0;
 }
 
-.cursor-close {
-    cursor: url('/images/picto/close.svg') 12 12, pointer;
+.slick-dots li button:before {
+    font-size: 15px !important;
+}
+
+.slick-slider {
+    position: relative;
 }
 
 .slick-dots {
-    font-size: 20px;
+    bottom: -40px !important;
 }
