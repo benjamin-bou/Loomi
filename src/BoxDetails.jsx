@@ -5,7 +5,9 @@ import MainHeader from "./components/MainHeader";
 import { useCart } from './context/CartContext';
 import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
+import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "./components/Newsletter";
+import Footer from "./components/Footer";
 
 function BoxPage() {
   const { id } = useParams();
@@ -15,6 +17,7 @@ function BoxPage() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const accordionData = [
     {
@@ -94,7 +97,12 @@ function BoxPage() {
               <p className="!text-[18px] text-[#666] mt-1">{box.category}</p>
               <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
             </div>
-            <img src={favorite} alt="favorite" className="w-8 h-8 ml-4 cursor-pointer select-none" />
+            <img
+              src={isFavorite ? favoriteFilled : favorite}
+              alt="favorite"
+              className="w-8 h-8 ml-4 cursor-pointer select-none transition-all duration-200"
+              onClick={() => setIsFavorite((prev) => !prev)}
+            />
           </div>
           <p className="mt-14 text-[#333] text-justify font-normal">
             {box.description || "Lorem Ipsum is simply dummy text of the printing and typesetting industry..."}
@@ -162,6 +170,7 @@ function BoxPage() {
         )}
       {/* Newsletter */}
       <Newsletter />
+      <Footer />
     </div>
   );
 }
