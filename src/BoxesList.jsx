@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "./api";
 import MainHeader from "./components/MainHeader";
+import Newsletter from "./components/Newsletter";
+import Footer from "./components/Footer";
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
@@ -61,6 +63,8 @@ function BoxesList() {
           </div>
         ))}
       </div>
+      <Newsletter />
+      <Footer />
     </div>
   );
 }

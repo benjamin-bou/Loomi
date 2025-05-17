@@ -2,6 +2,8 @@ import React from "react";
 import MainHeader from "./components/MainHeader";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
 import BoxCarousel from "./components/BoxCarousel";
+import Footer from "./components/Footer";
+import Newsletter from "./components/Newsletter";
 
 function App() {
   return (
@@ -22,6 +24,10 @@ function App() {
       {/* Abonnement */}
       <BoxCarousel />
 
+    {/* Newsletter */}
+    <Newsletter />
+    {/* Footer */}
+    <Footer />
     </div>
   );
 }
