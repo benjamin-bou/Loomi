@@ -22,6 +22,10 @@ h2 {
     font-size: 40px;
 }
 
+h3 {
+    font-size: 28px;
+}
+
 @theme {
     --color-loomilightpink: #F4AECC;
     --color-loomipink: #E72787;
@@ -38,4 +42,18 @@ h2 {
 
 .slick-dots {
     bottom: -40px !important;
+}
+
+.animate-spin-slow {
+    animation: spin 200s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

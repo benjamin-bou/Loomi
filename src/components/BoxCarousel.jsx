@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
+import LoadingImage from "./addOns/LoadingImage";
 
 // Ajout d'un style global pour masquer les ::before des flèches slick
 const style = document.createElement('style');
@@ -16,16 +17,20 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 function NextArrow(props) {
+  // eslint-disable-next-line no-unused-vars
+  const { slideCount, ...rest } = props;
   return (
-    <div {...props} className="slick-arrow slick-next !right-10 z-20 flex items-center justify-center">
+    <div {...rest} className="slick-arrow slick-next !right-10 z-20 flex items-center justify-center">
       <img src={arrowRight} alt="next" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
     </div>
   );
 }
 
 function PrevArrow(props) {
+  // eslint-disable-next-line no-unused-vars
+  const { slideCount, ...rest } = props;
   return (
-    <div {...props} className="slick-arrow slick-prev !left-8 z-20 flex items-center justify-center">
+    <div {...rest} className="slick-arrow slick-prev !left-8 z-20 flex items-center justify-center">
       <img src={arrowLeft} alt="prev" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
     </div>
   );
@@ -78,28 +83,31 @@ function BoxCarousel({ boxes, slidesToShow }) {
   return (
     <>
       <div className="mt-8">
-        {Array.isArray(boxes) && boxes.length > 0 && (
         <Slider {...settings}>
-          {boxes.map((box, index) => {
-            return (
-              <div key={index} className="px-2">
-                <div className="relative h-96 rounded-4xl overflow-hidden w-full">
-                  <img
-                    className="h-full w-full object-cover"
-                    src="https://dummyimage.com/400x300/D9D9D9/D9D9D9&text= "
-                    alt={box.name}
-                  />
-                  <div className="absolute top-0 left-0 w-full flex flex-col items-center mt-8 text-black text-center px-4">
-                    <h2 className="text-[28px] font-light">{box.name}</h2>
-                    <p className="text-sm mt-1">{box.category}</p>
+          {Array.isArray(boxes) && boxes.length > 0
+            ? boxes.map((box, index) => (
+                <div key={index} className="px-2">
+                  <div className="relative h-96 rounded-4xl overflow-hidden w-full">
+                    <img
+                      className="h-full w-full object-cover"
+                      src="https://dummyimage.com/400x300/D9D9D9/D9D9D9&text= "
+                      alt={box.name}
+                    />
+                    <div className="absolute top-0 left-0 w-full flex flex-col items-center mt-8 text-black text-center px-4">
+                      <h2 className="text-[28px] font-light">{box.name}</h2>
+                      <p className="text-sm mt-1">{box.category}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-            
-          })}
+              ))
+            : [1, 2, 3].map((i) => (
+                <div key={i} className="px-2">
+                  <div className="relative h-96 rounded-4xl overflow-hidden w-full flex items-center justify-center">
+                    <LoadingImage loaderClassName={"h-full w-full"} />
+                  </div>
+                </div>
+              ))}
         </Slider>
-        )}
       </div>
     </>
   );
