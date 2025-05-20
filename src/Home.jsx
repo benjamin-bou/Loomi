@@ -1,13 +1,14 @@
 import React from "react";
 import MainHeader from "./components/MainHeader";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
-import BoxCarousel from "./components/BoxCarousel";
+import BoxCarousel from "./components/home/BoxCarousel";
 import Footer from "./components/Footer";
 import Newsletter from "./components/Newsletter";
 import { useEffect, useState } from "react";
 import { fetchData } from "./api";
 import { useNavigate } from "react-router-dom";
-import SubscriptionsSection from "./components/SubscriptionsSection";
+import SubscriptionsSection from "./components/home/SubscriptionsSection";
+import LoomiHistorySection from "./components/home/LoomiHistorySection";
 
 function App() {
   const [boxes, setBoxes] = useState([]);
@@ -20,12 +21,12 @@ function App() {
     }, []);
 
   return (
-    <div className="font-sans min-h-screen flex flex-col">
+    <div className="font-sans min-h-screen flex flex-col bg-loomibeige">
       {/* Navbar */}
       <MainHeader />
 
       {/* Hero section */}
-      <section className="bg-loomibeige">
+      <section>
         <div className="bg-[#D9D9D9] text-white py-16 px-6 rounded-[30px] m-4 h-[635px]">
           <div className="w-full h-full flex flex-col items-center justify-center gap-8">
             <img src={logo_phase_1} alt="Logo" className="w-1/2" />
@@ -46,6 +47,7 @@ function App() {
         </div>
         <SubscriptionsSection/>
       </section>
+      <LoomiHistorySection />
 
     {/* Newsletter */}
     <Newsletter />

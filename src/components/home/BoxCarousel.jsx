@@ -1,10 +1,10 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../index.css";
+import "../../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
-import LoadingImage from "./addOns/LoadingImage";
+import LoadingImage from "../addOns/LoadingImage";
 
 // Ajout d'un style global pour masquer les ::before des flèches slick
 const style = document.createElement('style');
