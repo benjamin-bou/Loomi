@@ -61,19 +61,19 @@ const SubscriptionsSection = () => {
 
         {/* ✅ Contenu principal décalé vers le bas */}
         <div className="relative z-20 mt-[20vw] mx-[50px] w-[calc(100%-100px)] pb-[100px] text-center">
-          <h2 className="font-normal text-white mb-14 text-3xl">Nos abonnements</h2>
+          <h2 className="font-normal text-white mb-30 !text-[60px]">Nos abonnements</h2>
 
           {/* Cartes abonnements */}
-          <div className="flex flex-col md:flex-row justify-center items-stretch gap-10 mb-30">
+          <div className="flex flex-col lg:flex-row justify-around items-stretch gap-10 lg:gap-[calc(11vw)] mb-40 mx-0 xl:mx-[calc(10vw-50px)]">
             {abonnements.map((abo, index) => (
               <div
                 key={index}
-                className="bg-white text-black rounded-3xl p-10 shadow-md flex flex-col items-center justify-between w-full max-w-md mx-auto gap-10"
+                className="bg-white text-black rounded-3xl p-10 shadow-md flex flex-col items-center justify-between w-[100%] gap-10 h-[650px]"
               >
-                <h3 className="text-center text-lg">{abo.title}</h3>
-                <p className="text-center text-sm">{abo.description}</p>
-                <div className="w-60 h-40 bg-gray-300 rounded-3xl" />
-                <button className="px-6 py-2 border border-black rounded-xl text-black text-lg hover:bg-black hover:text-white hover:cursor-pointer transition w-40">
+                <h3 className="text-center !text-4xl">{abo.title}</h3>
+                <p className="text-center text-lg">{abo.description}</p>
+                <div className="w-4/5 lg:w-80 h-60 bg-gray-300 rounded-4xl" />
+                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:bg-black hover:text-white hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
                   Découvrir
                 </button>
               </div>
@@ -81,14 +81,14 @@ const SubscriptionsSection = () => {
           </div>
 
           {/* Étapes */}
-          <h2 className="text-white mb-10 text-2xl">Comment ça marche ?</h2>
-          <div className="flex flex-wrap justify-between gap-8 mb-20 max-w-[1800px] mx-auto">
+          <h2 className="text-white mb-10 !text-[60px]">Comment ça marche ?</h2>
+          <div className="flex flex-wrap justify-between gap-8 mb-20 max-w-[1800px] w-[70%] mx-auto">
             {etapes.map((etape, index) => (
               <div
                 key={index}
                 className="flex flex-col items-center text-white text-center w-32"
               >
-                <div className="w-40 h-40 bg-gray-300 rounded-3xl mb-2 flex items-center justify-center text-2xl">
+                <div className="w-[15vw] h-[15vw] bg-gray-300 rounded-4xl mb-2 flex items-center justify-center text-2xl">
                   {etape.icon}
                 </div>
                 <p className="text-sm leading-snug">{etape.label}</p>
