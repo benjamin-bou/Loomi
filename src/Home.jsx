@@ -9,6 +9,7 @@ import { fetchData } from "./api";
 import { useNavigate } from "react-router-dom";
 import SubscriptionsSection from "./components/home/SubscriptionsSection";
 import LoomiHistorySection from "./components/home/LoomiHistorySection";
+import ReviewsSection from "./components/home/ReviewsSection";
 
 function App() {
   const [boxes, setBoxes] = useState([]);
@@ -21,7 +22,7 @@ function App() {
     }, []);
 
   return (
-    <div className="font-sans min-h-screen flex flex-col bg-loomibeige">
+    <div className="flex flex-col bg-loomibeige">
       {/* Navbar */}
       <MainHeader />
 
@@ -48,6 +49,7 @@ function App() {
         <SubscriptionsSection/>
       </section>
       <LoomiHistorySection />
+      <ReviewsSection />
 
     {/* Newsletter */}
     <Newsletter />
