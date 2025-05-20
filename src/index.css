@@ -27,6 +27,7 @@ h3 {
 }
 
 @theme {
+    --breakpoint-xs: 480px;
     --color-loomilightpink: #F4AECC;
     --color-loomipink: #E72787;
     --color-loomibeige: #FFF7F0;
