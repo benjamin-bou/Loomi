@@ -58,14 +58,14 @@ const avis = [
 
 export default function AvisSection() {
   return (
-    <section className="bg-[#fcf6f1] py-12 px-2 min-h-screen">
+    <section className="mt-20 pt-12 mb-2 px-2">
       <div className="max-w-7xl mx-auto">
         {/* Titre */}
-        <h2 className="text-5xl md:text-6xl text-center font-[Montserrat] font-medium mb-4">
+        <h2 className="text-center mb-4">
           Ils en parlent mieux que nous !
         </h2>
         {/* Sous-titre */}
-        <p className="text-xl md:text-2xl text-center font-[Montserrat] mb-14">
+        <p className="text-center mb-14 max-w-3/5 mx-auto">
           Découvrez les avis de nos clients et leurs retours sur nos box et tutos créatifs. Inspirez-vous de leurs expériences et partagez la vôtre !
         </p>
 

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function LoomiHistorySection() {
   return (
-    <div className="min-h-screen bg-loomibeige flex items-center justify-center mx-[50px]">
+    <div className="bg-loomibeige flex items-center justify-center mx-[50px]">
       <div className="bg-white rounded-[48px] w-[95vw] max-w-[1800px] max-h-[1000px] h-[90vh] p-12 flex flex-col md:flex-row gap-20 relative overflow-hidden shadow-lg">
         {/* Partie gauche - Texte */}
         <div className="flex-1 flex flex-col justify-start">
