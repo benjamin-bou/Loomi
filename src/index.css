@@ -22,16 +22,39 @@ h2 {
     font-size: 40px;
 }
 
+h3 {
+    font-size: 28px;
+}
+
 @theme {
+    --breakpoint-xs: 480px;
     --color-loomilightpink: #F4AECC;
     --color-loomipink: #E72787;
     --color-loomibeige: #FFF7F0;
 }
 
-.cursor-close {
-    cursor: url('/images/picto/close.svg') 12 12, pointer;
+.slick-dots li button:before {
+    font-size: 15px !important;
+}
+
+.slick-slider {
+    position: relative;
 }
 
 .slick-dots {
-    font-size: 20px;
+    bottom: -40px !important;
+}
+
+.animate-spin-slow {
+    animation: spin 200s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
