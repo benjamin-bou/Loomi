@@ -11,6 +11,7 @@ import AdminBoxDetails from './AdminBoxDetails';
 import AdminDashboard from './AdminDashboard';
 import AdminPayments from './AdminPayments';
 import AdminLayout from './components/AdminLayout';
+import Subscriptions from './Subscriptions';
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
       {/* <MainHeader/> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/boxes" element={<BoxesList />} />
-        <Route path="/boxes/:id" element={<BoxDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/boxes" element={<BoxesList />} />
+        <Route path="/boxes/:id" element={<BoxDetails />} />
+        <Route path="/subscriptions" element={<Subscriptions />} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>

@@ -1,3 +1,5 @@
+import LoomiSteps from "../LoomiSteps";
+
 const SubscriptionsSection = () => {
   const abonnements = [
     {
@@ -10,13 +12,6 @@ const SubscriptionsSection = () => {
       description:
         "Recevez une boîte mystère tous les 3 mois (cette boîte ne figurera aux autres box découvertes ensuite.)",
     },
-  ];
-
-  const etapes = [
-    { label: "Je m’abonne", icon: "📝" },
-    { label: "Je reçois ma box", icon: "📦" },
-    { label: "Je découvre", icon: "🔍" },
-    { label: "Je crée", icon: "🎨" },
   ];
 
   // Génération dynamique du texte pour le cercle
@@ -107,20 +102,7 @@ const SubscriptionsSection = () => {
 
 
           {/* Étapes */}
-          <h2 className="text-white mb-10 !text-[60px]">Comment ça marche ?</h2>
-          <div className="flex flex-wrap justify-between gap-8 mb-20 max-w-[1800px] w-[70%] mx-auto">
-            {etapes.map((etape, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-white text-center w-32"
-              >
-                <div className="w-[15vw] h-[15vw] bg-gray-300 rounded-4xl mb-2 flex items-center justify-center text-2xl">
-                  {etape.icon}
-                </div>
-                <p className="text-sm leading-snug">{etape.label}</p>
-              </div>
-            ))}
-          </div>
+          <LoomiSteps />
 
           {/* Section carte cadeaux */}
           <div className="relative z-20 w-full px-4 py-20">
