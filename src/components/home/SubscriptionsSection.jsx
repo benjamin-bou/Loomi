@@ -61,24 +61,50 @@ const SubscriptionsSection = () => {
 
         {/* ✅ Contenu principal décalé vers le bas */}
         <div className="relative z-20 mt-[20vw] mx-[50px] w-[calc(100%-100px)] pb-[100px] text-center">
-          <h2 className="font-normal text-white mb-30 !text-[60px]">Nos abonnements</h2>
+          <h2 className="pt-32 lg:pt-0 font-normal text-white mb-30 !text-[60px]">Nos abonnements</h2>
 
-          {/* Cartes abonnements */}
-          <div className="flex flex-col lg:flex-row justify-around items-stretch gap-10 lg:gap-[calc(11vw)] mb-40 mx-0 xl:mx-[calc(10vw-50px)]">
-            {abonnements.map((abo, index) => (
-              <div
-                key={index}
-                className="bg-white text-black rounded-3xl p-10 shadow-md flex flex-col items-center justify-between w-[100%] gap-10 h-[650px]"
-              >
-                <h3 className="text-center !text-4xl">{abo.title}</h3>
-                <p className="text-center text-lg">{abo.description}</p>
+          <div className="relative flex flex-col lg:flex-row justify-around items-stretch gap-10 lg:gap-[calc(11vw)] mb-40 mx-0 xl:mx-[calc(10vw-50px)]">
+            {/* Forme gauche - collée à la carte mensuelle */}
+            <div
+              className="hidden lg:block absolute -left-16 top-3/4 -translate-y-1/2 w-[153px] h-[411px] bg-loomipink z-50"
+              style={{
+                borderRadius: "55% 45% 65% 35% / 60% 45% 55% 40%",
+                transform: "rotate(-25deg)",
+              }}
+            />
+
+            {/* Forme droite - collée à la carte mystère */}
+            <div
+              className="hidden lg:block absolute -right-10 top-2/3 w-[160px] h-[147px] bg-loomipink z-50"
+              style={{
+                borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
+                transform: "rotate(12deg)",
+              }}
+            />
+
+            {/* Cartes abonnements */}
+            <div className="relative z-20 flex-1 flex flex-col items-center">
+              <div className="bg-white text-black rounded-3xl p-10 shadow-md flex flex-col items-center justify-between w-full gap-10 h-[650px]">
+                <h3 className="text-center !text-4xl">{abonnements[0].title}</h3>
+                <p className="text-center text-lg">{abonnements[0].description}</p>
                 <div className="w-4/5 lg:w-80 h-60 bg-gray-300 rounded-4xl" />
                 <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:bg-black hover:text-white hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
                   Découvrir
                 </button>
               </div>
-            ))}
+            </div>
+            <div className="relative z-20 flex-1 flex flex-col items-center">
+              <div className="bg-white text-black rounded-3xl p-10 shadow-md flex flex-col items-center justify-between w-full gap-10 h-[650px]">
+                <h3 className="text-center !text-4xl">{abonnements[1].title}</h3>
+                <p className="text-center text-lg">{abonnements[1].description}</p>
+                <div className="w-4/5 lg:w-80 h-60 bg-gray-300 rounded-4xl" />
+                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:bg-black hover:text-white hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
+                  Découvrir
+                </button>
+              </div>
+            </div>
           </div>
+
 
           {/* Étapes */}
           <h2 className="text-white mb-10 !text-[60px]">Comment ça marche ?</h2>
