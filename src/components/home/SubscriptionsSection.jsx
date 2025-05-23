@@ -83,7 +83,7 @@ const SubscriptionsSection = () => {
                 <h3 className="text-center !text-4xl">{abonnements[0].title}</h3>
                 <p className="text-center text-lg">{abonnements[0].description}</p>
                 <div className="w-4/5 lg:w-80 h-60 bg-gray-300 rounded-4xl" />
-                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:bg-black hover:text-white hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
+                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
                   Découvrir
                 </button>
               </div>
@@ -93,7 +93,7 @@ const SubscriptionsSection = () => {
                 <h3 className="text-center !text-4xl">{abonnements[1].title}</h3>
                 <p className="text-center text-lg">{abonnements[1].description}</p>
                 <div className="w-4/5 lg:w-80 h-60 bg-gray-300 rounded-4xl" />
-                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:bg-black hover:text-white hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
+                <button className="px-6 py-2 border border-black rounded-xl text-black text-xl hover:cursor-pointer transition w-4/5 lg:w-60 h-15">
                   Découvrir
                 </button>
               </div>
@@ -126,7 +126,7 @@ const SubscriptionsSection = () => {
                   <p className="text-gray-700 mb-6">
                     Vous cherchez une idée originale et pleine de surprises ? Faites plaisir à vos proches avec notre carte cadeau !
                   </p>
-                  <button className="bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-6 rounded-full">
+                  <button className="bg-pink-500 hover:bg-pink-600 cursor-pointer text-white font-medium py-2 px-6 rounded-full">
                     Découvrir
                   </button>
                 </div>

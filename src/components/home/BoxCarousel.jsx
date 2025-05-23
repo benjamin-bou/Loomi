@@ -5,6 +5,7 @@ import "../../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import LoadingImage from "../addOns/LoadingImage";
+import { useNavigate } from "react-router-dom";
 
 // Ajout d'un style global pour masquer les ::before des flèches slick
 const style = document.createElement('style');
@@ -37,6 +38,7 @@ function PrevArrow(props) {
 }
 
 function BoxCarousel({ boxes, slidesToShow }) {
+  const navigate = useNavigate();
 
   var settings = {
     className: "center",
@@ -87,7 +89,10 @@ function BoxCarousel({ boxes, slidesToShow }) {
           {Array.isArray(boxes) && boxes.length > 0
             ? boxes.map((box, index) => (
                 <div key={index} className="px-2">
-                  <div className="relative h-96 rounded-4xl overflow-hidden w-full">
+                  <div 
+                  className="relative h-96 rounded-4xl overflow-hidden w-full cursor-pointer"
+                  onClick={() => navigate(`/boxes/${box.id}`)}
+                  >
                     <img
                       className="h-full w-full object-cover"
                       src="https://dummyimage.com/400x300/D9D9D9/D9D9D9&text= "

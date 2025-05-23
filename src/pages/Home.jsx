@@ -42,7 +42,7 @@ function App() {
             boxes={boxes}
             slidesToShow={3}
           />
-          <button onClick={() => navigate('/boxes')} className="px-6 py-2 border border-black rounded-xl bg-[#fcf5ef] text-black text-lg hover:bg-black hover:text-white hover:cursor-pointer transition mt-15 mx-auto w-50">
+          <button onClick={() => navigate('/boxes')} className="px-6 py-2 border border-black rounded-xl text-black text-lg hover:cursor-pointer transition mt-15 mx-auto w-50">
             Découvrir
           </button>
         </div>

@@ -78,7 +78,7 @@ function BoxPage() {
       <div className="w-[calc(100vw-100px)] m-[50px]">
       {/* Route */}
       <div>
-        <p>Nos box / {box.name}</p>
+        <p><span className="cursor-pointer hover:underline" onClick={() => navigate('/boxes')}>Nos box</span> / {box.name}</p>
       </div>
       {/* Détails principaux */}
       <div className="flex flex-col md:flex-row justify-between mt-4 w-full">
