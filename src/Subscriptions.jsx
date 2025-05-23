@@ -25,7 +25,7 @@ export default function Subscriptions() {
         <h2 className="mt-10 mb-20 text-start self-start">Nos abonnements</h2>
 
         {/* ABONNEMENT MENSUEL */}
-        <div className="relative w-full max-w-4xl mb-30 flex">
+        <div className="relative w-full max-w-6xl mb-30 flex">
           {/* Forme rose foncé gauche */}
           <div
             className="hidden lg:block absolute -left-30 -bottom-30 w-[153px] h-[411px] bg-loomipink z-50"
@@ -57,7 +57,7 @@ export default function Subscriptions() {
         </div>
 
         {/* ABONNEMENT MYSTÈRE */}
-        <div className="relative w-full max-w-4xl mb-30 flex">
+        <div className="relative w-full max-w-6xl mb-30 flex">
           {/* Forme rose foncé droite 1 */}
           <div
             className="hidden lg:block absolute right-0 bottom-4 w-[140px] h-[140px] bg-loomipink z-50"
