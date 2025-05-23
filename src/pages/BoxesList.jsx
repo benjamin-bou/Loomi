@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "./api";
-import MainHeader from "./components/MainHeader";
-import Newsletter from "./components/Newsletter";
-import Footer from "./components/Footer";
+import { fetchData } from "../api";
+import MainHeader from "../components/MainHeader";
+import Newsletter from "../components/Newsletter";
+import Footer from "../components/Footer";
 import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import filterIcon from "/images/picto/filter.svg";

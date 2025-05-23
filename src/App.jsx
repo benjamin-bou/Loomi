@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import BoxesList from './BoxesList';
-import BoxDetails from './BoxDetails';
+import Home from './pages/Home';
+import BoxesList from './pages/BoxesList';
+import BoxDetails from './pages/BoxDetails';
 import NotFound from './NotFound';
 import Login from './Login';
 import Register from './Register';
-import AdminBoxesList from './AdminBoxesList';
+import AdminBoxesList from './pages/AdminBoxesList';
 import PrivateRoute from './PrivateRoute';
-import AdminBoxDetails from './AdminBoxDetails';
-import AdminDashboard from './AdminDashboard';
-import AdminPayments from './AdminPayments';
+import AdminBoxDetails from './pages/AdminBoxDetails';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminPayments from './pages/AdminPayments';
 import AdminLayout from './components/AdminLayout';
 import Subscriptions from './Subscriptions';
 

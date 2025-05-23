@@ -1,15 +1,15 @@
 import React from "react";
-import MainHeader from "./components/MainHeader";
+import MainHeader from "../components/MainHeader";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
-import BoxCarousel from "./components/home/BoxCarousel";
-import Footer from "./components/Footer";
-import Newsletter from "./components/Newsletter";
+import BoxCarousel from "../components/home/BoxCarousel";
+import Footer from "../components/Footer";
+import Newsletter from "../components/Newsletter";
 import { useEffect, useState } from "react";
-import { fetchData } from "./api";
+import { fetchData } from "../api";
 import { useNavigate } from "react-router-dom";
-import SubscriptionsSection from "./components/home/SubscriptionsSection";
-import LoomiHistorySection from "./components/home/LoomiHistorySection";
-import ReviewsSection from "./components/home/ReviewsSection";
+import SubscriptionsSection from "../components/home/SubscriptionsSection";
+import LoomiHistorySection from "../components/home/LoomiHistorySection";
+import ReviewsSection from "../components/home/ReviewsSection";
 
 function App() {
   const [boxes, setBoxes] = useState([]);

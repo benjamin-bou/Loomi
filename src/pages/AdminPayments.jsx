@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "./api";
+import { fetchData } from "../api";
 
 function AdminPayments() {
   const [payments, setPayments] = useState([]);
@@ -13,7 +13,7 @@ function AdminPayments() {
         const data = await fetchData("/orders");
         setPayments(data);
       } catch (err) {
-        setError("Erreur lors du chargement des commandes.");
+        setError("Erreur lors du chargement des commandes.", err);
       } finally {
         setLoading(false);
       }
