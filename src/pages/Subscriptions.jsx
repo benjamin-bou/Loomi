@@ -1,7 +1,7 @@
-import Footer from "./components/Footer";
-import LoomiSteps from "./components/LoomiSteps";
-import MainHeader from "./components/MainHeader";
-import ReviewsSection from "./components/home/ReviewsSection";
+import Footer from "../components/Footer";
+import LoomiSteps from "../components/LoomiSteps";
+import MainHeader from "../components/MainHeader";
+import ReviewsSection from "../components/home/ReviewsSection";
 
 export default function Subscriptions() {
   const abonnements = [

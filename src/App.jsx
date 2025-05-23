@@ -11,7 +11,8 @@ import AdminBoxDetails from './pages/AdminBoxDetails';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminPayments from './pages/AdminPayments';
 import AdminLayout from './components/AdminLayout';
-import Subscriptions from './Subscriptions';
+import Subscriptions from './pages/Subscriptions';
+import GiftCards from './pages/GiftCards';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/boxes" element={<BoxesList />} />
         <Route path="/boxes/:id" element={<BoxDetails />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
+        <Route path="/gift-cards" element={<GiftCards />} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
