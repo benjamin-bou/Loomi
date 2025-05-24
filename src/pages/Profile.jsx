@@ -50,7 +50,7 @@ export default function Profile() {
           <ProfileCard title="Mes commandes" onClick={() => navigate("/orders")}>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
-          <ProfileCard title="Mon abonnement">
+          <ProfileCard title="Mon abonnement" onClick={() => navigate("/subscription")}>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
           <ProfileCard title="Mes favoris">
