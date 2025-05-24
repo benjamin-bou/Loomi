@@ -19,6 +19,7 @@ import Subscription from './pages/Subscription';
 import Favorites from './pages/Favorite';
 import Informations from './pages/Informations';
 import About from './pages/About';
+import BlogPage from './pages/BlogPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/gift-cards" element={<GiftCards />} />
         <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
