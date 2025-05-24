@@ -13,6 +13,7 @@ import AdminPayments from './pages/AdminPayments';
 import AdminLayout from './components/AdminLayout';
 import Subscriptions from './pages/Subscriptions';
 import GiftCards from './pages/GiftCards';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/boxes/:id" element={<BoxDetails />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/gift-cards" element={<GiftCards />} />
+        <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
