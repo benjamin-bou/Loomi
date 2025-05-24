@@ -19,8 +19,7 @@ function BoxesList() {
     );
   };
 
-  const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category === filter);
-
+  const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category.short_name.toLowerCase() === filter.toLowerCase());
 
   useEffect(() => {
     fetchData("/boxes")

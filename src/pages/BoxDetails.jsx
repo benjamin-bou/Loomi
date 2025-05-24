@@ -34,14 +34,12 @@ function BoxPage() {
 
   useEffect(() => {
     fetchData(`/boxes/${id}`)
-      .then(data => setBox(data))
+      .then(data => { setBox(data)})
       .catch(err => {
         console.error(err);
         setError("Une erreur est survenue lors du chargement des détails de la boîte.");
       });
   }, [id]);
-
-  console.log(box);
 
   useEffect(() => {
     fetchData(`/boxes`)
@@ -72,7 +70,7 @@ function BoxPage() {
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <div className="w-[calc(100vw-100px)] m-[50px]">
+      <div className="w-[calc(100vw-100px)] mx-[50px] py-[50px]">
       {/* Route */}
       <div>
         <p><span className="cursor-pointer hover:underline" onClick={() => navigate('/boxes')}>Nos box</span> / {box.name}</p>
@@ -91,7 +89,7 @@ function BoxPage() {
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
               <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{box.name}</h2>
-              <p className="!text-[18px] text-[#666] mt-1">{box.category}</p>
+              <p className="!text-[18px] text-[#666] mt-1">{box.category?.short_name}</p>
               <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
             </div>
             <img

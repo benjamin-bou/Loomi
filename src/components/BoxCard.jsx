@@ -29,7 +29,7 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
       </div>
       <div className="flex flex-col">
         <h4 className="!text-3xl font-light">{box.name}</h4>
-        <p>{box.category || "Catégorie non spécifiée"}</p>
+        <p>{box.category?.short_name || "Catégorie non spécifiée"}</p>
         <p>{box.base_price?.replace('.', ',')} €</p>
       </div>
     </div>
