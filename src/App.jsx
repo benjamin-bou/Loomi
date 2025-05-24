@@ -23,10 +23,12 @@ import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
 import MainHeader from './components/MainHeader';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <MainHeader/>
       <Routes>
         {/* Public routes */}

@@ -19,7 +19,7 @@ document.head.appendChild(style);
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
-  const { slideCount, ...rest } = props;
+  const { slideCount, currentSlide, ...rest } = props;
   return (
     <div {...rest} className="slick-arrow slick-next !right-10 z-20 flex items-center justify-center">
       <img src={arrowRight} alt="next" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
@@ -29,7 +29,7 @@ function NextArrow(props) {
 
 function PrevArrow(props) {
   // eslint-disable-next-line no-unused-vars
-  const { slideCount, ...rest } = props;
+  const { slideCount, currentSlide, ...rest } = props;
   return (
     <div {...rest} className="slick-arrow slick-prev !left-8 z-20 flex items-center justify-center">
       <img src={arrowLeft} alt="prev" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
@@ -100,7 +100,7 @@ function BoxCarousel({ boxes, slidesToShow }) {
                     />
                     <div className="absolute top-0 left-0 w-full flex flex-col items-center mt-8 text-black text-center px-4">
                       <h2 className="text-[28px] font-light">{box.name}</h2>
-                      <p className="text-sm mt-1">{box.category}</p>
+                      <p className="text-sm mt-1">{box.category.short_name}</p>
                     </div>
                   </div>
                 </div>
