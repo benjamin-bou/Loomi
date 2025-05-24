@@ -14,6 +14,7 @@ import AdminLayout from './components/AdminLayout';
 import Subscriptions from './pages/Subscriptions';
 import GiftCards from './pages/GiftCards';
 import Profile from './pages/Profile';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/gift-cards" element={<GiftCards />} />
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
+        <Route path="/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
