@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import MainHeader from "../components/MainHeader";
 import Footer from "../components/Footer";
-import { fetchData } from "../api";
 import BoxCard from "../components/BoxCard";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../components/addOns/MainButton";

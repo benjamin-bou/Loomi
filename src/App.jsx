@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import Subscription from './pages/Subscription';
 import Favorites from './pages/Favorite';
+import Informations from './pages/Informations';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
         <Route path="/profile/favorites" element={<PrivateRoute roleRequired="user"><Favorites /></PrivateRoute>} />
+        <Route path="/profile/informations" element={<PrivateRoute roleRequired="user"><Informations /></PrivateRoute>} />
 
         {/* Admin routes */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
