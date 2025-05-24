@@ -29,7 +29,7 @@ export default function Orders() {
   return (
     <>
       <MainHeader />
-      <div className="bg-loomibeige min-h-screen relative px-8 py-8 font-montserrat overflow-hidden">
+      <div className="bg-loomibeige relative px-8 py-8 font-montserrat overflow-hidden pb-20">
         {/* Forme blob en haut à droite */}
         <div
           className="absolute -right-10 top-[2vw] z-0 pointer-events-none bg-[#d63d87] w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"

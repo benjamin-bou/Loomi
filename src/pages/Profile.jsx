@@ -47,10 +47,10 @@ export default function Profile() {
 
         {/* Grille de cartes */}
         <div className="flex flex-wrap gap-8 mb-20 justify-center lg:justify-start lg:max-w-4/5">
-          <ProfileCard title="Mes commandes" onClick={() => navigate("/orders")}>
+          <ProfileCard title="Mes commandes" onClick={() => navigate("/profile/orders")}>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
-          <ProfileCard title="Mon abonnement" onClick={() => navigate("/subscription")}>
+          <ProfileCard title="Mon abonnement" onClick={() => navigate("/profile/subscription")}>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
           <ProfileCard title="Mes favoris">
