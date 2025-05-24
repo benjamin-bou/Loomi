@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Login from "../Login";
 import search from "/images/picto/search.svg";
 import user from "/images/picto/user.svg";
 import shoppingCart from "/images/picto/shopping-cart.svg";
 import favorite from "/images/picto/favorite.svg";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
+import logo_phase_2 from "/images/picto/logo_phase_2.svg";
+import logo_phase_3 from "/images/picto/logo_phase_3.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
 import AuthModal from "./AuthModal";
@@ -18,6 +20,7 @@ const MainHeader = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const { cart } = useCart();
 
 
@@ -42,6 +45,15 @@ const MainHeader = () => {
       setShowCart(true);
   }
 
+  // Choix du logo selon la route
+  let logoToShow = logo_phase_1;
+  if (["/boxes", "/boxeslist", "/boxdetails", "/subscriptions", "/gift-cards"].some(path => location.pathname.startsWith(path))) {
+    logoToShow = logo_phase_2;
+  } else if (["/profile", "/orders", "/subscription", "/favorites", "/informations"].some(path => location.pathname.startsWith(path))) {
+    logoToShow = logo_phase_3;
+  }
+  // Ajoutez d'autres conditions selon vos besoins
+
   return (
     <header className="w-full">
       {/* Partie haute */}
@@ -58,7 +70,7 @@ const MainHeader = () => {
           </div>
 
           {/* Logo ou image centrale */}
-          <a href="/"><img src={logo_phase_1} alt="logo" className="h-[100px] cursor-pointer select-none" /></a>
+          <a href="/"><img src={logoToShow} alt="logo" className="h-[50px] cursor-pointer select-none" /></a>
 
           {/* Icônes utilisateur et panier */}
           <div className="flex items-center gap-4">
