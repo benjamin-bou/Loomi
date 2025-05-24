@@ -1,11 +1,5 @@
-import Footer from "../components/Footer";
-import MainHeader from "../components/MainHeader";
-
 export default function ArticlePage() {
   return (
-    <>
-      <MainHeader />
-
       <div className="bg-loomibeige min-h-screen font-montserrat py-0 px-[50px] pb-20">
         {/* Titre */}
         <h1 className="text-3xl font-montserrat text-center mb-20 pt-20 text-black">
@@ -64,7 +58,5 @@ export default function ArticlePage() {
           </p>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

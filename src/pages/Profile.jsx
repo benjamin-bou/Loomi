@@ -1,8 +1,6 @@
-import MainHeader from "../components/MainHeader";
 import { fetchData } from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
 import ProfileCard from "../components/ProfileCard";
 
 export default function Profile() {
@@ -36,8 +34,6 @@ export default function Profile() {
           }}
         >
         </div>
-      <MainHeader />
-
       {/* Contenu principal */}
       <div className="relative z-10 px-14 pt-14 ">
         <h2 className="text-5xl font-bold mb-2">Bienvenue, {userName}</h2>
@@ -66,7 +62,6 @@ export default function Profile() {
       <p className="!text-2xl underline cursor-pointer mb-20" onClick={handleLogout}>Déconnexion</p>
       </div>
     </div>
-      <Footer />
-      </>
+    </>
   );
 }

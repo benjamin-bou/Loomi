@@ -1,6 +1,4 @@
-import Footer from "../components/Footer";
 import LoomiSteps from "../components/LoomiSteps";
-import MainHeader from "../components/MainHeader";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +14,6 @@ export default function About() {
     }, []);
 
     return (
-        <>
-        <MainHeader />
         <div className="bg-loomibeige min-h-screen font-montserrat relative overflow-x-hidden px-[50px] pt-10">
           {/* Blob rose en haut à droite */}
           <div
@@ -85,7 +81,5 @@ export default function About() {
           </div>
           </div>
         </div>
-        <Footer />
-        </>
       );
 }

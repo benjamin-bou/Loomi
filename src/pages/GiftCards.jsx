@@ -1,4 +1,3 @@
-import MainHeader from "../components/MainHeader";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,7 +5,6 @@ import "../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import MainButton from "../components/addOns/MainButton";
-import Footer from "../components/Footer";
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
@@ -72,8 +70,6 @@ export default function GiftCards() {
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
-
       <div className="flex flex-col items-center justify-center px-10 py-12 min-h-[600px] gap-20">
         <section className="relative w-full flex justify-center">
           <Slider {...settings} className="w-full max-w-[1500px]">
@@ -176,7 +172,6 @@ export default function GiftCards() {
           </div>
         </section>
       </div>
-      <Footer />
     </div>
   );
 }

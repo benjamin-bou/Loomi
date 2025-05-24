@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import MainHeader from "../components/MainHeader";
-import Footer from "../components/Footer";
 import BoxCard from "../components/BoxCard";
 import { useNavigate } from "react-router-dom";
 import MainButton from "../components/addOns/MainButton";
@@ -62,8 +60,6 @@ export default function Favorites() {
   }, []);
 
   return (
-    <>
-      <MainHeader />
       <div className="bg-loomibeige min-h-screen relative px-8 py-8 overflow-hidden">
         <h1 className="relative z-10 mb-8 mx-[50px]">Mes favoris</h1>
 
@@ -90,7 +86,5 @@ export default function Favorites() {
           )}
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

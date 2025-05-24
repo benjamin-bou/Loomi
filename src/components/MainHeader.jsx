@@ -4,6 +4,7 @@ import Login from "../Login";
 import search from "/images/picto/search.svg";
 import user from "/images/picto/user.svg";
 import shoppingCart from "/images/picto/shopping-cart.svg";
+import favorite from "/images/picto/favorite.svg";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
@@ -66,6 +67,12 @@ const MainHeader = () => {
               <p className="font-bold cursor-pointer select-none">{userName || "Se connecter"}</p>
             </div>
             <div className="flex items-center gap-4 relative">
+              <img
+                src={favorite}
+                alt="favorite"
+                className="w-8 h-8 cursor-pointer select-none"
+                onClick={() => navigate("/profile/favorites")}
+              />
               <img
                 src={shoppingCart}
                 onClick={handleCartClick}

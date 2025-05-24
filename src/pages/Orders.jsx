@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import MainHeader from "../components/MainHeader";
 import { fetchData } from "../api";
 import OrderCard from "../components/OrderCard";
-import Footer from "../components/Footer";
 
 export default function Orders() {
     const [orders, setOrders] = useState([]);
@@ -17,8 +15,6 @@ export default function Orders() {
     }, []);
 
     return (
-        <>
-            <MainHeader />
         <div className="bg-loomibeige min-h-screen relative px-8 py-8 font-montserrat overflow-hidden">
           {/* Forme blob en haut à droite */}
           <div
@@ -50,7 +46,5 @@ export default function Orders() {
             )}
           </div>
         </div>
-        <Footer />
-        </>
       );
 }

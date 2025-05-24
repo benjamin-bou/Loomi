@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchData } from "../api";
-import MainHeader from "../components/MainHeader";
 import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
-import Footer from "../components/Footer";
 
 function BoxPage() {
   const { id } = useParams();
@@ -74,7 +72,6 @@ function BoxPage() {
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
       <div className="w-[calc(100vw-100px)] m-[50px]">
       {/* Route */}
       <div>
@@ -170,7 +167,6 @@ function BoxPage() {
         )}
       {/* Newsletter */}
       <Newsletter />
-      <Footer />
     </div>
   );
 }

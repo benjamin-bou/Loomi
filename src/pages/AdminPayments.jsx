@@ -9,7 +9,6 @@ function AdminPayments() {
   useEffect(() => {
     async function getPayments() {
       try {
-        // À brancher sur ton endpoint réel, ici /orders en exemple
         const data = await fetchData("/orders");
         setPayments(data);
       } catch (err) {
@@ -39,12 +38,12 @@ function AdminPayments() {
               </tr>
             </thead>
             <tbody>
-              {payments.length === 0 && (
+              {payments?.length === 0 && (
                 <tr>
                   <td colSpan="5" className="text-center py-4">Aucune commande trouvée.</td>
                 </tr>
               )}
-              {payments.map((order) => (
+              {payments?.map((order) => (
                 <tr key={order.id}>
                   <td className="px-4 py-2 border">{order.id}</td>
                   <td className="px-4 py-2 border">{order.customer_name || order.user?.name || "-"}</td>

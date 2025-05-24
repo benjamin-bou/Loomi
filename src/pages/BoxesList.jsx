@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../api";
-import MainHeader from "../components/MainHeader";
 import Newsletter from "../components/Newsletter";
-import Footer from "../components/Footer";
 import filterIcon from "/images/picto/filter.svg";
 import { useNavigate } from "react-router-dom";
 import BoxCard from "../components/BoxCard";
@@ -53,8 +51,6 @@ function BoxesList() {
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
-
       <div className="flex flex-col items-center justify-center mx-[50px]">
       <h2 className="mt-10 mb-5 text-start self-start">
         Nos box
@@ -105,7 +101,6 @@ function BoxesList() {
       </div>
 
       <Newsletter />
-      <Footer />
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import MainButton from "../components/addOns/MainButton";
-import Footer from "../components/Footer";
-import MainHeader from "../components/MainHeader";
 import Newsletter from "../components/Newsletter";
 import { useNavigate } from "react-router-dom";
 
@@ -47,8 +45,6 @@ const articles = [
   export default function BlogPage() {
     const navigate = useNavigate();
     return (
-      <>
-      <MainHeader />
       <div className="bg-loomibeige min-h-screen font-montserrat px-10 py-8">
         <h1 className="text-4xl font-bold mb-10">Blog</h1>
         <div className="flex flex-col lg:flex-row gap-10">
@@ -87,9 +83,6 @@ const articles = [
         </div>
       <Newsletter />
       </div>
-
-      <Footer />
-      </>
     );
   }
   

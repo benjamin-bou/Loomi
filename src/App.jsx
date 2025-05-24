@@ -21,12 +21,15 @@ import Informations from './pages/Informations';
 import About from './pages/About';
 import BlogPage from './pages/BlogPage';
 import ArticlePage from './pages/ArticlePage';
+import MainHeader from './components/MainHeader';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <Router>
-      {/* <MainHeader/> */}
+      <MainHeader/>
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -37,6 +40,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path='/blog/:id' element={<ArticlePage />} />
+
+        {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
@@ -54,6 +59,7 @@ function App() {
         {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

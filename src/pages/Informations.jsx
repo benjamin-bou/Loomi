@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
-import MainHeader from "../components/MainHeader";
-import Footer from "../components/Footer";
 
 export default function Informations() {
   const [user, setUser] = useState({});
@@ -19,8 +17,6 @@ export default function Informations() {
     }, []);
     
     return(
-      <>
-        <MainHeader />
         <div className="bg-loomibeige relative px-8 pt-8 pb-20 overflow-hidden">
           <h1 className="mb-16">Mes informations</h1>
           <div className="flex flex-col md:flex-row gap-12 md:gap-32">
@@ -47,7 +43,5 @@ export default function Informations() {
             </div>
           </div>
         </div>
-        <Footer />
-      </>
     );
 }

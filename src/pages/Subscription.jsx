@@ -1,6 +1,4 @@
-import MainHeader from "../components/MainHeader";
 import { fetchData } from "../api";
-import Footer from "../components/Footer";
 import MainButton from "../components/addOns/MainButton";
 import { useEffect, useState } from "react";
 
@@ -27,8 +25,6 @@ export default function Orders() {
   };
 
   return (
-    <>
-      <MainHeader />
       <div className="bg-loomibeige relative px-8 py-8 font-montserrat overflow-hidden pb-20">
         {/* Forme blob en haut à droite */}
         <div
@@ -102,7 +98,5 @@ export default function Orders() {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

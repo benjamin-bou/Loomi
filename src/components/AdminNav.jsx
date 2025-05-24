@@ -9,7 +9,7 @@ export default function AdminNav() {
   };
   const isActive = (path) => location.pathname === path;
   return (
-    <aside className="w-64 bg-white shadow-lg p-8 flex flex-col gap-8 h-screen">
+    <aside className="w-64 bg-white shadow-lg p-8 flex flex-col gap-8 h-[100vw]">
       <button
         className={`text-left text-lg font-semibold transition cursor-pointer ${isActive("/admin/boxes") ? "text-loomilightpink" : "hover:text-loomilightpink"}`}
         onClick={() => navigate("/admin/boxes")}
