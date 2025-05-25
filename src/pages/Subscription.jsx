@@ -12,7 +12,7 @@ export default function Orders() {
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchOrders = async () => {
-      const data = await fetchData("/subscription");
+      const data = await fetchData("/my-subscription");
       setSubscription(data.subscription);
       setUser(data.user);
     };

@@ -24,6 +24,7 @@ import ArticlePage from './pages/ArticlePage';
 import MainHeader from './components/MainHeader';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import SubscriptionDetails from './pages/SubscriptionDetails';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/boxes" element={<BoxesList />} />
         <Route path="/boxes/:id" element={<BoxDetails />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
+        <Route path="/subscriptions/:id" element={<SubscriptionDetails />} />
         <Route path="/gift-cards" element={<GiftCards />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
