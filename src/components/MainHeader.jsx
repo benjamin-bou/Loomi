@@ -107,11 +107,11 @@ const MainHeader = () => {
       {/* Barre de navigation */}
       <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
         <ul className="flex justify-center gap-12 text-white font-medium">
-          <li><a className="neulis font-light" href="/boxes">Nos box</a></li>
-          <li><a className="neulis font-light" href="/subscriptions">Nos abonnements</a></li>
-          <li><a className="neulis font-light" href="/gift-cards">Cartes cadeaux</a></li>
-          <li><a className="neulis font-light" href="/about">À propos</a></li>
-          <li><a className="neulis font-light" href="/blog">Blog</a></li>
+          <li><a className="neulis font-light nav-underline" href="/boxes">Nos box</a></li>
+          <li><a className="neulis font-light nav-underline" href="/subscriptions">Nos abonnements</a></li>
+          <li><a className="neulis font-light nav-underline" href="/gift-cards">Cartes cadeaux</a></li>
+          <li><a className="neulis font-light nav-underline" href="/about">À propos</a></li>
+          <li><a className="neulis font-light nav-underline" href="/blog">Blog</a></li>
         </ul>
       </nav>
 
