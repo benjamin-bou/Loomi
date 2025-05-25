@@ -25,6 +25,7 @@ import MainHeader from './components/MainHeader';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import SubscriptionDetails from './pages/SubscriptionDetails';
+import OrderPage from './pages/OrderPage';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path='/blog/:id' element={<ArticlePage />} />
+        <Route path="/order" element={<PrivateRoute roleRequired="user"><OrderPage /></PrivateRoute>} />
 
         {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />

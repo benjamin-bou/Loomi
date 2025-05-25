@@ -5,12 +5,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-function CartModal({ show, setShow, onCheckout }) {
+function CartModal({ show, setShow }) {
   const navigate = useNavigate();
   const { cart, addToCart, removeFromCart } = useCart();
 
   const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + (item.price || item.base_price) * item.quantity,
     0
   );
 
@@ -101,7 +101,7 @@ function CartModal({ show, setShow, onCheckout }) {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="font-bold">
-                      {(item.price * item.quantity).toFixed(2)} €
+                      {((item.price || item.base_price) * item.quantity).toFixed(2)} €
                     </div>
                     <button
                       className="p-2"
@@ -123,14 +123,20 @@ function CartModal({ show, setShow, onCheckout }) {
               <span>Total</span>
               <span>{total.toFixed(2)} €</span>
             </div>
-            <button
-              className="w-full bg-loomilightpink hover:bg-loomipink cursor-pointer transition duration-300 text-white py-3 rounded font-bold disabled:opacity-50"
-              onClick={onCheckout}
-            >
-              Valider mon panier
-            </button>
+          {/* Bouton valider la commande */}
+          <button
+            className="mt-8 w-full bg-[#DB3D88] text-white py-3 rounded-xl text-lg font-semibold hover:bg-[#b83272] transition cursor-pointer"
+            onClick={() => {
+              setShow(false);
+              navigate('/order');
+            }}
+            disabled={cart.length === 0}
+          >
+            Valider et payer
+          </button>
           </div>
         )}
+
       </div>
     </>
   );

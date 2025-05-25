@@ -79,7 +79,7 @@ export default function Favorites() {
                 />
               <MainButton
                 text="Ajouter au panier"
-                onClick={() => addToCart(box)}
+                onClick={() => addToCart({ ...box, type: 'box' })}
                 />
               </div>
             ))

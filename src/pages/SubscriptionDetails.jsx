@@ -106,7 +106,7 @@ function SubscriptionDetails() {
           {/* Boutons */}
           <div className="mt-4 flex flex-col gap-5">
             <button
-              onClick={() => addToCart(subscription)}
+              onClick={() => addToCart({ ...subscription, type: 'subscription' })}
               className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
             >
               Ajouter au panier

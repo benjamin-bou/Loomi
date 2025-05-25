@@ -106,7 +106,7 @@ function BoxPage() {
           {/* Boutons */}
           <div className="mt-4 flex flex-col gap-5">
             <button
-              onClick={() => addToCart(box)}
+              onClick={() => addToCart({ ...box, type: 'box' })}
               className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
             >
               Ajouter au panier

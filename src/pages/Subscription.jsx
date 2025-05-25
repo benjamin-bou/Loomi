@@ -25,19 +25,20 @@ export default function Orders() {
   };
 
   return (
-      <div className="bg-loomibeige relative px-8 py-8 font-montserrat overflow-hidden pb-20">
-        {/* Forme blob en haut à droite */}
-        <div
-          className="absolute -right-10 top-[2vw] z-0 pointer-events-none bg-[#d63d87] w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
-          style={{
-            borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",
-          }}
-        />
+    <div className="bg-loomibeige relative px-8 py-8 font-montserrat overflow-hidden pb-20">
+      {/* Forme blob en haut à droite */}
+      <div
+        className="absolute -right-10 top-[2vw] z-0 pointer-events-none bg-[#d63d87] w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
+        style={{
+          borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",
+        }}
+      />
 
-        {/* Titre */}
-        <h1 className="relative z-10 mb-8 mx-[50px]">Mon abonnement</h1>
+      {/* Titre */}
+      <h1 className="relative z-10 mb-8 mx-[50px]">Mon abonnement</h1>
 
-        {/* Carte d'abonnement */}
+      {subscription && subscription.id ? (
+        // Carte d'abonnement
         <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm w-3/4 min-h-[420px] relative">
           {/* Image produit */}
           <div className="bg-[#e5e5e5] rounded-4xl w-[300px] h-[300px] min-w-[120px] flex-shrink-0" />
@@ -97,6 +98,13 @@ export default function Orders() {
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col items-center justify-center shadow-sm w-3/4 min-h-[220px] relative text-center">
+          <p className="text-xl font-medium mb-4">Pas encore abonné ?</p>
+          <p className="text-base mb-6">Parcourez nos différents abonnements et trouvez celui qui vous correspond !</p>
+          <MainButton text="Voir les abonnements" onClick={() => window.location.href = '/subscriptions'} />
+        </div>
+      )}
+    </div>
   );
 }
