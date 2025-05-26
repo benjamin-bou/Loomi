@@ -5,6 +5,8 @@ import "../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import MainButton from "../components/addOns/MainButton";
+import { useEffect, useState } from "react";
+import { fetchData } from "../api";
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
@@ -35,6 +37,9 @@ function PrevArrow(props) {
 }
 
 export default function GiftCards() {
+  const [giftCards, setGiftCards] = useState([]);
+  const [error, setError] = useState(null);
+
   var settings = {
     className: "center",
     centerMode: true,
@@ -68,6 +73,18 @@ export default function GiftCards() {
     }
   ];
 
+  useEffect(() => {
+      fetchData("/gift-cards")
+        .then(data => {
+          console.log("giftcards data:", data);
+          setGiftCards(data);
+        })
+        .catch(error => {
+          console.error("Error fetching boxes:", error);
+          setError("Une erreur est survenue lors du chargement des boîtes.");
+        });
+    }, []);
+
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
       <div className="flex flex-col items-center justify-center px-10 py-12 min-h-[600px] gap-20">
@@ -89,69 +106,52 @@ export default function GiftCards() {
           </Slider>
         </section>
         {/* Section liste des cartes cadeau */}
-        <section className="w-full max-w-6xl mt-16 px-20">
+        <section className="w-full mt-16 px-20">
+          {error && (
+            <div className="text-red-500 text-center mb-8">{error}</div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {[
-              {
-                title: "1 BOX",
-                desc: (
-                  <>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br />
-                    <span className="block mt-2">Box mystère ou box activité manuelle ou box DIY</span>
-                  </>
-                ),
-                onClick: () => { console.log("Ajout 1 BOX au panier"); }
-              },
-              {
-                title: "ABONNEMENT DE 3 MOIS",
-                desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                onClick: () => { console.log("Ajout Abonnement 3 mois au panier"); }
-              },
-              {
-                title: "ABONNEMENT DE 6 MOIS",
-                desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                onClick: () => { console.log("Ajout Abonnement 6 mois au panier"); }
-              },
-              {
-                title: "ABONNEMENT DE 1 AN",
-                desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                onClick: () => { console.log("Ajout Abonnement 1 an au panier"); }
-              }
-            ].map((offer, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px]"
-              >
-                <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{offer.title}</h3>
-                <p className="text-center text-base md:text-lg mb-6">{offer.desc}</p>
-                <MainButton
-                  text="Ajouter au panier"
-                  className="w-full max-w-xs mt-2"
-                  onClick={offer.onClick}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-        <section className="relative w-full flex px-20">
-          {/* Forme rose foncé */}
-          <div
-            className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] bg-loomipink z-50"
-            style={{
-              borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-              transform: "rotate(10deg)",
-            }}
-          />
-          <div
-            className="bg-white rounded-[40px] w-full flex flex-col items-center justify-center px-8 py-12 min-h-[320px]"
-          >
-            <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">Abonnement 1 AN BOX MYSTÈRE</h3>
-            <p className="text-center text-base md:text-lg mb-6">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <MainButton
-              text="Ajouter au panier"
-              className="w-full max-w-xs mt-2"
-              onClick={console.log("Ajout Abonnement 1 an au panier")}
-            />
+            {giftCards && giftCards.length > 0 ? (
+              giftCards.map((giftCard, i) =>
+                i === giftCards.length - 1 ? (
+                  // Dernière card, plus large avec forme rose foncé décorative
+                  <div key={giftCard.id || i} className="relative md:col-span-2 w-full">
+                    {/* Forme rose foncé décorative */}
+                    <div
+                      className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] bg-loomipink z-50"
+                      style={{
+                        borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
+                        transform: "rotate(10deg)",
+                      }}
+                    />
+                    <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
+                      <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{giftCard.name}</h3>
+                      <p className="text-center text-base md:text-lg mb-6">{giftCard.description}</p>
+                      <MainButton
+                        text="Ajouter au panier"
+                        className="w-full max-w-xs mt-2"
+                        onClick={() => { console.log(`Ajout ${giftCard.name} au panier`); }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    key={giftCard.id || i}
+                    className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px]"
+                  >
+                    <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{giftCard.name}</h3>
+                    <p className="text-center text-base md:text-lg mb-6">{giftCard.description}</p>
+                    <MainButton
+                      text="Ajouter au panier"
+                      className="w-full max-w-xs mt-2"
+                      onClick={() => { console.log(`Ajout ${giftCard.name} au panier`); }}
+                    />
+                  </div>
+                )
+              )
+            ) : (
+              <div className="col-span-2 text-center text-gray-500">Aucune carte cadeau disponible.</div>
+            )}
           </div>
         </section>
         <section>
