@@ -7,7 +7,7 @@ import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
 
-function BoxPage() {
+function BoxPage({ setShowCart }) {
   const { id } = useParams();
   const [box, setBox] = useState(null);
   const [relatedBoxes, setRelatedBoxes] = useState([]);
@@ -106,7 +106,10 @@ function BoxPage() {
           {/* Boutons */}
           <div className="mt-4 flex flex-col gap-5">
             <button
-              onClick={() => addToCart({ ...box, type: 'box' })}
+              onClick={() => {
+                addToCart({ ...box, type: 'box' });
+                setShowCart && setShowCart(true);
+              }}
               className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
             >
               Ajouter au panier

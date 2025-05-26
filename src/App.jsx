@@ -44,7 +44,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/boxes" element={<BoxesList />} />
-        <Route path="/boxes/:id" element={<BoxDetails />} />
+        <Route path="/boxes/:id" element={<BoxDetails setShowCart={setShowCart} />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/subscriptions/:id" element={<SubscriptionDetails />} />
         <Route path="/gift-cards" element={<GiftCards />} />
