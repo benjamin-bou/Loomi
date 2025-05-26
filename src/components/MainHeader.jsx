@@ -28,6 +28,7 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
       try {
         payload = getTokenPayload();
       } catch (e) {
+        console.error("Token invalide ou expiré", e);
         payload = null;
       }
     }

@@ -33,21 +33,14 @@ function OrderPage({ setShowLogin }) {
       .catch(() => setUser(null));
   }, []);
 
-  // Ouvre la modal d'auth à l'arrivée si non connecté
-  useEffect(() => {
-    if ((user === null || user === undefined || !user) && setShowLogin) {
-      setShowLogin(true);
-    }
-  }, [user, setShowLogin]);
-
-  const handlePayment = async () => {
+  const handlePayment = () => {
     if ((!user || !user.id) && setShowLogin) {
       setShowLogin(true);
       return;
     }
     try {
       if (!orderSummary || orderSummary.length === 0) return;
-      const data = await postData('/order', {
+      postData('/order', {
         method: 'POST',
         body: JSON.stringify({
           items: cart,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { postData } from "./api";
 
-function Login({ onShowRegister, onClose, onShowForgot }) {
+function Login({ onShowRegister, onClose, onShowForgot, onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -11,12 +11,12 @@ function Login({ onShowRegister, onClose, onShowForgot }) {
     e.preventDefault();
     try {
       const data = await postData("/login", { email, password });
-      console.log("Connexion réussie:", data);
       if (data.access_token === true) {
         throw new Error("Le token d'accès est invalide.");
       }
       localStorage.setItem("token", data.access_token);
       if (onClose) onClose();
+      if (typeof onLoginSuccess === 'function') onLoginSuccess();
       setEmail("");
       setPassword("");
     } catch (err) {

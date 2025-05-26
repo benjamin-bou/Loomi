@@ -1,58 +1,116 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "../api";
+import { fetchData, postData } from "../api";
 import MainButton from "../components/addOns/MainButton";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import Login from "../Login";
+import Register from "../Register";
 
 export default function OrderStep1({ user, setUser, onNext }) {
   const [form, setForm] = useState({
-    first_name: user?.first_name || "",
-    last_name: user?.last_name || "",
+    firstName: user?.first_name || "",
+    lastName: user?.last_name || "",
     address: user?.address || "",
     zipcode: user?.zipcode || "",
     city: user?.city || "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [loginTrigger, setLoginTrigger] = useState(0);
+  const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
-    if (!user) {
+    const token = localStorage.getItem('token');
+    if (token && (!user || !user.email)) {
       fetchData('/profile')
         .then(data => setUser(data))
         .catch(() => setUser(null));
+    } else if (!token && user) {
+      setUser(null);
     }
-  }, [user, setUser]);
+    // eslint-disable-next-line
+  }, [loginTrigger]);
+
+  // Remplit automatiquement le formulaire si user a déjà des infos
+  useEffect(() => {
+    if (user && user.first_name) {
+      setForm({
+        address: user.address || "",
+        zipcode: user.zipcode || "",
+        city: user.city || "",
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     // Vérifie que tous les champs sont remplis
-    if (!form.first_name || !form.last_name || !form.address || !form.zipcode || !form.city) {
+    if (!form.address || !form.zipcode || !form.city) {
       setError("Merci de remplir tous les champs de livraison.");
       return;
     }
-    // Ici tu peux faire un appel API pour enregistrer les infos si besoin
-    setUser({ ...user, ...form });
-    onNext();
+    postData('/profile', {
+        address: form.address,
+        zipcode: form.zipcode,
+        city: form.city,
+      })
+    .then(() => {
+      setError("");
+      setUser({ ...user, ...form });
+      onNext();
+    })
+    .catch(err => {
+      let errorMessage = "Erreur lors de la mise à jour des informations de livraison. Veuillez réessayer.";
+      if (err.response && err.response.data && err.response.data.errors) {
+        errorMessage = Object.values(err.response.data.errors).flat().join(' ');
+      }
+      setError(errorMessage);
+      console.error("Erreur lors de la mise à jour du profil :", err);
+      return;
+    });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF7F0]">
-      <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">1. Connexion & Livraison</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input name="first_name" value={form.first_name} onChange={handleChange} placeholder="Prénom" className="border rounded p-2" />
-          <input name="last_name" value={form.last_name} onChange={handleChange} placeholder="Nom" className="border rounded p-2" />
-          <input name="address" value={form.address} onChange={handleChange} placeholder="Adresse" className="border rounded p-2" />
-          <input name="zipcode" value={form.zipcode} onChange={handleChange} placeholder="Code postal" className="border rounded p-2" />
-          <input name="city" value={form.city} onChange={handleChange} placeholder="Ville" className="border rounded p-2" />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <MainButton text="Continuer vers le paiement" type="submit" />
-        </form>
-        <button className="mt-4 text-blue-600 underline" onClick={() => navigate('/login')}>Se connecter avec un autre compte</button>
+    <div className="flex flex-col py-15 bg-[#FFF7F0] items-center gap-15">
+      <div className="flex items-center justify-center">
+        {/* Bloc login à gauche */}
+        <div className="bg-white rounded-l-2xl shadow-md p-8 w-full max-w-md flex flex-col justify-center">
+          <h2 className="text-2xl font-bold mb-6 text-center">{showRegister ? "Inscris-toi" : "Connecte toi"}</h2>
+          {user && user.email ? (
+            <div className="flex flex-col items-center gap-4">
+              <span className="text-lgfont-semibold">Vous êtes connecté en tant que {user.first_name} {user.last_name}</span>
+              <MainButton
+                onClick={() => { localStorage.removeItem('token'); setUser(null); window.location.reload(); }}
+                text="Changer de compte"
+              />
+            </div>
+          ) : (
+            showRegister ? (
+              <Register onShowLogin={() => setShowRegister(false)} />
+            ) : (
+              <Login 
+                onLoginSuccess={() => setLoginTrigger(t => t + 1)} 
+                onShowRegister={() => setShowRegister(true)}
+              />
+            )
+          )}
+        </div>
+        {/* Trait vertical */}
+        <div className="h-[500px] w-[2px] bg-gray-200 mx-0 md:mx-8" />
+        {/* Bloc informations de livraison à droite */}
+        <div className="bg-white rounded-r-2xl shadow-md p-8 w-full max-w-md flex flex-col justify-center">
+          <h2 className="text-2xl font-bold mb-6 text-center">Informations de livraison</h2>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <input name="address" value={form.address} onChange={handleChange} placeholder="Adresse" className="border rounded p-2" />
+            <input name="zipcode" value={form.zipcode} onChange={handleChange} placeholder="Code postal" className="border rounded p-2" />
+            <input name="city" value={form.city} onChange={handleChange} placeholder="Ville" className="border rounded p-2" />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+          </form>
+        </div>
       </div>
+      <MainButton text="Continuer vers le paiement" onClick={() => handleSubmit()} />
     </div>
   );
 }
