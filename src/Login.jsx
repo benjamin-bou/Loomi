@@ -15,6 +15,7 @@ function Login({ onShowRegister, onClose, onShowForgot, onLoginSuccess }) {
         throw new Error("Le token d'accès est invalide.");
       }
       localStorage.setItem("token", data.access_token);
+      window.location.reload();
       if (onClose) onClose();
       if (typeof onLoginSuccess === 'function') onLoginSuccess();
       setEmail("");

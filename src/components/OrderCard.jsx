@@ -10,8 +10,6 @@ export default function OrderCard({ order, user }) {
   // Paiements (tous les moyens de paiement)
   const payments = order.payment_methods || [];
 
-  console.log(order)
-
   return (
     <div className="bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm">
       {/* Image produit */}
