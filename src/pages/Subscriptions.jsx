@@ -24,7 +24,6 @@ export default function Subscriptions() {
   useEffect(() => {
     const fetchSubscriptions = async () => {
       const data = await fetchData("/subscriptions");
-      console.log(data);
       if (!data) {
         console.error("Erreur lors du chargement des abonnements.");
       }
