@@ -20,6 +20,7 @@ export default function Profile() {
   // Déconnexion : supprime le token et redirige
   const handleLogout = () => {
     localStorage.removeItem('token');
+    window.location.reload(); // Recharge la page pour mettre à jour l'état de l'application
     navigate("/");
   };
 

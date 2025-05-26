@@ -11,6 +11,7 @@ function Login({ onShowRegister, onClose, onShowForgot }) {
     e.preventDefault();
     try {
       const data = await postData("/login", { email, password });
+      console.log("Connexion réussie:", data);
       if (data.access_token === true) {
         throw new Error("Le token d'accès est invalide.");
       }

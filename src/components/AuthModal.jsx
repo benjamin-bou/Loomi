@@ -43,7 +43,7 @@ export default function AuthModal({ show, setShow }) {
         </button>
         {/* Logo */}
         <div className="flex justify-center my-4">
-          <img src={logo} alt="logo" className="h-28" />
+          <img src={logo} alt="logo" className="h-15" />
         </div>
         {/* Titre */}
         <h2 className="text-xl text-center font-bold mb-6">

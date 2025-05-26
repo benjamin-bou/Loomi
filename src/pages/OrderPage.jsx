@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { fetchData } from "../api";
 import { postData } from "../api";
+import { useEffect, useState } from "react";
 import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
 import Newsletter from "../components/Newsletter";
 import MainButton from "../components/addOns/MainButton";
+import OrderStep1 from "./OrderStep1";
 
-function OrderPage() {
+function OrderPage({ setShowLogin }) {
   const [orderSummary, setOrderSummary] = useState(null);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(undefined);
+  const [step, setStep] = useState(1);
   const { cart, clearCart } = useCart();
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState('visa');
@@ -23,10 +27,26 @@ function OrderPage() {
     setOrderSummary(cart);
   }, [cart]);
 
+  useEffect(() => {
+    fetchData('/profile')
+      .then(data => setUser(data))
+      .catch(() => setUser(null));
+  }, []);
+
+  // Ouvre la modal d'auth à l'arrivée si non connecté
+  useEffect(() => {
+    if ((user === null || user === undefined || !user) && setShowLogin) {
+      setShowLogin(true);
+    }
+  }, [user, setShowLogin]);
+
   const handlePayment = async () => {
+    if ((!user || !user.id) && setShowLogin) {
+      setShowLogin(true);
+      return;
+    }
     try {
       if (!orderSummary || orderSummary.length === 0) return;
-      console.log("Paiement");
       const data = await postData('/order', {
         method: 'POST',
         body: JSON.stringify({
@@ -35,7 +55,6 @@ function OrderPage() {
         }),
         headers: { 'Content-Type': 'application/json' },
       });
-      console.log("Réponse du serveur:", data);
       clearCart();
       navigate('/profile/orders'); // Redirige vers la liste des commandes
     } catch {
@@ -51,6 +70,12 @@ function OrderPage() {
     );
   }
 
+  // Étape 1 : Connexion & Livraison
+  if (step === 1) {
+    return <OrderStep1 user={user} setUser={setUser} onNext={() => setStep(2)} />;
+  }
+
+  // Étape 2 : Paiement (état existant)
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
       <div className="w-[calc(100vw-100px)] mx-[50px] py-[50px] flex flex-col md:flex-row gap-12">

@@ -10,13 +10,9 @@ import logo_phase_2 from "/images/picto/logo_phase_2.svg";
 import logo_phase_3 from "/images/picto/logo_phase_3.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
-import AuthModal from "./AuthModal";
-import CartModal from "./CartModal";
 import { useCart } from '../context/CartContext';
 
-const MainHeader = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+const MainHeader = ({ setShowLogin, setShowCart }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
@@ -27,15 +23,27 @@ const MainHeader = () => {
   useEffect(() => {
     // Vérifie la présence d'un token dans le localStorage pour déterminer l'authentification
     const token = localStorage.getItem('token');
+    let payload = null;
     if (token) {
-      setIsAuthenticated(true);
-      setUserName(getTokenPayload()?.firstName || "Se connecter");
+      try {
+        payload = getTokenPayload();
+      } catch (e) {
+        payload = null;
+      }
     }
-  }, [showLogin]);
+    if (payload) {
+      setIsAuthenticated(true);
+      setUserName(payload.firstName || "Se connecter");
+    } else {
+      setIsAuthenticated(false);
+      setUserName("Se connecter");
+    }
+  }, [setShowLogin]);
 
   const handleUserClick = () => {
-    if (isAuthenticated) {
-      navigate(getTokenPayload().role == "admin" ? "/admin" : "/profile");
+    const payload = getTokenPayload();
+    if (isAuthenticated && payload) {
+      navigate(payload.role === "admin" ? "/admin" : "/profile");
     } else {
       setShowLogin(true);
     }
@@ -116,15 +124,7 @@ const MainHeader = () => {
       </nav>
 
       {/* Bandeau de connexion */}
-        <AuthModal 
-        show={showLogin}
-        setShow={setShowLogin}
-        />
-      {/* Bandeau de panier */}
-        <CartModal 
-        show={showCart} 
-        setShow={setShowCart} 
-        />
+      {/* AuthModal et CartModal sont maintenant dans App.jsx */}
     </header>
   );
 };

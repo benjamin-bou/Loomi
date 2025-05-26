@@ -26,17 +26,23 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import SubscriptionDetails from './pages/SubscriptionDetails';
 import OrderPage from './pages/OrderPage';
+import AuthModal from "./components/AuthModal";
+import CartModal from "./components/CartModal";
+import { useState } from "react";
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+
   return (
     <Router>
       <ScrollToTop />
-      <MainHeader/>
+      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />
+      <AuthModal show={showLogin} setShow={setShowLogin} />
+      <CartModal show={showCart} setShow={setShowCart} />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/boxes" element={<BoxesList />} />
         <Route path="/boxes/:id" element={<BoxDetails />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
@@ -45,7 +51,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path='/blog/:id' element={<ArticlePage />} />
-        <Route path="/order" element={<PrivateRoute roleRequired="user"><OrderPage /></PrivateRoute>} />
+        <Route path="/order" element={<OrderPage setShowLogin={setShowLogin} />} />
 
         {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />

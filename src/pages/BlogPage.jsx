@@ -46,7 +46,7 @@ const articles = [
     const navigate = useNavigate();
     return (
       <div className="bg-loomibeige min-h-screen font-montserrat px-10 py-8">
-        <h1 className="text-4xl font-bold mb-10">Blog</h1>
+        <h1 className="mb-10">Blog</h1>
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Grand article à gauche */}
           <div className="bg-white rounded-3xl p-8 flex-1 max-w-[730px] min-w-[350px] flex flex-col shadow-sm">
