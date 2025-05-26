@@ -10,6 +10,8 @@ export default function OrderCard({ order, user }) {
   // Paiements (tous les moyens de paiement)
   const payments = order.payment_methods || [];
 
+  console.log(order)
+
   return (
     <div className="bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm">
       {/* Image produit */}
@@ -80,6 +82,32 @@ export default function OrderCard({ order, user }) {
               France
             </div>
           </div>
+        </div>
+
+        {/* Liste des articles achetés */}
+        <div className="mt-4 mb-2">
+          <div className="font-semibold mb-1">Contenu de la commande</div>
+          <ul className="text-sm list-disc list-inside">
+            {/* Boxes */}
+            {order.box_orders && order.box_orders.length > 0 && order.box_orders.map((boxOrder, idx) => (
+              <li key={boxOrder.id || idx}>
+                Box : {boxOrder.box?.name || 'Box inconnue'}
+                {boxOrder.quantity ? ` × ${boxOrder.quantity}` : ''}
+              </li>
+            ))}
+            {/* Abonnement */}
+            {order.subscription && (
+              <li>
+                Abonnement : {order.subscription.name || 'Abonnement'}
+              </li>
+            )}
+            {/* Carte cadeau */}
+            {order.giftCard && (
+              <li>
+                Carte cadeau : {order.giftCard.code || 'Carte cadeau'}
+              </li>
+            )}
+          </ul>
         </div>
 
         {/* Montant total aligné à droite sur desktop */}

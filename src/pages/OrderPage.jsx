@@ -41,12 +41,8 @@ function OrderPage({ setShowLogin }) {
     try {
       if (!orderSummary || orderSummary.length === 0) return;
       postData('/order', {
-        method: 'POST',
-        body: JSON.stringify({
           items: cart,
           payment_method: selectedPayment,
-        }),
-        headers: { 'Content-Type': 'application/json' },
       });
       clearCart();
       navigate('/profile/orders'); // Redirige vers la liste des commandes
