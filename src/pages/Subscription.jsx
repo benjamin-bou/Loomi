@@ -4,24 +4,30 @@ import { useEffect, useState } from "react";
 
 export default function Orders() {
   const statusLabel = {
+    active: "Actif",
+    paused: "En pause",
+    cancelled: "Annulé",
+    expired: "Expiré",
     pending: "En cours",
-    delivered: "Annulé",
+    delivered: "Livré",
   };
 
   const [subscription, setSubscription] = useState({});
-  const [user, setUser] = useState({});
-  useEffect(() => {
+  const [user, setUser] = useState({});  useEffect(() => {
     const fetchOrders = async () => {
       const data = await fetchData("/my-subscription");
-      setSubscription(data.subscription);
-      setUser(data.user);
+      console.log("Subscription data:", data);
+      setSubscription(data?.subscription || {});
+      setUser(data?.user || {});
     };
     fetchOrders();
   }, []);
 
   const handleUnsubscribe = () => {
-    // Ajoute ici la logique de désabonnement
-    alert("Désabonnement !");
+    if (confirm("Êtes-vous sûr de vouloir annuler votre abonnement ? Cette action est irréversible.")) {
+      // TODO: Implémenter la logique de désabonnement via API
+      alert("Fonctionnalité de désabonnement à implémenter !");
+    }
   };
 
   return (
@@ -32,28 +38,33 @@ export default function Orders() {
         style={{
           borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",
         }}
-      />
-
-      {/* Titre */}
+      />      {/* Titre */}
       <h1 className="relative z-10 mb-8 mx-[50px]">Mon abonnement</h1>
 
       {subscription && subscription.id ? (
         // Carte d'abonnement
-        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm w-3/4 min-h-[420px] relative">
-          {/* Image produit */}
+        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm min-h-[420px] relative">          {/* Image produit */}
           <div className="bg-[#e5e5e5] rounded-4xl w-[300px] h-[300px] min-w-[120px] flex-shrink-0" />
 
           {/* Infos commande */}
           <div className="flex flex-col w-full gap-4 justify-between">
             <div>
               <p className="text-2xl font-medium mb-2">
-                {subscription.name || "Abonnement Mystère"}
+                {subscription.type?.label || "Abonnement"}
               </p>
               <p className="text-sm mb-1">
                 Date de début :{" "}
-                {subscription.created_at
-                  ? new Date(subscription.created_at).toLocaleDateString("fr-FR")
+                {subscription.start_date
+                  ? new Date(subscription.start_date).toLocaleDateString("fr-FR")
                   : ""}
+              </p>
+              <p className="text-sm mb-1">
+                Date de fin :{" "}
+                {subscription.end_date
+                  ? new Date(subscription.end_date).toLocaleDateString("fr-FR")
+                  : ""}
+              </p>              <p className="text-sm mb-1">
+                Prix : {subscription.type?.price ? `${subscription.type.price} €/${subscription.type.recurrence === 'monthly' ? 'mois' : 'trimestre'}` : ""}
               </p>
               <p className="text-sm mb-4">
                 Statut : {statusLabel[subscription.status] || subscription.status || "en cours"}
@@ -61,6 +72,24 @@ export default function Orders() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-8 mt-2">
+              {/* Informations d'abonnement */}
+              <div className="min-w-[180px]">
+                <div className="font-semibold mb-1">Détails de l'abonnement</div>
+                <div className="text-sm">
+                  <div className="mb-1">
+                    Renouvellement automatique : {subscription.auto_renew ? "Activé" : "Désactivé"}
+                  </div>
+                  <div className="mb-1">
+                    Récurrence : {subscription.type?.recurrence === 'monthly' ? 'Mensuel' : 'Trimestriel'}
+                  </div>
+                  {subscription.end_date && (
+                    <div className="mb-1">
+                      Prochaine facturation : {new Date(subscription.end_date).toLocaleDateString("fr-FR")}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Paiement */}
               <div className="min-w-[180px]">
                 <div className="font-semibold mb-1">Paiement</div>
@@ -84,22 +113,33 @@ export default function Orders() {
                   France
                   <br />
                   {user.phone || "Téléphone"}
-                </div>
-              </div>
+                </div>              </div>
             </div>
 
             {/* BOUTON aligné à droite */}
             <div className="flex flex-1 items-end justify-end mt-8">
-              <MainButton 
-              text={"Se désabonner"}
-              onClick={handleUnsubscribe}
-              >
-              </MainButton>
+              {subscription.status === 'active' && (
+                <MainButton 
+                text={"Se désabonner"}
+                onClick={handleUnsubscribe}
+                >
+                </MainButton>
+              )}
+              {subscription.status === 'cancelled' && (
+                <p className="text-sm text-red-600">Abonnement annulé</p>
+              )}
+              {subscription.status === 'expired' && (
+                <MainButton 
+                text={"Renouveler"}
+                onClick={() => window.location.href = '/subscriptions'}
+                >
+                </MainButton>
+              )}
             </div>
           </div>
         </div>
       ) : (
-        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col items-center justify-center shadow-sm w-3/4 min-h-[220px] relative text-center">
+        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col items-center justify-center shadow-sm min-h-[220px] relative text-center">
           <p className="text-xl font-medium mb-4">Pas encore abonné ?</p>
           <p className="text-base mb-6">Parcourez nos différents abonnements et trouvez celui qui vous correspond !</p>
           <MainButton text="Voir les abonnements" onClick={() => window.location.href = '/subscriptions'} />

@@ -7,7 +7,7 @@ import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
 
-function SubscriptionDetails() {
+function SubscriptionDetails({ setShowCart }) {
   const { id } = useParams();
   const [subscription, setSubscription] = useState(null);
   const [relatedSubscriptions, setRelatedSubscriptions] = useState([]);
@@ -106,7 +106,7 @@ function SubscriptionDetails() {
           {/* Boutons */}
           <div className="mt-4 flex flex-col gap-5">
             <button
-              onClick={() => addToCart({ ...subscription, type: 'subscription' })}
+              onClick={() => {addToCart({ ...subscription, type: 'subscription' }); setShowCart(true);}}
               className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
             >
               Ajouter au panier
