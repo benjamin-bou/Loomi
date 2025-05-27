@@ -1,4 +1,4 @@
-import { fetchData } from "../api";
+import { fetchData, postData } from "../api";
 import MainButton from "../components/addOns/MainButton";
 import { useEffect, useState } from "react";
 
@@ -11,22 +11,34 @@ export default function Orders() {
     pending: "En cours",
     delivered: "Livré",
   };
+  const [subscription, setSubscription] = useState({});  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [subscription, setSubscription] = useState({});
-  const [user, setUser] = useState({});  useEffect(() => {
+  useEffect(() => {
     const fetchOrders = async () => {
       const data = await fetchData("/my-subscription");
-      console.log("Subscription data:", data);
       setSubscription(data?.subscription || {});
       setUser(data?.user || {});
     };
     fetchOrders();
   }, []);
-
-  const handleUnsubscribe = () => {
+  const handleUnsubscribe = async () => {
     if (confirm("Êtes-vous sûr de vouloir annuler votre abonnement ? Cette action est irréversible.")) {
-      // TODO: Implémenter la logique de désabonnement via API
-      alert("Fonctionnalité de désabonnement à implémenter !");
+      setIsLoading(true);
+      try {
+        const response = await postData("/cancel-subscription", {});
+        if (response.message) {
+          // Mettre à jour l'état local
+          window.location.reload(); // Recharger la page pour mettre à jour l'affichage
+          setSubscription(response.subscription);
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'annulation:", error);
+        const errorMessage = error.response?.data?.error || "Une erreur est survenue lors de l'annulation de l'abonnement.";
+        alert(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -36,14 +48,16 @@ export default function Orders() {
       <div
         className="absolute -right-10 top-[2vw] z-0 pointer-events-none bg-[#d63d87] w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
         style={{
-          borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",
-        }}
-      />      {/* Titre */}
+          borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",        }}
+      />
+
+      {/* Titre */}
       <h1 className="relative z-10 mb-8 mx-[50px]">Mon abonnement</h1>
 
       {subscription && subscription.id ? (
         // Carte d'abonnement
-        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm min-h-[420px] relative">          {/* Image produit */}
+        <div className="mx-[50px] bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm min-h-[420px] relative">
+          {/* Image produit */}
           <div className="bg-[#e5e5e5] rounded-4xl w-[300px] h-[300px] min-w-[120px] flex-shrink-0" />
 
           {/* Infos commande */}
@@ -62,8 +76,8 @@ export default function Orders() {
                 Date de fin :{" "}
                 {subscription.end_date
                   ? new Date(subscription.end_date).toLocaleDateString("fr-FR")
-                  : ""}
-              </p>              <p className="text-sm mb-1">
+                  : ""}              </p>
+              <p className="text-sm mb-1">
                 Prix : {subscription.type?.price ? `${subscription.type.price} €/${subscription.type.recurrence === 'monthly' ? 'mois' : 'trimestre'}` : ""}
               </p>
               <p className="text-sm mb-4">
@@ -111,17 +125,17 @@ export default function Orders() {
                   {user.zipcode || "Code Postal"} {user.city || ""}
                   <br />
                   France
-                  <br />
-                  {user.phone || "Téléphone"}
-                </div>              </div>
+                  <br />                  {user.phone || "Téléphone"}
+                </div>
+              </div>
             </div>
 
             {/* BOUTON aligné à droite */}
-            <div className="flex flex-1 items-end justify-end mt-8">
-              {subscription.status === 'active' && (
+            <div className="flex flex-1 items-end justify-end mt-8">              {subscription.status === 'active' && (
                 <MainButton 
-                text={"Se désabonner"}
+                text={isLoading ? "Annulation..." : "Se désabonner"}
                 onClick={handleUnsubscribe}
+                disabled={isLoading}
                 >
                 </MainButton>
               )}
