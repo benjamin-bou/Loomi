@@ -1,8 +1,8 @@
 import { fetchData } from "../api";
 import { postData } from "../api";
 import { useEffect, useState } from "react";
-import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
+import { useCart } from '../context/CartContext';
 import Newsletter from "../components/Newsletter";
 import MainButton from "../components/addOns/MainButton";
 import OrderStep1 from "./OrderStep1";
@@ -10,8 +10,7 @@ import OrderStep1 from "./OrderStep1";
 function OrderPage({ setShowLogin }) {
   const [orderSummary, setOrderSummary] = useState(null);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(undefined);  const [step, setStep] = useState(1);
-  const [giftCardValidationError, setGiftCardValidationError] = useState('');
+  const [user, setUser] = useState(undefined);  const [step, setStep] = useState(1);  const [giftCardValidationError, setGiftCardValidationError] = useState('');
   const { cart, clearCart, validateGiftCardInCart } = useCart();
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState('visa');
@@ -47,7 +46,7 @@ function OrderPage({ setShowLogin }) {
 
   // Vérifier s'il y a une carte cadeau dans le panier
   const giftCardInCart = cart.find(item => item.type === 'giftcard_usage');
-  const isGiftCardPayment = !!giftCardInCart;  const handlePayment = () => {
+  const isGiftCardPayment = !!giftCardInCart;  const handlePayment = async () => {
     if ((!user || !user.id) && setShowLogin) {
       setShowLogin(true);
       return;
@@ -60,10 +59,33 @@ function OrderPage({ setShowLogin }) {
         payment_method: isGiftCardPayment ? null : selectedPayment,
       };
 
-      postData('/order', paymentData);
-      clearCart();
-      navigate('/profile/orders'); // Redirige vers la liste des commandes
-    } catch {
+      const response = await postData('/order', paymentData);
+      
+      if (response.success) {
+        // Préparer les données pour la page de félicitations
+        const orderData = {
+          id: response.order_id,
+          items: cart,
+          total: orderSummary
+            .filter(item => item.type !== 'giftcard_usage')
+            .reduce((sum, item) => sum + (item.price || item.base_price) * item.quantity, 0)
+            .toFixed(2),
+          created_at: new Date().toISOString(),
+          payment_method: isGiftCardPayment ? 'gift_card' : selectedPayment
+        };
+        
+        // Sauvegarder les données dans localStorage
+        localStorage.setItem('lastOrderData', JSON.stringify(orderData));
+        
+        clearCart();
+        
+        // Naviguer vers la page de succès
+        navigate('/order-success');
+      } else {
+        setError("Erreur lors du paiement. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error('Erreur lors du paiement:', error);
       setError("Erreur lors du paiement. Veuillez réessayer.");
     }
   };

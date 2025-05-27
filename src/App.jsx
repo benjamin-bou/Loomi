@@ -26,6 +26,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import SubscriptionDetails from './pages/SubscriptionDetails';
 import OrderPage from './pages/OrderPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 import MyGiftCardsPage from './pages/MyGiftCardsPage';
 import AuthModal from "./components/AuthModal";
 import CartModal from "./components/CartModal";
@@ -38,8 +39,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />
-      <AuthModal show={showLogin} setShow={setShowLogin} />
+      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />      <AuthModal show={showLogin} setShow={setShowLogin} />
       <CartModal show={showCart} setShow={setShowCart} />
       <Routes>
         {/* Public routes */}
@@ -53,6 +53,7 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path='/blog/:id' element={<ArticlePage />} />
         <Route path="/order" element={<OrderPage setShowLogin={setShowLogin} />} />
+        <Route path="/order-success" element={<OrderSuccessPage />} />
 
         {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />

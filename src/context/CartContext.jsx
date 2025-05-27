@@ -44,6 +44,7 @@ export const CartProvider = ({ children }) => {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
+
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem('cart');
@@ -90,6 +91,7 @@ export const CartProvider = ({ children }) => {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
+
   const validateGiftCardInCart = async () => {
     // Vérifier si une carte cadeau dans le panier est toujours valide
     const giftCardItem = cart.find(item => item.type === 'giftcard_usage');
