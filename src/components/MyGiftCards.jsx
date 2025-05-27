@@ -63,7 +63,6 @@ export default function MyGiftCards() {
   }
   return (
     <div className="bg-white rounded-[2rem] p-8">
-      <h2 className="text-2xl font-medium mb-6">Mes cartes cadeaux</h2>
       
       {error && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">

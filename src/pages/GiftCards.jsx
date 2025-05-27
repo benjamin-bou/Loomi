@@ -106,18 +106,26 @@ export default function GiftCards({ setShowCart }) {
                     text={slide.button}
                     onClick={() => {
                       if (slide.button === "Activer ma carte") {
-                        setShowActivation(true);
-                      } else {
-                        console.log("Button clicked!");
+                        setShowActivation(true);                      } else {
+                        // Défilement fluide vers la section des cartes cadeaux avec offset personnalisé
+                        const giftCardsSection = document.querySelector('[data-section="gift-cards-list"]');
+                        if (giftCardsSection) {
+                          const elementPosition = giftCardsSection.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - 100;
+                          
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                          });
+                        }
                       }
                     }}/>
                 </div>
               </div>
             ))}
           </Slider>
-        </section>
-        {/* Section liste des cartes cadeau */}
-        <section className="w-full mt-16 px-20">
+        </section>        {/* Section liste des cartes cadeau */}
+        <section className="w-full mt-16 px-20" data-section="gift-cards-list">
           {error && (
             <div className="text-red-500 text-center mb-8">{error}</div>
           )}
@@ -183,7 +191,8 @@ export default function GiftCards({ setShowCart }) {
             <div className="w-full h-full flex justify-center items-center">
               <div className="w-full h-full bg-gray-300 rounded-2xl" />
             </div>
-          </div>        </section>
+          </div>        
+          </section>
       </div>
       
       {showActivation && (
