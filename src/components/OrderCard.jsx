@@ -10,6 +10,9 @@ export default function OrderCard({ order, user }) {
   // Paiements (tous les moyens de paiement)
   const payments = order.payment_methods || [];
 
+  // Vérifier si la commande contient des boîtes (pour afficher la date de livraison)
+  const hasBoxes = order.box_orders && order.box_orders.length > 0;
+
   return (
     <div className="bg-white rounded-[2rem] px-8 py-8 flex flex-col md:flex-row gap-8 shadow-sm">
       {/* Image produit */}
@@ -27,33 +30,34 @@ export default function OrderCard({ order, user }) {
           {order.created_at
             ? new Date(order.created_at).toLocaleDateString("fr-FR")
             : ""}
-        </p>
-        <p className="text-sm mb-4">
+        </p>        <p className="text-sm mb-4">
           Statut&nbsp;: {statusLabel[order.status] || order.status}
           <br />
-          Livraison à partir du :{" "}
-          {order.delivery_date
-            ? new Date(order.delivery_date).toLocaleDateString("fr-FR")
-            : "-"}
-        </p>
-
-        {/* Bloc Livraison + Paiement */}
+          {hasBoxes && order.delivery_date && (
+            <>
+              Livraison à partir du :{" "}
+              {new Date(order.delivery_date).toLocaleDateString("fr-FR")}
+            </>
+          )}
+        </p>        {/* Bloc Livraison + Paiement */}
         <div className="flex flex-col md:flex-row gap-8 mt-2">
-          {/* Livraison */}
-          <div className="flex-1 min-w-[180px]">
-            <div className="font-semibold mb-1">Livraison en relais</div>
-            <div className="text-sm">
-              {user.first_name || "Prénom"} {user.last_name || "Nom"}
-              <br />
-              {user.address || "Adresse"}
-              <br />
-              {user.zipcode || "Code Postal"} {user.city || ""}
-              <br />
-              France
-              <br />
-              {user.phone || "Téléphone"}
+          {/* Livraison - seulement pour les commandes de boîtes */}
+          {hasBoxes && (
+            <div className="flex-1 min-w-[180px]">
+              <div className="font-semibold mb-1">Livraison en relais</div>
+              <div className="text-sm">
+                {user.first_name || "Prénom"} {user.last_name || "Nom"}
+                <br />
+                {user.address || "Adresse"}
+                <br />
+                {user.zipcode || "Code Postal"} {user.city || ""}
+                <br />
+                France
+                <br />
+                {user.phone || "Téléphone"}
+              </div>
             </div>
-          </div>
+          )}
           {/* Paiement */}
           <div className="flex-1 min-w-[180px]">
             <div className="font-semibold mb-1">Paiement</div>
