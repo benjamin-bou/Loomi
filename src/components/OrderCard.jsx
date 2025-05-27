@@ -98,13 +98,18 @@ export default function OrderCard({ order, user }) {
               <li>
                 Abonnement : {order.subscription.name || 'Abonnement'}
               </li>
-            )}
-            {/* Carte cadeau */}
+            )}            {/* Carte cadeau utilisée pour le paiement */}
             {order.giftCard && (
               <li>
-                Carte cadeau : {order.giftCard.code || 'Carte cadeau'}
+                Carte cadeau utilisée : {order.giftCard.code || 'Carte cadeau'}
               </li>
             )}
+            {/* Cartes cadeaux créées par cette commande */}
+            {order.created_gift_cards && order.created_gift_cards.length > 0 && order.created_gift_cards.map((createdGiftCard, idx) => (
+              <li key={createdGiftCard.id || idx}>
+                Carte cadeau créée : {createdGiftCard.gift_card_type?.name || 'Type inconnu'} - Code: {createdGiftCard.code}
+              </li>
+            ))}
           </ul>
         </div>
 
