@@ -5,6 +5,7 @@ import "../index.css";
 import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
 import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import MainButton from "../components/addOns/MainButton";
+import GiftCardActivation from "../components/GiftCardActivation";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useCart } from '../context/CartContext';
@@ -37,10 +38,11 @@ function PrevArrow(props) {
   );
 }
 
-export default function GiftCards() {
+export default function GiftCards({ setShowCart }) {
   const [giftCards, setGiftCards] = useState([]);
   const [error, setError] = useState(null);
-  const { addToCart } = useCart();
+  const [showActivation, setShowActivation] = useState(false);
+  const { addToCart, addActivatedGiftCard } = useCart();
 
   var settings = {
     className: "center",
@@ -62,7 +64,6 @@ export default function GiftCards() {
     touchThreshold: 8,
     waitForAnimate: false,
   };
-
   const slides = [
     {
       title: "La carte cadeau idéale !",
@@ -74,6 +75,11 @@ export default function GiftCards() {
       button: "Activer ma carte"
     }
   ];
+
+  const handleActivationSuccess = (giftCard) => {
+    addActivatedGiftCard(giftCard);
+    // Optionnel: afficher une notification de succès
+  };
 
   useEffect(() => {
       fetchData("/gift-cards")
@@ -96,11 +102,14 @@ export default function GiftCards() {
               <div key={idx} className="flex justify-center items-center px-10">
                 <div className="bg-[#D9D9D9] w-full rounded-[40px] min-h-[400px] md:min-h-[500px] flex flex-col justify-between items-center px-4 md:px-24 py-20">
                   <h2 className="text-4xl md:text-5xl font-medium text-center mb-8 mt-2">{slide.title}</h2>
-                  <p className="text-xl md:text-2xl text-center font-normal mb-8 leading-snug max-w-2xl">{slide.desc}</p>
-                  <MainButton
+                  <p className="text-xl md:text-2xl text-center font-normal mb-8 leading-snug max-w-2xl">{slide.desc}</p>                  <MainButton
                     text={slide.button}
                     onClick={() => {
-                      console.log("Button clicked!");
+                      if (slide.button === "Activer ma carte") {
+                        setShowActivation(true);
+                      } else {
+                        console.log("Button clicked!");
+                      }
                     }}/>
                 </div>
               </div>
@@ -125,19 +134,20 @@ export default function GiftCards() {
                         borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
                         transform: "rotate(10deg)",
                       }}
-                    />
-                    <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
+                    />                    <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
                       <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{giftCard.name}</h3>
                       <p className="text-center text-base md:text-lg mb-6">{giftCard.description}</p>
                       <MainButton
                         text="Ajouter au panier"
                         className="w-full max-w-xs mt-2"
-                        onClick={() => { addToCart({ ...giftCard, type: 'giftcard' }); }}
+                        onClick={() => { 
+                          addToCart({ ...giftCard, type: 'giftcard' });
+                          setShowCart && setShowCart(true);
+                        }}
                       />
                     </div>
                   </div>
-                ) : (
-                  <div
+                ) : (                  <div
                     key={giftCard.id || i}
                     className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px]"
                   >
@@ -146,7 +156,10 @@ export default function GiftCards() {
                     <MainButton
                       text="Ajouter au panier"
                       className="w-full max-w-xs mt-2"
-                      onClick={() => { addToCart({ ...giftCard, type: 'giftcard' }); }}
+                      onClick={() => { 
+                        addToCart({ ...giftCard, type: 'giftcard' });
+                        setShowCart && setShowCart(true);
+                      }}
                     />
                   </div>
                 )
@@ -160,20 +173,25 @@ export default function GiftCards() {
           <div className="bg-loomilightpink text-black rounded-4xl my -10 p-4 grid grid-cols-2 w-full z-20 gap-10">
             <div className="flex flex-col justify-end h-[450px] p-10 gap-5">
               <h3 className="my-4 text-white uppercase">On vous a offert une carte cadeau ? Activez-la ici !</h3>
-              <div className="flex flex-col mb-2 gap-6">
-                <MainButton
+              <div className="flex flex-col mb-2 gap-6">                <MainButton
                   text="Activer ma carte"
                   className="bg-loomipink border-0 text-white max-w-[300px]"
-                  onClick={() => { console.log("Activation carte cadeau"); }}
+                  onClick={() => setShowActivation(true)}
                 />
               </div>
             </div>
             <div className="w-full h-full flex justify-center items-center">
               <div className="w-full h-full bg-gray-300 rounded-2xl" />
             </div>
-          </div>
-        </section>
+          </div>        </section>
       </div>
+      
+      {showActivation && (
+        <GiftCardActivation
+          onClose={() => setShowActivation(false)}
+          onActivationSuccess={handleActivationSuccess}
+        />
+      )}
     </div>
   );
 }

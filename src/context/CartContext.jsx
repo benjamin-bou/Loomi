@@ -8,6 +8,11 @@ export const CartProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [activatedGiftCards, setActivatedGiftCards] = useState(() => {
+    const savedGiftCards = localStorage.getItem('activatedGiftCards');
+    return savedGiftCards ? JSON.parse(savedGiftCards) : [];
+  });
+
   const addToCart = (item) => {
     const updatedCart = [...cart];
     const existingItem = updatedCart.find((cartItem) => cartItem.id === item.id);
@@ -39,14 +44,95 @@ export const CartProvider = ({ children }) => {
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
-
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem('cart');
   };
 
+  const addActivatedGiftCard = (giftCard) => {
+    const updatedGiftCards = [...activatedGiftCards, giftCard];
+    setActivatedGiftCards(updatedGiftCards);
+    localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
+  };
+
+  const removeActivatedGiftCard = (giftCardId) => {
+    const updatedGiftCards = activatedGiftCards.filter(gc => gc.id !== giftCardId);
+    setActivatedGiftCards(updatedGiftCards);
+    localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
+  };
+  
+  const useGiftCardForPayment = (giftCardId) => {
+    // Marquer la carte cadeau comme utilisée pour le paiement
+    const updatedGiftCards = activatedGiftCards.map(gc => 
+      gc.id === giftCardId ? { ...gc, usedForPayment: true } : gc
+    );
+    setActivatedGiftCards(updatedGiftCards);
+    localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
+  };
+
+  const addGiftCardToCart = (giftCard) => {
+    // Ajouter la carte cadeau au panier avec un prix de 0
+    const cartItem = {
+      id: giftCard.id,
+      name: giftCard.giftCardType?.name || 'Carte cadeau',
+      type: 'giftcard_usage',
+      price: 0,
+      base_price: 0,
+      quantity: 1,
+      giftCardCode: giftCard.code,
+      originalGiftCard: giftCard
+    };
+    
+    // Supprimer tout autre usage de carte cadeau du panier
+    const filteredCart = cart.filter(item => item.type !== 'giftcard_usage');
+    const updatedCart = [...filteredCart, cartItem];
+    
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+  const validateGiftCardInCart = async () => {
+    // Vérifier si une carte cadeau dans le panier est toujours valide
+    const giftCardItem = cart.find(item => item.type === 'giftcard_usage');
+    if (!giftCardItem) return true;
+
+    try {
+      const { fetchData } = await import('../api');
+      const response = await fetchData('/my-gift-cards');
+      const dbGiftCards = response.giftCards || [];
+      
+      // Vérifier si la carte est toujours valide et activée par l'utilisateur connecté
+      const validCard = dbGiftCards.find(dbCard => 
+        dbCard.code === giftCardItem.giftCardCode && !dbCard.used_at
+      );
+      
+      if (!validCard) {
+        // Supprimer la carte invalide du panier
+        const filteredCart = cart.filter(item => item.type !== 'giftcard_usage');
+        setCart(filteredCart);
+        localStorage.setItem('cart', JSON.stringify(filteredCart));
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la validation de la carte cadeau:', error);
+      return true; // En cas d'erreur, on laisse passer
+    }
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ 
+      cart, 
+      addToCart, 
+      removeFromCart, 
+      clearCart,
+      activatedGiftCards,
+      addActivatedGiftCard,
+      removeActivatedGiftCard,
+      useGiftCardForPayment,
+      addGiftCardToCart,
+      validateGiftCardInCart
+    }}>
       {children}
     </CartContext.Provider>
   );
