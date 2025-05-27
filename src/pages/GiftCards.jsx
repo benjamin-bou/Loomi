@@ -7,6 +7,7 @@ import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import MainButton from "../components/addOns/MainButton";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
+import { useCart } from '../context/CartContext';
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
@@ -39,6 +40,7 @@ function PrevArrow(props) {
 export default function GiftCards() {
   const [giftCards, setGiftCards] = useState([]);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
 
   var settings = {
     className: "center",
@@ -130,7 +132,7 @@ export default function GiftCards() {
                       <MainButton
                         text="Ajouter au panier"
                         className="w-full max-w-xs mt-2"
-                        onClick={() => { console.log(`Ajout ${giftCard.name} au panier`); }}
+                        onClick={() => { addToCart({ ...giftCard, type: 'giftcard' }); }}
                       />
                     </div>
                   </div>
@@ -144,7 +146,7 @@ export default function GiftCards() {
                     <MainButton
                       text="Ajouter au panier"
                       className="w-full max-w-xs mt-2"
-                      onClick={() => { console.log(`Ajout ${giftCard.name} au panier`); }}
+                      onClick={() => { addToCart({ ...giftCard, type: 'giftcard' }); }}
                     />
                   </div>
                 )

@@ -11,15 +11,15 @@ function Login({ onShowRegister, onClose, onShowForgot, onLoginSuccess }) {
     e.preventDefault();
     try {
       const data = await postData("/login", { email, password });
-      if (data.access_token === true) {
+      if (!data.access_token || typeof data.access_token !== 'string') {
         throw new Error("Le token d'accès est invalide.");
       }
       localStorage.setItem("token", data.access_token);
-      window.location.reload();
       if (onClose) onClose();
       if (typeof onLoginSuccess === 'function') onLoginSuccess();
       setEmail("");
       setPassword("");
+      window.location.reload();
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || err.message || "Une erreur est survenue.";

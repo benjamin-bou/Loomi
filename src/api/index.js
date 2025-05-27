@@ -75,7 +75,7 @@ apiClient.interceptors.response.use(
                 processQueue(err, null);
                 // Option : déconnexion forcée (ex: redirect login)
                 localStorage.removeItem('token');
-                window.location.href = '/';
+                // window.location.href = '/';
                 return Promise.reject(err);
             } finally {
                 isRefreshing = false;

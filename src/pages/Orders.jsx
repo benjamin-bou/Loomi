@@ -8,6 +8,7 @@ export default function Orders() {
     useEffect(() => {
         const fetchOrders = async () => {
             const data = await fetchData("/orders");
+            console.log(data);
             setOrders(data.orders);
             setUser(data.user);
         };
