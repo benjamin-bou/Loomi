@@ -48,7 +48,7 @@ function App() {
         <Route path="/boxes/:id" element={<BoxDetails setShowCart={setShowCart} />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/subscriptions/:id" element={<SubscriptionDetails setShowCart={setShowCart} />} />
-        <Route path="/gift-cards" element={<GiftCards setShowCart={setShowCart} />} />
+        <Route path="/gift-cards" element={<GiftCards setShowCart={setShowCart} setShowLogin={setShowLogin} />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path='/blog/:id' element={<ArticlePage />} />
@@ -60,7 +60,7 @@ function App() {
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />        
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
         <Route path="/profile/favorites" element={<PrivateRoute roleRequired="user"><Favorites /></PrivateRoute>} />
-        <Route path="/profile/gift-cards" element={<PrivateRoute roleRequired="user"><MyGiftCardsPage /></PrivateRoute>} />
+        <Route path="/profile/gift-cards" element={<PrivateRoute roleRequired="user"><MyGiftCardsPage setShowLogin={setShowLogin} /></PrivateRoute>} />
         <Route path="/profile/informations" element={<PrivateRoute roleRequired="user"><Informations /></PrivateRoute>} />
 
         {/* Admin routes */}

@@ -38,10 +38,11 @@ function PrevArrow(props) {
   );
 }
 
-export default function GiftCards({ setShowCart }) {
+export default function GiftCards({ setShowCart, setShowLogin }) {
   const [giftCards, setGiftCards] = useState([]);
   const [error, setError] = useState(null);
   const [showActivation, setShowActivation] = useState(false);
+  const [user, setUser] = useState(null);
   const { addToCart, addActivatedGiftCard } = useCart();
 
   var settings = {
@@ -80,7 +81,6 @@ export default function GiftCards({ setShowCart }) {
     addActivatedGiftCard(giftCard);
     // Optionnel: afficher une notification de succès
   };
-
   useEffect(() => {
       fetchData("/gift-cards")
         .then(data => {
@@ -92,6 +92,16 @@ export default function GiftCards({ setShowCart }) {
           setError("Une erreur est survenue lors du chargement des boîtes.");
         });
     }, []);
+
+  useEffect(() => {
+    // Récupérer les informations de l'utilisateur si connecté
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchData('/profile')
+        .then(data => setUser(data))
+        .catch(() => setUser(null));
+    }
+  }, []);
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
@@ -194,11 +204,12 @@ export default function GiftCards({ setShowCart }) {
           </div>        
           </section>
       </div>
-      
-      {showActivation && (
+        {showActivation && (
         <GiftCardActivation
           onClose={() => setShowActivation(false)}
           onActivationSuccess={handleActivationSuccess}
+          user={user}
+          setShowLogin={setShowLogin}
         />
       )}
     </div>

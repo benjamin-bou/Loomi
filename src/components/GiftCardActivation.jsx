@@ -3,7 +3,7 @@ import { postData } from '../api';
 import MainButton from './addOns/MainButton';
 import { useNavigate } from 'react-router-dom';
 
-export default function GiftCardActivation({ onClose, onActivationSuccess }) {
+export default function GiftCardActivation({ onClose, onActivationSuccess, user, setShowLogin }) {
   const navigate = useNavigate();
   const [giftCardCode, setGiftCardCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,6 +11,12 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
   const [success, setSuccess] = useState('');
 
   const handleActivation = async () => {
+    // Vérifier si l'utilisateur est connecté
+    if (!user || !user.id) {
+      setError('Vous devez être connecté pour activer une carte cadeau');
+      return;
+    }
+
     if (!giftCardCode.trim()) {
       setError('Veuillez saisir un code de carte cadeau');
       return;
@@ -43,7 +49,9 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
         const status = error.response.status;
         const backendMessage = error.response.data?.message;
         
-        if (status === 404) {
+        if (status === 401) {
+          setError('Vous devez être connecté pour activer une carte cadeau');
+        } else if (status === 404) {
           setError('Code de carte cadeau invalide ou non trouvé. Vérifiez le code saisi.');
         } else if (status === 400) {
           setError(backendMessage || 'Carte cadeau invalide ou déjà utilisée');
@@ -56,6 +64,13 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleShowLogin = () => {
+    if (setShowLogin) {
+      onClose(); // Fermer ce modal
+      setShowLogin(true); // Ouvrir le modal de connexion
     }
   };
 
@@ -88,13 +103,37 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-        </div>
-
-        {success ? (
+        </div>        {success ? (
           <div className="text-center">
             <div className="text-green-500 text-lg mb-4">✓ {success}</div>
           </div>
+        ) : !user || !user.id ? (
+          // Affichage si l'utilisateur n'est pas connecté
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="text-6xl mb-4">🔒</div>
+              <h3 className="text-xl font-medium mb-4">Connexion requise</h3>
+              <p className="text-gray-600 mb-6">
+                Vous devez être connecté pour activer une carte cadeau.
+              </p>
+            </div>
+            
+            <div className="flex gap-4">
+              <button
+                onClick={onClose}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
+              >
+                Annuler
+              </button>
+              <MainButton
+                text="Se connecter"
+                onClick={handleShowLogin}
+                className="flex-1"
+              />
+            </div>
+          </div>
         ) : (
+          // Formulaire d'activation si l'utilisateur est connecté
           <>
             <div className="mb-6">
               <label className="block text-sm font-medium mb-2">
@@ -118,9 +157,7 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
                   <span className="text-red-700 text-sm">{error}</span>
                 </div>
               </div>
-            )}
-
-            <div className="flex gap-4">
+            )}            <div className="flex gap-4">
               <button
                 onClick={onClose}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
@@ -131,7 +168,7 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
               <MainButton
                 text={loading ? "Activation..." : "Activer"}
                 onClick={handleActivation}
-                disabled={loading || !giftCardCode.trim()}
+                                disabled={loading || !giftCardCode.trim()}
                 className="flex-1"
               />
             </div>
