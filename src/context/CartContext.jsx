@@ -25,13 +25,28 @@ export const CartProvider = ({ children }) => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };
-
-  const removeFromCart = (id, removeAll = false) => {
+  };  const removeFromCart = (id, removeAll = false) => {
     let updatedCart;
 
     if (removeAll) {
-      updatedCart = cart.filter((item) => item.id !== id);
+      // Trouver l'item à supprimer
+      const itemToRemove = cart.find(item => item.id === id);
+      
+      // Si c'est une carte cadeau, supprimer aussi les items reliés
+      if (itemToRemove && itemToRemove.type === 'giftcard_usage') {
+        const relatedItems = cart.filter(item => 
+          item.giftCardCode === itemToRemove.giftCardCode && 
+          (item.type === 'subscription' || item.type === 'box') && 
+          item.paidWithGiftCard
+        );
+        // Supprimer la carte cadeau et tous les items reliés
+        updatedCart = cart.filter((item) => 
+          item.id !== id && 
+          !relatedItems.some(relatedItem => relatedItem.id === item.id)
+        );
+      } else {
+        updatedCart = cart.filter((item) => item.id !== id);
+      }
     } else {
       updatedCart = cart.map((item) => {
         if (item.id === id) {
@@ -43,9 +58,7 @@ export const CartProvider = ({ children }) => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };
-
-  const clearCart = () => {
+  };  const clearCart = () => {
     setCart([]);
     localStorage.removeItem('cart');
   };
@@ -69,8 +82,7 @@ export const CartProvider = ({ children }) => {
     );
     setActivatedGiftCards(updatedGiftCards);
     localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
-  };
-  const addGiftCardToCart = (giftCard, selectedBox = null) => {
+  };  const addGiftCardToCart = (giftCard, selectedBox = null) => {
     // Ajouter la carte cadeau au panier avec un prix de 0
     const cartItem = {
       id: giftCard.id,
@@ -134,9 +146,7 @@ export const CartProvider = ({ children }) => {
       console.error('Erreur lors de la validation de la carte cadeau:', error);
       return true; // En cas d'erreur, on laisse passer
     }
-  };
-
-  return (
+  };  return (
     <CartContext.Provider value={{ 
       cart, 
       addToCart, 

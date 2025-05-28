@@ -78,14 +78,18 @@ function OrderPage({ setShowLogin }) {
 
       const response = await postData('/order', paymentData);
       
-      if (response.success) {
-        // Préparer les données pour la page de félicitations
+      if (response.success) {        // Préparer les données pour la page de félicitations
         const orderData = {
           id: response.order_id,
           items: cart,          total: orderSummary
             .filter(item => item.type !== 'giftcard_usage')
             .filter(item => !(item.type === 'box' && item.paidWithGiftCard)) // Exclure les boxes payées avec carte cadeau
-            .reduce((sum, item) => sum + (item.price || item.base_price) * item.quantity, 0)
+            .filter(item => !(item.type === 'subscription' && item.paidWithGiftCard)) // Exclure les abonnements payés avec carte cadeau
+            .reduce((sum, item) => {
+              const price = item.price || item.base_price || 0;
+              const quantity = item.quantity || 1;
+              return sum + (price * quantity);
+            }, 0)
             .toFixed(2),
           created_at: new Date().toISOString(),
           payment_method: isGiftCardPayment ? 'gift_card' : selectedPayment
@@ -196,15 +200,24 @@ function OrderPage({ setShowLogin }) {
                             </div>
                           </div>
                         )}
+                        {item.type === 'subscription' && item.paidWithGiftCard && (
+                          <div className="text-sm text-green-600 mt-1 font-medium">
+                            🎁 Abonnement offert avec votre carte cadeau
+                            <div className="text-xs text-green-500 mt-1">
+                              "{item.name}" - Prix original: {item.originalPrice || item.price}€
+                            </div>
+                          </div>
+                        )}
                         {item.type === 'box' && !item.paidWithGiftCard && !isGiftCardPayment && (
                           <div className="text-sm text-gray-600 mt-1">
                             📦 Box achetée
                           </div>
                         )}
-                      </div>                      <div className="text-right ml-4">                        <div className={`font-medium ${item.type === 'giftcard_usage' ? 'text-green-600' : (item.type === 'box' && item.paidWithGiftCard) ? 'text-green-600' : 'text-gray-700'}`}>
+                      </div>                      <div className="text-right ml-4">                        <div className={`font-medium ${item.type === 'giftcard_usage' ? 'text-green-600' : (item.type === 'box' && item.paidWithGiftCard) ? 'text-green-600' : (item.type === 'subscription' && item.paidWithGiftCard) ? 'text-green-600' : 'text-gray-700'}`}>
                           {item.type === 'giftcard_usage' ? 'Gratuit' : 
                            (item.type === 'box' && item.paidWithGiftCard) ? 'Offert' :
-                           `${Number((item.price || item.base_price) * item.quantity).toFixed(2)} €`}
+                           (item.type === 'subscription' && item.paidWithGiftCard) ? 'Offert' :
+                           `${((item.price || item.base_price || 0) * (item.quantity || 1)).toFixed(2)} €`}
                         </div>
                         <div className="text-sm text-gray-500">
                           Quantité: {item.quantity}
@@ -213,10 +226,16 @@ function OrderPage({ setShowLogin }) {
                     </div>
                   </li>
                 ))}
-              </ul>              <div className="absolute right-8 bottom-8 text-xl font-bold">                Total : {orderSummary
+              </ul>                <div className="absolute right-8 bottom-8 text-xl font-bold">                
+                Total : {orderSummary
                   .filter(item => item.type !== 'giftcard_usage')
                   .filter(item => !(item.type === 'box' && item.paidWithGiftCard)) // Exclure les boxes payées avec carte cadeau
-                  .reduce((sum, item) => sum + (item.price || item.base_price) * item.quantity, 0)
+                  .filter(item => !(item.type === 'subscription' && item.paidWithGiftCard)) // Exclure les abonnements payés avec carte cadeau
+                  .reduce((sum, item) => {
+                    const price = item.price || item.base_price || 0;
+                    const quantity = item.quantity || 1;
+                    return sum + (price * quantity);
+                  }, 0)
                   .toFixed(2)} €
               </div>
             </>

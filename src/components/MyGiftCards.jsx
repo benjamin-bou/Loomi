@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../api';
 import { useCart } from '../context/CartContext';
 import BoxSelectionForGiftCard from './BoxSelectionForGiftCard';
@@ -9,14 +10,16 @@ export default function MyGiftCards() {
   const [error, setError] = useState('');
   const [showBoxSelection, setShowBoxSelection] = useState(false);
   const [selectedGiftCard, setSelectedGiftCard] = useState(null);
-  const { activatedGiftCards, removeActivatedGiftCard } = useCart();useEffect(() => {
+  const { activatedGiftCards, removeActivatedGiftCard, addToCart, addGiftCardToCart, cart } = useCart();
+  const navigate = useNavigate();  useEffect(() => {
     const fetchGiftCards = async () => {
       try {
         setLoading(true);
         // Récupérer les cartes depuis la base de données
         const response = await fetchData('/my-gift-cards');
         const dbGiftCards = response.giftCards || [];
-          // Synchroniser avec le localStorage
+        
+        // Synchroniser avec le localStorage
         const localGiftCards = activatedGiftCards || [];
         
         // Supprimer les cartes invalides du localStorage
@@ -41,11 +44,83 @@ export default function MyGiftCards() {
     };
 
     fetchGiftCards();
-  }, [activatedGiftCards, removeActivatedGiftCard]);
-  const handleUseGiftCard = (giftCard) => {
-    // Ouvrir le modal de sélection de box
-    setSelectedGiftCard(giftCard);
-    setShowBoxSelection(true);
+  }, [activatedGiftCards, removeActivatedGiftCard]);const handleUseGiftCard = (giftCard) => {
+    // Vérifier le type de carte cadeau pour déterminer l'action appropriée
+    const giftCardTypeName = giftCard.giftCardType?.name;
+    
+    if (giftCardTypeName === '1 BOX') {
+      // Pour les cartes "1 BOX", ouvrir le modal de sélection de box
+      setSelectedGiftCard(giftCard);
+      setShowBoxSelection(true);
+    } else if (giftCardTypeName?.includes('ABONNEMENT')) {      // Pour les cartes d'abonnement, mapper vers le bon type d'abonnement et ajouter au panier
+      const subscriptionMapping = {
+        'ABONNEMENT DE 3 MOIS': {
+          id: 1, // Abonnement mensuel limité à 3 mois
+          name: 'Abonnement mensuel - 3 mois',
+          label: 'Abonnement mensuel',
+          description: 'Abonnement mensuel pour 3 mois (3 x 40€)',
+          price: 120.00, // 3 mois × 40€
+          recurrence: 'monthly',
+          duration: 3
+        },
+        'ABONNEMENT DE 6 MOIS': {
+          id: 1, // Abonnement mensuel pour 6 mois
+          name: 'Abonnement mensuel - 6 mois',
+          label: 'Abonnement mensuel',
+          description: 'Abonnement mensuel pour 6 mois (6 x 40€)',
+          price: 240.00, // 6 mois × 40€
+          recurrence: 'monthly',
+          duration: 6
+        },
+        'ABONNEMENT DE 1 AN': {
+          id: 1, // Abonnement mensuel pour 1 an
+          name: 'Abonnement mensuel - 1 an',
+          label: 'Abonnement mensuel',
+          description: 'Abonnement mensuel pour 1 an (12 x 40€)',
+          price: 480.00, // 12 mois × 40€
+          recurrence: 'monthly',
+          duration: 12
+        },
+        'ABONNEMENT DE 1 ANS BOX MYSTÈRE': {
+          id: 2, // Abonnement mystère pour 1 an
+          name: 'Abonnement mystère - 1 an',
+          label: 'Abonnement mystère',
+          description: 'Abonnement mystère pour 1 an (4 x 33.21€)',
+          price: 132.84, // 4 trimestres × 33.21€
+          recurrence: 'quarterly',
+          duration: 12
+        }
+      };
+
+      const mappedSubscription = subscriptionMapping[giftCardTypeName];      if (mappedSubscription) {
+        // Ajouter la carte cadeau d'usage au panier (sans la marquer comme utilisée)
+        addGiftCardToCart(giftCard);
+        
+        // Ajouter l'abonnement au panier avec prix à 0 (payé par carte cadeau)
+        const subscriptionItem = {
+          ...mappedSubscription,
+          type: 'subscription',
+          quantity: 1,
+          price: 0, // Prix à 0 car payé avec carte cadeau
+          originalPrice: mappedSubscription.price, // Garder le prix original pour référence
+          paidWithGiftCard: true,
+          giftCardCode: giftCard.code
+        };
+        
+        addToCart(subscriptionItem);
+        
+        // Rediriger vers la page de commande
+        navigate('/order');
+      } else {
+        console.error('Type de carte cadeau d\'abonnement non reconnu:', giftCardTypeName);
+        // En cas d'erreur, rediriger vers les abonnements
+        navigate('/subscriptions');
+      }
+    } else {
+      // Pour les autres types, comportement par défaut (ouverture de la modal)
+      setSelectedGiftCard(giftCard);
+      setShowBoxSelection(true);
+    }
   };
   if (loading) {
     return (
@@ -80,13 +155,18 @@ export default function MyGiftCards() {
           <p className="text-lg">Aucune carte cadeau activée</p>
           <p className="text-sm mt-2">Activez vos cartes cadeaux pour les voir ici</p>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {myGiftCards.map((giftCard) => (
+      ) : (        <div className="space-y-4">
+          {myGiftCards.map((giftCard) => {
+            // Vérifier si cette carte est actuellement dans le panier
+            const isInCart = cart.some(item => 
+              item.type === 'giftcard_usage' && item.giftCardCode === giftCard.code
+            );
+            
+            return (
             <div 
               key={giftCard.id} 
               className={`border rounded-lg p-4 ${
-                giftCard.usedForPayment || giftCard.used_at 
+                isInCart || giftCard.used_at 
                   ? 'bg-gray-50 border-gray-200' 
                   : 'bg-green-50 border-green-200'
               }`}
@@ -104,8 +184,13 @@ export default function MyGiftCards() {
                       Expire le: {new Date(giftCard.expiration_date).toLocaleDateString('fr-FR')}
                     </div>
                   )}
-                </div>                <div className="text-right">
-                  {giftCard.usedForPayment || giftCard.used_at ? (
+                </div>
+                <div className="text-right">
+                  {isInCart ? (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      Dans le panier
+                    </span>
+                  ) : giftCard.used_at ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                       Utilisée
                     </span>
@@ -130,7 +215,8 @@ export default function MyGiftCards() {
                   {giftCard.giftCardType.description}
                 </div>
               )}
-            </div>          ))}
+            </div>
+          )})}
         </div>
       )}
 
