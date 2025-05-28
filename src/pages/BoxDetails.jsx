@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
+import BoxDetailsSkeleton from "../components/BoxDetailsSkeleton";
 
 function BoxPage({ setShowCart }) {
   const { id } = useParams();
   const [box, setBox] = useState(null);
   const [relatedBoxes, setRelatedBoxes] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedLoading, setRelatedLoading] = useState(true);
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
@@ -31,17 +34,21 @@ function BoxPage({ setShowCart }) {
       content: box?.delivery || "Ici s'affichent les informations de livraison et de retour."
     }
   ];
-
   useEffect(() => {
+    setLoading(true);
     fetchData(`/boxes/${id}`)
       .then(data => { setBox(data)})
       .catch(err => {
         console.error(err);
         setError("Une erreur est survenue lors du chargement des détails de la boîte.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [id]);
 
   useEffect(() => {
+    setRelatedLoading(true);
     fetchData(`/boxes`)
       .then(data => setRelatedBoxes(
       data.filter(b => b.id !== parseInt(id)).slice(0, 4)
@@ -49,9 +56,11 @@ function BoxPage({ setShowCart }) {
       .catch(err => {
       console.error(err);
       setError("Une erreur est survenue lors du chargement des boîtes suggérées.");
+      })
+      .finally(() => {
+        setRelatedLoading(false);
       });
   }, [id]);
-
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
@@ -60,12 +69,8 @@ function BoxPage({ setShowCart }) {
     );
   }
 
-  if (!box) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
-        <p className="text-lg text-[#5B2B95]">Chargement...</p>
-      </div>
-    );
+  if (loading) {
+    return <BoxDetailsSkeleton />;
   }
 
   return (
@@ -148,24 +153,28 @@ function BoxPage({ setShowCart }) {
       </div>
 
       </div>
-
-        {/* Suggestions */}
-        {relatedBoxes.length > 0 && (
-          <div className="p-[50px] mx-auto">
-            <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
+        <div className="p-[50px] mx-auto">
+          <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
+          {relatedLoading ? (
+            <div className="flex justify-between gap-4 w-full">
+              {Array(4).fill(0).map((_, index) => (
+                <div key={index} className="w-full h-96 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-4xl"></div>
+              ))}
+            </div>
+          ) : relatedBoxes.length > 0 ? (
             <div className="flex justify-between gap-4 w-full">
               {relatedBoxes.map((related, index) => (
-                <div key={index} onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
+                <div key={index} onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl cursor-pointer">
                   {/* <img
                     src={`/images/${related.image}`}
                     alt={related.name}
                     className="rounded-xl mb-4 w-full h-48 object-cover"
                   /> */}
-                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : null}
+        </div>
       {/* Newsletter */}
       <Newsletter />
     </div>
