@@ -4,11 +4,13 @@ import Newsletter from "../components/Newsletter";
 import filterIcon from "/images/picto/filter.svg";
 import { useNavigate } from "react-router-dom";
 import BoxCard from "../components/BoxCard";
+import BoxCardSkeleton from "../components/BoxCardSkeleton";
 
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState('ALL');
   const navigate = useNavigate();
@@ -20,8 +22,8 @@ function BoxesList() {
   };
 
   const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category.short_name.toLowerCase() === filter.toLowerCase());
-
   useEffect(() => {
+    setLoading(true);
     fetchData("/boxes")
       .then(data => {
         setBoxes(data);
@@ -29,21 +31,15 @@ function BoxesList() {
       .catch(error => {
         console.error("Error fetching boxes:", error);
         setError("Une erreur est survenue lors du chargement des boîtes.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
-
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
         <p className="text-lg text-[#FA5D5D]">{error}</p>
-      </div>
-    );
-  }
-
-  if (!boxes) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
-        <p className="text-lg text-[#5B2B95]">Chargement...</p>
       </div>
     );
   }
@@ -67,15 +63,34 @@ function BoxesList() {
         <button className={`border rounded-2xl px-3 py-2 min-w-[180px] cursor-pointer ${filter === 'DIY' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('DIY')}>
           Box DIY
         </button>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-6 mx-auto">
-        {filteredBoxes.length === 0 && (
+      </div>      <div className="flex flex-wrap justify-center gap-6 mx-auto max-w-[1470px]">
+        {loading && (
+          // Affichage des skeletons pendant le chargement
+          <>
+            {Array(6).fill(0).map((_, index) => (
+              <React.Fragment key={`skeleton-${index}`}>
+                <BoxCardSkeleton />
+                {index === 1 && (
+                  <>
+                    <div className="w-[710px] h-[380px] min-w-[580px] max-w-[580px] flex items-center justify-center">
+                      <div className="w-full h-full bg-gray-200 rounded-4xl animate-pulse"></div>
+                    </div>
+                    {/* Forcer un saut de ligne après l'image */}
+                    <div className="w-full"></div>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </>
+        )}
+        
+        {!loading && filteredBoxes.length === 0 && (
           <div className="flex flex-col items-center justify-center w-full h-[300px]">
             <p className="text-lg text-[#FA5D5D]">Aucune boîte trouvée pour ce filtre.</p>
           </div>
         )}
-        {filteredBoxes.length > 0 && filteredBoxes.map((box, idx) => (
+        
+        {!loading && filteredBoxes.length > 0 && filteredBoxes.map((box, idx) => (
           <React.Fragment key={box.id}>
             <BoxCard
               box={box}
@@ -84,9 +99,13 @@ function BoxesList() {
               onClick={() => navigate(`/boxes/${box.id}`)}
             />
             {idx === 1 && (
-              <div className="w-[710px] h-[380px] min-w-[580px] max-w-[580px] flex items-center justify-center">
-                <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-4xl object-cover" alt="spéciale" />
-              </div>
+              <>
+                <div className="w-[710px] h-[380px] min-w-[580px] max-w-[580px] flex items-center justify-center">
+                  <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-4xl object-cover" alt="spéciale" />
+                </div>
+                {/* Forcer un saut de ligne après l'image */}
+                <div className="w-full"></div>
+              </>
             )}
           </React.Fragment>
         ))}

@@ -81,3 +81,25 @@ h3 {
     width: 100%;
     left: 50%;
 }
+
+/* Animation shimmer pour les skeletons de chargement */
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Animation shimmer pour les skeletons de chargement */
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
