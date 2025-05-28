@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import OrderCard from "../components/OrderCard";
+import OrdersSkeleton from "../components/OrdersSkeleton";
 
 export default function Orders() {
     const [orders, setOrders] = useState([]);
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
+    
     useEffect(() => {
         const fetchOrders = async () => {
-            const data = await fetchData("/orders");
-            console.log(data);
-            setOrders(data.orders);
-            setUser(data.user);
+            setLoading(true);
+            try {
+                const data = await fetchData("/orders");
+                console.log(data);
+                setOrders(data.orders);
+                setUser(data.user);
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchOrders();
     }, []);
@@ -34,18 +44,20 @@ export default function Orders() {
           />
     
           {/* Titre */}
-          <h1 className="relative z-10 mb-8">Mes commandes</h1>
-    
-          {/* Liste de commandes */}
-          <div className="flex flex-col gap-10 relative z-10 w-[85%]">
-            {orders.length === 0 ? (
-                <div className="text-center text-gray-500">Aucune commande trouvée.</div>
-            ) : (
-                orders.map((order) => (
-                    <OrderCard key={order.id} order={order} user={user} />
-                ))
-            )}
-          </div>
+          <h1 className="relative z-10 mb-8">Mes commandes</h1>          {/* Liste de commandes */}
+          {loading ? (
+            <OrdersSkeleton />
+          ) : (
+            <div className="flex flex-col gap-10 relative z-10 w-[85%]">
+              {orders.length === 0 ? (
+                  <div className="text-center text-gray-500">Aucune commande trouvée.</div>
+              ) : (
+                  orders.map((order) => (
+                      <OrderCard key={order.id} order={order} user={user} />
+                  ))
+              )}
+            </div>
+          )}
         </div>
       );
 }
