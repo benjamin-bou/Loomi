@@ -60,10 +60,21 @@ function OrderPage({ setShowLogin }) {
     try {
       if (!orderSummary || orderSummary.length === 0) return;
       
+      // Récupérer la carte cadeau utilisée s'il y en a une
+      const giftCardItem = cart.find(item => item.type === 'giftcard_usage');
+      const hasNonFreeItems = cart.some(item => 
+        item.type !== 'giftcard_usage' && 
+        !(item.type === 'box' && item.paidWithGiftCard) &&
+        (item.price || item.base_price) > 0
+      );
+      
       const paymentData = {
         items: cart,
-        payment_method: isGiftCardPayment ? null : selectedPayment,
+        payment_method: hasNonFreeItems ? selectedPayment : null,
+        gift_card_id: giftCardItem?.originalGiftCard?.id || null,
       };
+
+      console.log('Données envoyées au backend:', paymentData);
 
       const response = await postData('/order', paymentData);
       
@@ -89,6 +100,7 @@ function OrderPage({ setShowLogin }) {
         navigate('/order-success');
       } else {
         setError("Erreur lors du paiement. Veuillez réessayer.");
+        console.log('Erreur de paiement:', response.error);
       }
     } catch (error) {
       console.error('Erreur lors du paiement:', error);
