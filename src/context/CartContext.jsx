@@ -70,8 +70,7 @@ export const CartProvider = ({ children }) => {
     setActivatedGiftCards(updatedGiftCards);
     localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
   };
-
-  const addGiftCardToCart = (giftCard) => {
+  const addGiftCardToCart = (giftCard, selectedBox = null) => {
     // Ajouter la carte cadeau au panier avec un prix de 0
     const cartItem = {
       id: giftCard.id,
@@ -86,7 +85,22 @@ export const CartProvider = ({ children }) => {
     
     // Supprimer tout autre usage de carte cadeau du panier
     const filteredCart = cart.filter(item => item.type !== 'giftcard_usage');
-    const updatedCart = [...filteredCart, cartItem];
+    
+    let updatedCart = [...filteredCart, cartItem];
+    
+    // Si une box est sélectionnée, l'ajouter aussi
+    if (selectedBox) {
+      const boxItem = {
+        ...selectedBox,
+        type: 'box',
+        quantity: 1,
+        paidWithGiftCard: true,
+        giftCardCode: giftCard.code,
+        price: 0, // Prix à 0 car payé avec carte cadeau
+        originalPrice: selectedBox.price || selectedBox.base_price // Garder le prix original pour référence
+      };
+      updatedCart.push(boxItem);
+    }
     
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));

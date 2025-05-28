@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { postData } from '../api';
 import MainButton from './addOns/MainButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function GiftCardActivation({ onClose, onActivationSuccess }) {
+  const navigate = useNavigate();
   const [giftCardCode, setGiftCardCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,6 +34,7 @@ export default function GiftCardActivation({ onClose, onActivationSuccess }) {
       // Fermer automatiquement après 2 secondes
       setTimeout(() => {
         onClose();
+        navigate('/profile/gift-cards')
       }, 2000);    } catch (error) {
       console.error('Erreur activation carte cadeau:', error);
       

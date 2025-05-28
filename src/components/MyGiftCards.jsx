@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../api';
 import { useCart } from '../context/CartContext';
+import BoxSelectionForGiftCard from './BoxSelectionForGiftCard';
 
 export default function MyGiftCards() {
   const [myGiftCards, setMyGiftCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const { activatedGiftCards, addGiftCardToCart, removeActivatedGiftCard } = useCart();  useEffect(() => {
+  const [showBoxSelection, setShowBoxSelection] = useState(false);
+  const [selectedGiftCard, setSelectedGiftCard] = useState(null);
+  const { activatedGiftCards, removeActivatedGiftCard } = useCart();useEffect(() => {
     const fetchGiftCards = async () => {
       try {
         setLoading(true);
@@ -41,12 +42,10 @@ export default function MyGiftCards() {
 
     fetchGiftCards();
   }, [activatedGiftCards, removeActivatedGiftCard]);
-
   const handleUseGiftCard = (giftCard) => {
-    // Ajouter la carte au panier avec prix 0
-    addGiftCardToCart(giftCard);
-    // Rediriger vers la page de commande
-    navigate('/order');
+    // Ouvrir le modal de sélection de box
+    setSelectedGiftCard(giftCard);
+    setShowBoxSelection(true);
   };
   if (loading) {
     return (
@@ -131,9 +130,19 @@ export default function MyGiftCards() {
                   {giftCard.giftCardType.description}
                 </div>
               )}
-            </div>
-          ))}
+            </div>          ))}
         </div>
+      )}
+
+      {/* Modal de sélection de box */}
+      {showBoxSelection && selectedGiftCard && (
+        <BoxSelectionForGiftCard
+          giftCard={selectedGiftCard}
+          onClose={() => {
+            setShowBoxSelection(false);
+            setSelectedGiftCard(null);
+          }}
+        />
       )}
     </div>
   );
