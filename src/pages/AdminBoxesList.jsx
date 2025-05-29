@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from './api';
+import api from '../api';
 
 const AdminBoxesList = () => {
     const [boxes, setBoxes] = useState([]);
@@ -15,18 +15,6 @@ const AdminBoxesList = () => {
                     navigate('/');
                     return;
                 }
-                // try {
-                //     const payload = JSON.parse(atob(token.split('.')[1]));
-                //     console.log('Decoded token:', payload);
-                //     if (payload.role) {
-                //         console.log('User role:', payload.role); // affiche le rôle de l'utilisateur
-                //     } else {
-                //         console.error('Role not found in token payload');
-                //     }
-                // } catch (e) {
-                //     console.error('Failed to decode token', e);
-                // }
-
                 const response = await api.get('/admin/boxes', {
                     headers: { Authorization: `Bearer ${token}` },
                 });

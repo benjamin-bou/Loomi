@@ -1,37 +1,50 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Login from "../Login";
 import search from "/images/picto/search.svg";
 import user from "/images/picto/user.svg";
 import shoppingCart from "/images/picto/shopping-cart.svg";
+import favorite from "/images/picto/favorite.svg";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
+import logo_phase_2 from "/images/picto/logo_phase_2.svg";
+import logo_phase_3 from "/images/picto/logo_phase_3.svg";
 import { getTokenPayload } from "../api";
 import { useEffect } from "react";
-import AuthModal from "./AuthModal";
-import CartModal from "./CartModal";
 import { useCart } from '../context/CartContext';
 
-const MainHeader = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+const MainHeader = ({ setShowLogin, setShowCart }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const { cart } = useCart();
 
 
   useEffect(() => {
     // Vérifie la présence d'un token dans le localStorage pour déterminer l'authentification
     const token = localStorage.getItem('token');
+    let payload = null;
     if (token) {
-      setIsAuthenticated(true);
-      setUserName(getTokenPayload()?.firstName || "Se connecter");
+      try {
+        payload = getTokenPayload();
+      } catch (e) {
+        console.error("Token invalide ou expiré", e);
+        payload = null;
+      }
     }
-  }, [showLogin]);
+    if (payload) {
+      setIsAuthenticated(true);
+      setUserName(payload.firstName || "Se connecter");
+    } else {
+      setIsAuthenticated(false);
+      setUserName("Se connecter");
+    }
+  }, [setShowLogin]);
 
   const handleUserClick = () => {
-    if (isAuthenticated) {
-      navigate(getTokenPayload().role == "admin" ? "/admin" : "/profile");
+    const payload = getTokenPayload();
+    if (isAuthenticated && payload) {
+      navigate(payload.role === "admin" ? "/admin" : "/profile");
     } else {
       setShowLogin(true);
     }
@@ -40,6 +53,15 @@ const MainHeader = () => {
   const handleCartClick = () => {
       setShowCart(true);
   }
+
+  // Choix du logo selon la route
+  let logoToShow = logo_phase_1;
+  if (["/boxes", "/boxeslist", "/boxdetails", "/subscriptions", "/gift-cards"].some(path => location.pathname.startsWith(path))) {
+    logoToShow = logo_phase_2;
+  } else if (["/profile", "/orders", "/subscription", "/favorites", "/informations"].some(path => location.pathname.startsWith(path))) {
+    logoToShow = logo_phase_3;
+  }
+  // Ajoutez d'autres conditions selon vos besoins
 
   return (
     <header className="w-full">
@@ -57,7 +79,7 @@ const MainHeader = () => {
           </div>
 
           {/* Logo ou image centrale */}
-          <a href="/"><img src={logo_phase_1} alt="logo" className="h-[100px] cursor-pointer select-none" /></a>
+          <a href="/"><img src={logoToShow} alt="logo" className="h-[50px] cursor-pointer select-none" /></a>
 
           {/* Icônes utilisateur et panier */}
           <div className="flex items-center gap-4">
@@ -66,6 +88,12 @@ const MainHeader = () => {
               <p className="font-bold cursor-pointer select-none">{userName || "Se connecter"}</p>
             </div>
             <div className="flex items-center gap-4 relative">
+              <img
+                src={favorite}
+                alt="favorite"
+                className="w-8 h-8 cursor-pointer select-none"
+                onClick={() => navigate("/profile/favorites")}
+              />
               <img
                 src={shoppingCart}
                 onClick={handleCartClick}
@@ -88,24 +116,16 @@ const MainHeader = () => {
       {/* Barre de navigation */}
       <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
         <ul className="flex justify-center gap-12 text-white font-medium">
-          <li><a className="neulis font-light" href="/boxes">Nos box</a></li>
-          <li><a className="neulis font-light" href="/subscriptions">Nos abonnements</a></li>
-          <li><a className="neulis font-light" href="/gift-cards">Cartes cadeaux</a></li>
-          <li><a className="neulis font-light" href="/about">À propos</a></li>
-          <li><a className="neulis font-light" href="/blog">Blog</a></li>
+          <li><a className="neulis font-light nav-underline" href="/boxes">Nos box</a></li>
+          <li><a className="neulis font-light nav-underline" href="/subscriptions">Nos abonnements</a></li>
+          <li><a className="neulis font-light nav-underline" href="/gift-cards">Cartes cadeaux</a></li>
+          <li><a className="neulis font-light nav-underline" href="/about">À propos</a></li>
+          <li><a className="neulis font-light nav-underline" href="/blog">Blog</a></li>
         </ul>
       </nav>
 
       {/* Bandeau de connexion */}
-        <AuthModal 
-        show={showLogin}
-        setShow={setShowLogin}
-        />
-      {/* Bandeau de panier */}
-        <CartModal 
-        show={showCart} 
-        setShow={setShowCart} 
-        />
+      {/* AuthModal et CartModal sont maintenant dans App.jsx */}
     </header>
   );
 };

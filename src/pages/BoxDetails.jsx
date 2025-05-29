@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchData } from "./api";
-import MainHeader from "./components/MainHeader";
-import { useCart } from './context/CartContext';
+import { fetchData } from "../api";
+import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
-import Newsletter from "./components/Newsletter";
-import Footer from "./components/Footer";
+import Newsletter from "../components/Newsletter";
+import BoxDetailsSkeleton from "../components/BoxDetailsSkeleton";
 
-function BoxPage() {
+function BoxPage({ setShowCart }) {
   const { id } = useParams();
   const [box, setBox] = useState(null);
   const [relatedBoxes, setRelatedBoxes] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedLoading, setRelatedLoading] = useState(true);
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
@@ -33,19 +34,21 @@ function BoxPage() {
       content: box?.delivery || "Ici s'affichent les informations de livraison et de retour."
     }
   ];
-
   useEffect(() => {
+    setLoading(true);
     fetchData(`/boxes/${id}`)
-      .then(data => setBox(data))
+      .then(data => { setBox(data)})
       .catch(err => {
         console.error(err);
         setError("Une erreur est survenue lors du chargement des détails de la boîte.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [id]);
 
-  console.log(box);
-
   useEffect(() => {
+    setRelatedLoading(true);
     fetchData(`/boxes`)
       .then(data => setRelatedBoxes(
       data.filter(b => b.id !== parseInt(id)).slice(0, 4)
@@ -53,9 +56,11 @@ function BoxPage() {
       .catch(err => {
       console.error(err);
       setError("Une erreur est survenue lors du chargement des boîtes suggérées.");
+      })
+      .finally(() => {
+        setRelatedLoading(false);
       });
   }, [id]);
-
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
@@ -64,21 +69,16 @@ function BoxPage() {
     );
   }
 
-  if (!box) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
-        <p className="text-lg text-[#5B2B95]">Chargement...</p>
-      </div>
-    );
+  if (loading) {
+    return <BoxDetailsSkeleton />;
   }
 
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
-      <div className="w-[calc(100vw-100px)] m-[50px]">
+      <div className="w-[calc(100vw-100px)] mx-[50px] py-[50px]">
       {/* Route */}
       <div>
-        <p>Nos box / {box.name}</p>
+        <p><span className="cursor-pointer hover:underline" onClick={() => navigate('/boxes')}>Nos box</span> / {box.name}</p>
       </div>
       {/* Détails principaux */}
       <div className="flex flex-col md:flex-row justify-between mt-4 w-full">
@@ -94,7 +94,7 @@ function BoxPage() {
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
               <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{box.name}</h2>
-              <p className="!text-[18px] text-[#666] mt-1">{box.category}</p>
+              <p className="!text-[18px] text-[#666] mt-1">{box.category?.short_name}</p>
               <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
             </div>
             <img
@@ -111,7 +111,10 @@ function BoxPage() {
           {/* Boutons */}
           <div className="mt-4 flex flex-col gap-5">
             <button
-              onClick={() => addToCart(box)}
+              onClick={() => {
+                addToCart({ ...box, type: 'box' });
+                setShowCart && setShowCart(true);
+              }}
               className="neulis text-[15px] border border-black py-2 rounded-xl hover:text-loomilightpink hover:border-loomilightpink hover:cursor-pointer transition-all duration-300"
             >
               Ajouter au panier
@@ -150,27 +153,30 @@ function BoxPage() {
       </div>
 
       </div>
-
-        {/* Suggestions */}
-        {relatedBoxes.length > 0 && (
-          <div className="p-[50px] mx-auto">
-            <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
+        <div className="p-[50px] mx-auto">
+          <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
+          {relatedLoading ? (
+            <div className="flex justify-between gap-4 w-full">
+              {Array(4).fill(0).map((_, index) => (
+                <div key={index} className="w-full h-96 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-4xl"></div>
+              ))}
+            </div>
+          ) : relatedBoxes.length > 0 ? (
             <div className="flex justify-between gap-4 w-full">
               {relatedBoxes.map((related, index) => (
-                <div key={index} onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
+                <div key={index} onClick={() => navigate(`/boxes/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl cursor-pointer">
                   {/* <img
                     src={`/images/${related.image}`}
                     alt={related.name}
                     className="rounded-xl mb-4 w-full h-48 object-cover"
                   /> */}
-                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : null}
+        </div>
       {/* Newsletter */}
       <Newsletter />
-      <Footer />
     </div>
   );
 }

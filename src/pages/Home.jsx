@@ -1,15 +1,12 @@
-import React from "react";
-import MainHeader from "./components/MainHeader";
 import logo_phase_1 from "/images/picto/logo_phase_1.svg";
-import BoxCarousel from "./components/home/BoxCarousel";
-import Footer from "./components/Footer";
-import Newsletter from "./components/Newsletter";
+import BoxCarousel from "../components/home/BoxCarousel";
+import Newsletter from "../components/Newsletter";
 import { useEffect, useState } from "react";
-import { fetchData } from "./api";
+import { fetchData } from "../api";
 import { useNavigate } from "react-router-dom";
-import SubscriptionsSection from "./components/home/SubscriptionsSection";
-import LoomiHistorySection from "./components/home/LoomiHistorySection";
-import ReviewsSection from "./components/home/ReviewsSection";
+import SubscriptionsSection from "../components/home/SubscriptionsSection";
+import LoomiHistorySection from "../components/home/LoomiHistorySection";
+import ReviewsSection from "../components/home/ReviewsSection";
 
 function App() {
   const [boxes, setBoxes] = useState([]);
@@ -23,9 +20,6 @@ function App() {
 
   return (
     <div className="flex flex-col bg-loomibeige">
-      {/* Navbar */}
-      <MainHeader />
-
       {/* Hero section */}
       <section>
         <div className="bg-[#D9D9D9] text-white py-16 px-6 rounded-[30px] m-4 h-[635px]">
@@ -42,7 +36,7 @@ function App() {
             boxes={boxes}
             slidesToShow={3}
           />
-          <button onClick={() => navigate('/boxes')} className="px-6 py-2 border border-black rounded-xl bg-[#fcf5ef] text-black text-lg hover:bg-black hover:text-white hover:cursor-pointer transition mt-15 mx-auto w-50">
+          <button onClick={() => navigate('/boxes')} className="px-6 py-2 border border-black rounded-xl text-black text-lg hover:cursor-pointer transition mt-15 mx-auto w-50">
             Découvrir
           </button>
         </div>
@@ -53,8 +47,6 @@ function App() {
 
     {/* Newsletter */}
     <Newsletter />
-    {/* Footer */}
-    <Footer />
     </div>
   );
 }

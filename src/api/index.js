@@ -7,6 +7,7 @@ const apiClient = axios.create({
         'Content-Type': 'application/json',
         Accept: 'application/json',
     },
+    withCredentials: true,
 });
 
 // Intercepteur de requêtes pour ajouter le token d'accès dans les en-têtes
@@ -18,12 +19,72 @@ apiClient.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
+    (error) => Promise.reject(error)
+);
+
+// ----------- Ajout de l’intercepteur de réponse pour gérer le refresh -----------
+
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach(prom => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+    failedQueue = [];
+};
+
+apiClient.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                // Pendant le refresh, les autres requêtes en échec attendent
+                return new Promise(function (resolve, reject) {
+                    failedQueue.push({ resolve, reject });
+                }).then(token => {
+                    originalRequest.headers['Authorization'] = 'Bearer ' + token;
+                    return apiClient(originalRequest);
+                }).catch(err => {
+                    return Promise.reject(err);
+                });
+            }
+
+            originalRequest._retry = true;
+            isRefreshing = true;
+
+            try {
+                const res = await axios.post(
+                    import.meta.env.VITE_API_BASE_URL + '/refresh',
+                    {},
+                    { withCredentials: true }
+                );
+                const newToken = res.data.access_token;
+                localStorage.setItem('token', newToken);
+                apiClient.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+                processQueue(null, newToken);
+
+                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                return apiClient(originalRequest);
+            } catch (err) {
+                processQueue(err, null);
+                // Option : déconnexion forcée (ex: redirect login)
+                localStorage.removeItem('token');
+                // window.location.href = '/';
+                return Promise.reject(err);
+            } finally {
+                isRefreshing = false;
+            }
+        }
         return Promise.reject(error);
     }
 );
 
-// requête GET
 export const fetchData = async (endpoint) => {
     try {
         const response = await apiClient.get(endpoint);
@@ -34,7 +95,6 @@ export const fetchData = async (endpoint) => {
     }
 };
 
-// requête POST
 export const postData = async (endpoint, data) => {
     try {
         const response = await apiClient.post(endpoint, data);
@@ -45,7 +105,6 @@ export const postData = async (endpoint, data) => {
     }
 };
 
-// requête PUT
 export const updateBox = async (endpoint, data) => {
     try {
         const response = await apiClient.put(endpoint, data);
@@ -57,15 +116,15 @@ export const updateBox = async (endpoint, data) => {
 };
 
 export function getTokenPayload() {
-  const token = localStorage.getItem('token');
-  if (!token) return null;
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload;
-  } catch (e) {
-    console.error('Failed to decode token', e);
-    return null;
-  }
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload;
+    } catch (e) {
+        console.error('Failed to decode token', e);
+        return null;
+    }
 }
 
 export default apiClient;

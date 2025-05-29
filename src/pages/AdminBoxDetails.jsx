@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchData, updateBox } from "./api";
+import { fetchData, updateBox } from "../api";
 
 function AdminBoxDetails() {
   const { id } = useParams();

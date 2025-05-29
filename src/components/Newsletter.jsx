@@ -5,7 +5,6 @@ const Newsletter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Créer l'envoie d'email")
     setEmail("");
   };
 

@@ -10,8 +10,10 @@ import {
   } from "react-icons/fa";
   import { useEffect, useRef } from "react";
   import logo from "/images/picto/logo_phase_3.svg";
+  import { useNavigate } from "react-router-dom";
   
   const Footer = () => {
+    const navigate = useNavigate();
     const footerRef = useRef(null);
     const logoRef = useRef(null);
   
@@ -72,13 +74,13 @@ import {
             <div>
               <h3 className="font-bold text-lg mb-4">Offres</h3>
               <ul className="space-y-2 text-sm">
-                <li>Nos box</li>
-                <li>Nos abonnements</li>
-                <li>Carte cadeaux</li>
+                <li className="cursor-pointer" onClick={() => { navigate('/boxes'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos box</li>
+                <li className="cursor-pointer" onClick={() => { navigate('/subscriptions'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos abonnements</li>
+                <li className="cursor-pointer" onClick={() => { navigate('/gift-cards'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Carte cadeaux</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold text-lg mb-4">À propos</h3>
+              <h3 className="font-bold text-lg mb-4" onClick={() => { navigate('/about'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>À propos</h3>
               <ul className="space-y-2 text-sm">
                 <li>Notre marque</li>
                 <li>Nos engagements</li>

@@ -1,26 +1,38 @@
-import Footer from "./components/Footer";
-import LoomiSteps from "./components/LoomiSteps";
-import MainHeader from "./components/MainHeader";
-import ReviewsSection from "./components/home/ReviewsSection";
+import { useEffect } from "react";
+import LoomiSteps from "../components/LoomiSteps";
+import ReviewsSection from "../components/home/ReviewsSection";
+import { useNavigate } from "react-router-dom";
+import { fetchData } from "../api";
 
 export default function Subscriptions() {
+  const navigate = useNavigate();
   const abonnements = [
     {
       title: "ABONNEMENT MENSUEL",
       description:
         "Recevez une boîte du catalogue tous les mois afin de découvrir une nouvelle passion",
+      id: 1,
     },
     {
       title: "ABONNEMENT MYSTÈRE",
       description:
         "Recevez une boîte mystère tous les 3 mois (cette boîte ne figurera aux autres box découvertes ensuite.)",
+      id: 2,
     },
   ];
 
-  return (
-    <div className="bg-[#FFF7F0] min-h-screen">
-      <MainHeader />
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      const data = await fetchData("/subscriptions");
+      if (!data) {
+        console.error("Erreur lors du chargement des abonnements.");
+      }
+    };
+    fetchSubscriptions();
+  }, []);
 
+  return (
+    <div className="bg-[#FFF7F0] min-h-screen pb-10">
       <div className="flex flex-col items-center justify-center mx-[50px] mb-32">
         <h2 className="mt-10 mb-20 text-start self-start">Nos abonnements</h2>
 
@@ -45,7 +57,7 @@ export default function Subscriptions() {
               </article>
               <div className="flex flex-col justify-center mb-2 gap-6">
                 <p className="!text-3xl !font-medium">prix € / MOIS</p>
-                <button className="px-4 py-2 border rounded-xl cursor-pointer">
+                <button onClick={() => navigate(`${abonnements[0].id}`)} className="px-4 py-2 border rounded-xl cursor-pointer">
                   S’abonner
                 </button>
               </div>
@@ -86,7 +98,7 @@ export default function Subscriptions() {
               </article>
               <div className="flex flex-col justify-center mb-2 gap-6">
                 <p className="!text-3xl !font-medium">33,21 € / 3 MOIS</p>
-                <button className="px-4 py-2 border rounded-xl cursor-pointer">
+                <button onClick={() => navigate(`${abonnements[1].id}`)} className="px-4 py-2 border rounded-xl cursor-pointer">
                   S’abonner
                 </button>
               </div>
@@ -101,7 +113,6 @@ export default function Subscriptions() {
         {/* Avis */}
         <ReviewsSection />
       </div>
-    <Footer />
     </div>
   );
 }

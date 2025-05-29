@@ -5,12 +5,12 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-function CartModal({ show, setShow, onCheckout }) {
+function CartModal({ show, setShow }) {
   const navigate = useNavigate();
   const { cart, addToCart, removeFromCart } = useCart();
 
   const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + (item.price || item.base_price) * item.quantity,
     0
   );
 
@@ -79,9 +79,10 @@ function CartModal({ show, setShow, onCheckout }) {
                 <li key={idx} className="py-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     {/* <img src={item.image} alt={item.name} className="h-12 w-12 object-cover rounded" /> */}
-                    <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" className='w-20'/>
-                    <div>
-                      <div className="font-semibold">{item.name}</div>
+                    <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" className='w-20'/>                    <div>
+                      <div className="font-semibold">
+                        {item.type === 'giftcard' ? `Carte cadeau - ${item.name}` : item.name}
+                      </div>
                       <div className="text-sm text-gray-500 flex items-center gap-2">
                         <button
                           className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-300"
@@ -101,7 +102,7 @@ function CartModal({ show, setShow, onCheckout }) {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="font-bold">
-                      {(item.price * item.quantity).toFixed(2)} €
+                      {((item.price || item.base_price) * item.quantity).toFixed(2)} €
                     </div>
                     <button
                       className="p-2"
@@ -123,14 +124,20 @@ function CartModal({ show, setShow, onCheckout }) {
               <span>Total</span>
               <span>{total.toFixed(2)} €</span>
             </div>
-            <button
-              className="w-full bg-loomilightpink hover:bg-loomipink cursor-pointer transition duration-300 text-white py-3 rounded font-bold disabled:opacity-50"
-              onClick={onCheckout}
-            >
-              Valider mon panier
-            </button>
+          {/* Bouton valider la commande */}
+          <button
+            className="mt-8 w-full bg-[#DB3D88] text-white py-3 rounded-xl text-lg font-semibold hover:bg-[#b83272] transition cursor-pointer"
+            onClick={() => {
+              setShow(false);
+              navigate('/order');
+            }}
+            disabled={cart.length === 0}
+          >
+            Valider et payer
+          </button>
           </div>
         )}
+
       </div>
     </>
   );
