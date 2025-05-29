@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import Subscription from './pages/Subscription';
 import Favorites from './pages/Favorite';
+import Deliveries from './pages/Deliveries';
 import Informations from './pages/Informations';
 import About from './pages/About';
 import BlogPage from './pages/BlogPage';
@@ -55,11 +56,10 @@ function App() {
         <Route path='/blog/:id' element={<ArticlePage />} />        
         <Route path="/order" element={<OrderPage setShowLogin={setShowLogin} />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
-        <Route path="/profile/favorites" element={<Favorites setShowCart={setShowCart} />} />
-
-        {/* Private routes */}
+        <Route path="/profile/favorites" element={<Favorites setShowCart={setShowCart} />} />        {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />        
+        <Route path="/profile/deliveries" element={<PrivateRoute roleRequired="user"><Deliveries /></PrivateRoute>} />
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
         <Route path="/profile/gift-cards" element={<PrivateRoute roleRequired="user"><MyGiftCardsPage setShowLogin={setShowLogin} /></PrivateRoute>} />
         <Route path="/profile/informations" element={<PrivateRoute roleRequired="user"><Informations /></PrivateRoute>} />
