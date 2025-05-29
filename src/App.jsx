@@ -70,12 +70,10 @@ function App() {
           <Route path="boxes" element={<AdminBoxesList />} />
           <Route path="boxes/:id" element={<AdminBoxDetails />} />
           <Route path="payments" element={<AdminPayments />} />
-        </Route>
-
-        {/* Catch-all route for 404 Not Found */}
+        </Route>        {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      <Footer setShowLogin={setShowLogin} />
     </Router>
   );
 }
