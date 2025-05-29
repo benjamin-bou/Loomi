@@ -7,6 +7,8 @@ import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
 import BoxDetailsSkeleton from "../components/BoxDetailsSkeleton";
+import ReviewsList from "../components/ReviewsList";
+import { useFavorites } from "../hooks/useFavorites";
 
 function BoxPage({ setShowCart }) {
   const { id } = useParams();
@@ -18,20 +20,22 @@ function BoxPage({ setShowCart }) {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
-
+  const { isFavorite, toggleFavorite } = useFavorites();
   const accordionData = [
     {
       title: "Détails du produit",
-      content: box?.details || "Ici s'affichent les détails du produit."
+      content: box?.details || "Ici s'affichent les détails du produit.",
+      type: "text"
     },
     {
       title: "Avis client",
-      content: box?.reviews || "Ici s'affichent les avis clients."
+      content: null,
+      type: "reviews"
     },
     {
       title: "Livraison et retour",
-      content: box?.delivery || "Ici s'affichent les informations de livraison et de retour."
+      content: box?.delivery || "Ici s'affichent les informations de livraison et de retour.",
+      type: "text"
     }
   ];
   useEffect(() => {
@@ -95,13 +99,12 @@ function BoxPage({ setShowCart }) {
             <div className="flex flex-col">
               <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{box.name}</h2>
               <p className="!text-[18px] text-[#666] mt-1">{box.category?.short_name}</p>
-              <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
-            </div>
+              <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>            </div>
             <img
-              src={isFavorite ? favoriteFilled : favorite}
+              src={isFavorite(parseInt(id)) ? favoriteFilled : favorite}
               alt="favorite"
               className="w-8 h-8 ml-4 cursor-pointer select-none transition-all duration-200"
-              onClick={() => setIsFavorite((prev) => !prev)}
+              onClick={() => toggleFavorite(parseInt(id))}
             />
           </div>
           <p className="mt-14 text-[#333] text-justify font-normal">
@@ -137,13 +140,16 @@ function BoxPage({ setShowCart }) {
                     <span className={`transition-transform duration-300 block h-[1.5px] w-3 bg-[#1B1B1B] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${openAccordion === idx ? 'rotate-45 translate-y-1' : ''}`}></span>
                     <span className={`transition-transform duration-300 block h-[1.5px] w-3 bg-[#1B1B1B] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${openAccordion === idx ? '-rotate-45 translate-y-1' : 'rotate-90'}`}></span>
                   </span>
-                </div>
-                <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'}`}
+                </div>                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? (item.type === "reviews" ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-96 opacity-100 mt-2') : 'max-h-0 opacity-0'}`}
                   style={{}}
                 >
-                  <div className="text-[#666] text-[15px] pr-4">
-                    {item.content}
+                  <div className={`text-[#666] text-[15px] pr-4 ${item.type === "reviews" ? 'max-h-[450px] overflow-y-auto custom-scrollbar' : ''}`}>
+                    {item.type === "reviews" ? (
+                      <ReviewsList boxId={parseInt(id)} />
+                    ) : (
+                      item.content
+                    )}
                   </div>
                 </div>
               </div>

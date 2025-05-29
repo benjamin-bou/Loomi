@@ -5,21 +5,15 @@ import filterIcon from "/images/picto/filter.svg";
 import { useNavigate } from "react-router-dom";
 import BoxCard from "../components/BoxCard";
 import BoxCardSkeleton from "../components/BoxCardSkeleton";
+import { useFavorites } from "../hooks/useFavorites";
 
 
 function BoxesList() {
   const [boxes, setBoxes] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [favorites, setFavorites] = useState([]);
   const [filter, setFilter] = useState('ALL');
-  const navigate = useNavigate();
-
-  const toggleFavorite = (id) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
-    );
-  };
+  const navigate = useNavigate();  const { isFavorite, toggleFavorite } = useFavorites();
 
   const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category.short_name.toLowerCase() === filter.toLowerCase());
   useEffect(() => {
@@ -89,12 +83,11 @@ function BoxesList() {
             <p className="text-lg text-[#FA5D5D]">Aucune boîte trouvée pour ce filtre.</p>
           </div>
         )}
-        
-        {!loading && filteredBoxes.length > 0 && filteredBoxes.map((box, idx) => (
+          {!loading && filteredBoxes.length > 0 && filteredBoxes.map((box, idx) => (
           <React.Fragment key={box.id}>
             <BoxCard
               box={box}
-              isFavorite={favorites.includes(box.id)}
+              isFavorite={isFavorite(box.id)}
               onToggleFavorite={toggleFavorite}
               onClick={() => navigate(`/boxes/${box.id}`)}
             />
