@@ -7,7 +7,6 @@ const apiClient = axios.create({
         'Content-Type': 'application/json',
         Accept: 'application/json',
     },
-    withCredentials: true,
 });
 
 // Intercepteur de requêtes pour ajouter le token d'accès dans les en-têtes

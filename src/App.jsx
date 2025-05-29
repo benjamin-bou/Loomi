@@ -39,7 +39,8 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />      <AuthModal show={showLogin} setShow={setShowLogin} />
+      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />      
+      <AuthModal show={showLogin} setShow={setShowLogin} />
       <CartModal show={showCart} setShow={setShowCart} />
       <Routes>
         {/* Public routes */}
@@ -51,15 +52,15 @@ function App() {
         <Route path="/gift-cards" element={<GiftCards setShowCart={setShowCart} setShowLogin={setShowLogin} />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path='/blog/:id' element={<ArticlePage />} />
+        <Route path='/blog/:id' element={<ArticlePage />} />        
         <Route path="/order" element={<OrderPage setShowLogin={setShowLogin} />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
+        <Route path="/profile/favorites" element={<Favorites setShowCart={setShowCart} />} />
 
         {/* Private routes */}
         <Route path="/profile" element={<PrivateRoute roleRequired="user"><Profile /></PrivateRoute>} />
         <Route path="/profile/orders" element={<PrivateRoute roleRequired="user"><Orders /></PrivateRoute>} />        
         <Route path="/profile/subscription" element={<PrivateRoute roleRequired="user"><Subscription /></PrivateRoute>} />
-        <Route path="/profile/favorites" element={<PrivateRoute roleRequired="user"><Favorites /></PrivateRoute>} />
         <Route path="/profile/gift-cards" element={<PrivateRoute roleRequired="user"><MyGiftCardsPage setShowLogin={setShowLogin} /></PrivateRoute>} />
         <Route path="/profile/informations" element={<PrivateRoute roleRequired="user"><Informations /></PrivateRoute>} />
 

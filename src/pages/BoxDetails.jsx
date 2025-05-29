@@ -7,6 +7,7 @@ import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
 import Newsletter from "../components/Newsletter";
 import BoxDetailsSkeleton from "../components/BoxDetailsSkeleton";
+import { useFavorites } from "../hooks/useFavorites";
 
 function BoxPage({ setShowCart }) {
   const { id } = useParams();
@@ -18,7 +19,7 @@ function BoxPage({ setShowCart }) {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const accordionData = [
     {
@@ -95,13 +96,12 @@ function BoxPage({ setShowCart }) {
             <div className="flex flex-col">
               <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{box.name}</h2>
               <p className="!text-[18px] text-[#666] mt-1">{box.category?.short_name}</p>
-              <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>
-            </div>
+              <p className="!text-[18px] mt-2">{box?.base_price ? Number(box.base_price).toFixed(2).replace('.', ',') : ''} €</p>            </div>
             <img
-              src={isFavorite ? favoriteFilled : favorite}
+              src={isFavorite(parseInt(id)) ? favoriteFilled : favorite}
               alt="favorite"
               className="w-8 h-8 ml-4 cursor-pointer select-none transition-all duration-200"
-              onClick={() => setIsFavorite((prev) => !prev)}
+              onClick={() => toggleFavorite(parseInt(id))}
             />
           </div>
           <p className="mt-14 text-[#333] text-justify font-normal">

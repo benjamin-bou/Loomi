@@ -100,7 +100,7 @@ function BoxCarousel({ boxes, slidesToShow }) {
                     />
                     <div className="absolute top-0 left-0 w-full flex flex-col items-center mt-8 text-black text-center px-4">
                       <h2 className="text-[28px] font-light">{box.name}</h2>
-                      <p className="text-sm mt-1">{box.category.short_name}</p>
+                      <p className="text-sm mt-1">{box?.category?.short_name}</p>
                     </div>
                   </div>
                 </div>
