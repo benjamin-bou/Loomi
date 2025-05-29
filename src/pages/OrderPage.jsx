@@ -414,11 +414,16 @@ function OrderPage({ setShowLogin }) {
               ))
             )}
           </div>
-          
-          <MainButton 
+            <MainButton 
             text={isGiftCardPayment ? "Utiliser la carte cadeau" : "Payer"} 
             onClick={handlePayment} 
-            disabled={!orderSummary || orderSummary.length === 0} 
+            disabled={!orderSummary || orderSummary.length === 0 || 
+              orderSummary.filter(item => 
+                item.type !== 'giftcard_usage' && 
+                !(item.type === 'box' && item.paidWithGiftCard) &&
+                !(item.type === 'subscription' && item.paidWithGiftCard)
+              ).length === 0
+            } 
           />
         </div>
       </div>

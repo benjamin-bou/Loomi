@@ -102,13 +102,13 @@ function CartModal({ show, setShow }) {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="font-bold">
-                      {((item.price || item.base_price) * item.quantity).toFixed(2)} €
+                      {((item.price || item.base_price) * item.quantity).toFixed(2)}&nbsp;€
                     </div>
                     <button
-                      className="p-2"
+                      className=""
                       onClick={() => removeFromCart(item.id, true)}
                     >
-                      <img src={trashIcon} alt="Supprimer" className="h-5 w-5 cursor-pointer" />
+                      <img src={trashIcon} alt="Supprimer" className="min-h-5 min-w-5 cursor-pointer" />
                     </button>
                   </div>
                 </li>
