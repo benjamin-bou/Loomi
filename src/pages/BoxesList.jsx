@@ -1,0 +1,119 @@
+import React, { useEffect, useState } from "react";
+import { fetchData } from "../api";
+import Newsletter from "../components/Newsletter";
+import filterIcon from "/images/picto/filter.svg";
+import { useNavigate } from "react-router-dom";
+import BoxCard from "../components/BoxCard";
+import BoxCardSkeleton from "../components/BoxCardSkeleton";
+import { useFavorites } from "../hooks/useFavorites";
+
+
+function BoxesList() {
+  const [boxes, setBoxes] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('ALL');
+  const navigate = useNavigate();  const { isFavorite, toggleFavorite } = useFavorites();
+
+  const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category.short_name.toLowerCase() === filter.toLowerCase());
+  useEffect(() => {
+    setLoading(true);
+    fetchData("/boxes")
+      .then(data => {
+        setBoxes(data);
+      })
+      .catch(error => {
+        console.error("Error fetching boxes:", error);
+        setError("Une erreur est survenue lors du chargement des boîtes.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
+        <p className="text-lg text-[#FA5D5D]">{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-[#FFF7F0] min-h-screen">
+      <div className="flex flex-col items-center justify-center mx-[50px]">
+      <h2 className="mt-10 mb-5 text-start self-start">
+        Nos box
+      </h2>
+
+      <div className="flex items-center w-full mb-5 gap-6">
+        <p className="!text-2xl">Filtres</p>
+        <img src={filterIcon} alt="Filtre" className="w-8 h-8 cursor-pointer" />
+        <button className={`border rounded-2xl px-3 py-2 min-w-[180px] cursor-pointer ${filter === 'ALL' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('ALL')}>
+          Voir tout
+        </button>
+        <button className={`border rounded-2xl px-3 py-2 min-w-[180px] cursor-pointer ${filter === 'activité manuelle' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('activité manuelle')}>
+          Box&nbsp;activité&nbsp;manuelle
+        </button>
+        <button className={`border rounded-2xl px-3 py-2 min-w-[180px] cursor-pointer ${filter === 'DIY' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('DIY')}>
+          Box DIY
+        </button>
+      </div>      <div className="flex flex-wrap justify-center gap-6 mx-auto max-w-[1470px]">
+        {loading && (
+          // Affichage des skeletons pendant le chargement
+          <>
+            {Array(6).fill(0).map((_, index) => (
+              <React.Fragment key={`skeleton-${index}`}>
+                <BoxCardSkeleton />
+                {index === 1 && (
+                  <>
+                    <div className="w-[710px] h-[380px] min-w-[580px] max-w-[580px] flex items-center justify-center">
+                      <div className="w-full h-full bg-gray-200 rounded-4xl animate-pulse"></div>
+                    </div>
+                    {/* Forcer un saut de ligne après l'image */}
+                    <div className="w-full"></div>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </>
+        )}
+        
+        {!loading && filteredBoxes.length === 0 && (
+          <div className="flex flex-col items-center justify-center w-full h-[300px]">
+            <p className="text-lg text-[#FA5D5D]">Aucune boîte trouvée pour ce filtre.</p>
+          </div>
+        )}
+          {!loading && filteredBoxes.length > 0 && filteredBoxes.map((box, idx) => (
+          <React.Fragment key={box.id}>
+            <BoxCard
+              box={box}
+              isFavorite={isFavorite(box.id)}
+              onToggleFavorite={toggleFavorite}
+              onClick={() => navigate(`/boxes/${box.id}`)}
+            />
+            {idx === 1 && (
+              <>
+                <div className="w-[710px] h-[380px] min-w-[580px] max-w-[580px] flex items-center justify-center">
+                  <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-4xl object-cover" alt="spéciale" />
+                </div>
+                {/* Forcer un saut de ligne après l'image */}
+                <div className="w-full"></div>
+              </>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="bg-loomilightpink h-[300px] w-full rounded-4xl flex flex-col justify-center items-center gap-10 mt-15">
+        <h2 className="max-w-3/5 text-white text-center">Une box à découvrir chaque mois, directement chez vous</h2>
+        <button className="bg-loomipink text-white rounded-2xl p-3 w-[180px]">
+          Abonnez-vous
+        </button>
+      </div>
+      </div>
+
+      <Newsletter />
+    </div>
+  );
+}
+
+export default BoxesList;
