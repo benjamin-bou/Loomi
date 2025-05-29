@@ -1,42 +1,5 @@
 import React from "react";
-
-// Utilitaire pour générer des étoiles avec couleur personnalisée et note possible en demi (ex: 4.5)
-const Stars = ({ rating, color = "#E62B88", size = 40 }) => {
-  return (
-    <div className="flex space-x-2">
-      {[1,2,3,4,5].map((i) => {
-        if (rating >= i) {
-          // Pleine étoile
-          return (
-            <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill={color}>
-              <path d="M12 .587l3.668 7.568L24 9.423l-6 5.979 1.416 8.242L12 18.896l-7.416 4.748L6 15.402 0 9.423l8.332-1.268z"/>
-            </svg>
-          );
-        }
-        if (rating > i - 1 && rating < i) {
-          // Demi-étoile
-          return (
-            <svg key={i} width={size} height={size} viewBox="0 0 24 24">
-              <defs>
-                <linearGradient id={`half-${i}`} x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="50%" stopColor={color} />
-                  <stop offset="50%" stopColor={color} stopOpacity="0.33" />
-                </linearGradient>
-              </defs>
-              <path d="M12 .587l3.668 7.568L24 9.423l-6 5.979 1.416 8.242L12 18.896l-7.416 4.748L6 15.402 0 9.423l8.332-1.268z" fill={`url(#half-${i})`} />
-            </svg>
-          );
-        }
-        // Étoile grise (même couleur que color mais opacité 33%)
-        return (
-          <svg key={i} width={size} height={size} viewBox="0 0 24 24">
-            <path d="M12 .587l3.668 7.568L24 9.423l-6 5.979 1.416 8.242L12 18.896l-7.416 4.748L6 15.402 0 9.423l8.332-1.268z" fill={color} fillOpacity="0.33"/>
-          </svg>
-        );
-      })}
-    </div>
-  );
-};
+import Stars from "../Stars";
 
 const avis = [
   {

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useNavigate } from "react-router-dom";
+import ReviewModal from "../components/ReviewModal";
 
 export default function Deliveries() {
   const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);  const [selectedBoxForReview, setSelectedBoxForReview] = useState(null);
+  const [existingReview, setExistingReview] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,7 +61,6 @@ export default function Deliveries() {
         return status;
     }
   };
-
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending':
@@ -72,6 +74,39 @@ export default function Deliveries() {
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  };
+  const handleReviewClick = async (delivery) => {
+    try {
+      // Vérifier s'il y a déjà un avis pour cette boîte
+      const reviewData = await fetchData(`/reviews/user/${delivery.box_id}`);
+      
+      setSelectedBoxForReview({
+        id: delivery.box_id,
+        name: delivery.box_name
+      });
+      setExistingReview(reviewData.review);
+      setIsReviewModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching existing review:', error);
+      // Même en cas d'erreur, on ouvre le modal pour créer un nouvel avis
+      setSelectedBoxForReview({
+        id: delivery.box_id,
+        name: delivery.box_name
+      });
+      setExistingReview(null);
+      setIsReviewModalOpen(true);
+    }
+  };
+
+  const handleReviewSubmitted = (review) => {
+    // Mettre à jour la liste des livraisons pour refléter qu'un avis a été laissé
+    setDeliveries(prevDeliveries => 
+      prevDeliveries.map(delivery => 
+        delivery.box_id === review.box_id 
+          ? { ...delivery, can_review: false }
+          : delivery
+      )
+    );
   };
 
   if (error) {
@@ -171,28 +206,44 @@ export default function Deliveries() {
                       <span className="font-medium">Abonnement :</span> {delivery.subscription_name}
                     </p>
                   </div>
-                )}
-
-                <div className="flex justify-between items-center">
+                )}                <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-600">
                     {delivery.delivery_address && (
                       <p>📍 {delivery.delivery_address}</p>
                     )}
                   </div>
-                  {delivery.box_id && (
-                    <button
-                      onClick={() => navigate(`/boxes/${delivery.box_id}`)}
-                      className="text-loomilightpink hover:text-loomipink text-sm font-medium cursor-pointer"
-                    >
-                      Voir la boîte →
-                    </button>
-                  )}
+                  <div className="flex space-x-3">
+                    {delivery.can_review && (
+                      <button
+                        onClick={() => handleReviewClick(delivery)}
+                        className="bg-loomilightpink text-white px-3 py-1 rounded-lg text-sm font-medium hover:bg-loomipink transition-colors cursor-pointer"
+                      >
+                        Laisser un avis
+                      </button>
+                    )}
+                    {delivery.box_id && (
+                      <button
+                        onClick={() => navigate(`/boxes/${delivery.box_id}`)}
+                        className="text-loomilightpink hover:text-loomipink text-sm font-medium cursor-pointer"
+                      >
+                        Voir la boîte →
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
-          </div>
-        )}
+          </div>        )}
       </div>
+
+      {/* Modal d'avis */}
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        boxId={selectedBoxForReview?.id}
+        boxName={selectedBoxForReview?.name}
+        onReviewSubmitted={handleReviewSubmitted}
+      />
     </div>
   );
 }
