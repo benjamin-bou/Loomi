@@ -10,7 +10,7 @@ export default function MyGiftCards() {
   const [error, setError] = useState('');
   const [showBoxSelection, setShowBoxSelection] = useState(false);
   const [selectedGiftCard, setSelectedGiftCard] = useState(null);
-  const { activatedGiftCards, removeActivatedGiftCard, addToCart, addGiftCardToCart, cart } = useCart();
+  const { activatedGiftCards, removeActivatedGiftCard, addGiftCardToCart, cart } = useCart();
   const navigate = useNavigate();  useEffect(() => {
     const fetchGiftCards = async () => {
       try {

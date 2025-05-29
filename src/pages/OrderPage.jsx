@@ -98,9 +98,7 @@ function OrderPage({ setShowLogin }) {
         items: cart,
         payment_method: hasNonFreeItems ? selectedPayment : null,
         gift_card_id: giftCardItem?.originalGiftCard?.id || null,
-      };
-
-      console.log('Données envoyées au backend:', paymentData);
+      };      console.log('Données envoyées au backend:', paymentData);
       console.log('Items détaillés du panier:', cart);
       console.log('Carte cadeau trouvée:', giftCardItem);
 
@@ -131,19 +129,89 @@ function OrderPage({ setShowLogin }) {
         // Naviguer vers la page de succès
         navigate('/order-success');
       } else {
-        setError("Erreur lors du paiement. Veuillez réessayer.");
+        // Afficher l'erreur spécifique du backend si disponible
+        const errorMessage = response.error || "Erreur lors du paiement. Veuillez réessayer.";
+        setError(errorMessage);
         console.log('Erreur de paiement:', response.error);
       }
     } catch (error) {
       console.error('Erreur lors du paiement:', error);
-      setError("Erreur lors du paiement. Veuillez réessayer.");
+      
+      // Extraire le message d'erreur du backend s'il est disponible
+      let errorMessage = "Erreur lors du paiement. Veuillez réessayer.";
+      
+      if (error.response && error.response.data && error.response.data.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      setError(errorMessage);
     }
   };
-
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen bg-[#FFF7F0]">
-        <p className="text-lg text-[#FA5D5D]">{error}</p>
+      <div className="bg-[#FFF7F0] min-h-screen">
+        {/* Modal d'erreur */}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div className="text-center">
+              {/* Icône d'erreur */}
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <svg className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              
+              {/* Titre */}
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {error.includes('abonnement') ? 'Restriction d\'abonnement' : 'Erreur de paiement'}
+              </h3>
+              
+              {/* Message d'erreur */}
+              <p className="text-sm text-gray-600 mb-6">
+                {error}
+              </p>
+              
+              {/* Boutons d'action */}
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => setError(null)}
+                  className="w-full bg-[#DB3D88] text-white py-3 px-4 rounded-xl font-semibold hover:bg-[#b83272] transition-colors cursor-pointer"
+                >
+                  Modifier mon panier
+                </button>
+                
+                {error.includes('abonnement') && (
+                  <button
+                    onClick={() => {
+                      setError(null);
+                      navigate('/profile/subscription');
+                    }}
+                    className="w-full border border-[#DB3D88] text-[#DB3D88] py-3 px-4 rounded-xl font-semibold hover:bg-[#DB3D88] hover:text-white transition-colors cursor-pointer"
+                  >
+                    Voir mon abonnement
+                  </button>
+                )}
+                
+                <button
+                  onClick={() => {
+                    setError(null);
+                    navigate('/');
+                  }}
+                  className="w-full text-gray-500 py-2 px-4 font-medium hover:text-gray-700 transition-colors cursor-pointer"
+                >
+                  Retour à l'accueil
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Contenu normal de la page (en arrière-plan flou) */}
+        <div className="filter blur-sm pointer-events-none">
+          <OrderStep1 user={user} setUser={setUser} onNext={() => setStep(2)} />
+        </div>
       </div>
     );
   }
