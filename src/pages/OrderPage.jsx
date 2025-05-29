@@ -11,15 +11,42 @@ function OrderPage({ setShowLogin }) {
   const [orderSummary, setOrderSummary] = useState(null);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(undefined);  const [step, setStep] = useState(1);  const [giftCardValidationError, setGiftCardValidationError] = useState('');
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [loadingPaymentMethods, setLoadingPaymentMethods] = useState(true);
   const { cart, clearCart, validateGiftCardInCart } = useCart();
   const navigate = useNavigate();
-  const [selectedPayment, setSelectedPayment] = useState('visa');
-  const paymentMethods = [
-    { key: 'visa', label: 'Visa' },
-    { key: 'cb', label: 'Carte bancaire' },
-    { key: 'applepay', label: 'Apple Pay' },
-    { key: 'paypal', label: 'PayPal' },
-  ];  useEffect(() => {
+  const [selectedPayment, setSelectedPayment] = useState('');
+  
+  // Récupérer les méthodes de paiement depuis le backend
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      try {
+        const response = await fetchData('/payment-methods');
+        if (response.success && response.payment_methods) {
+          setPaymentMethods(response.payment_methods);
+          // Sélectionner la première méthode par défaut
+          if (response.payment_methods.length > 0) {
+            setSelectedPayment(response.payment_methods[0].key);
+          }
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des méthodes de paiement:', error);
+        // Fallback vers les méthodes hardcodées en cas d'erreur
+        const fallbackMethods = [
+          { key: 'visa', label: 'Visa' },
+          { key: 'cb', label: 'Carte bancaire' },
+          { key: 'applepay', label: 'Apple Pay' },
+          { key: 'paypal', label: 'PayPal' },
+        ];
+        setPaymentMethods(fallbackMethods);
+        setSelectedPayment('visa');
+      } finally {
+        setLoadingPaymentMethods(false);
+      }
+    };
+
+    fetchPaymentMethods();
+  }, []);useEffect(() => {
     // Simule un résumé de commande à partir du panier (box, abonnement, carte cadeau)
     setOrderSummary(cart);
     
@@ -67,14 +94,15 @@ function OrderPage({ setShowLogin }) {
         !(item.type === 'box' && item.paidWithGiftCard) &&
         (item.price || item.base_price) > 0
       );
-      
-      const paymentData = {
+        const paymentData = {
         items: cart,
         payment_method: hasNonFreeItems ? selectedPayment : null,
         gift_card_id: giftCardItem?.originalGiftCard?.id || null,
       };
 
       console.log('Données envoyées au backend:', paymentData);
+      console.log('Items détaillés du panier:', cart);
+      console.log('Carte cadeau trouvée:', giftCardItem);
 
       const response = await postData('/order', paymentData);
       
@@ -184,15 +212,22 @@ function OrderPage({ setShowLogin }) {
                         <div className="font-semibold text-lg">
                           {item.name}
                         </div>
-                        {item.description && (
+                        {item.description && item.type !== 'subscription' && (
                           <div className="text-sm text-gray-600 mt-1">
                             {item.description}
                           </div>
-                        )}                        {item.type === 'giftcard_usage' && (
+                        )}     
+                        {item.label && item.type === 'subscription' && (
+                          <div className="text-sm text-gray-600 mt-1">
+                            {item.label}
+                          </div>
+                        )}                                   
+                        {item.type === 'giftcard_usage' && (
                           <div className="text-sm text-green-600 mt-1">
                             Code: <span className="font-mono">{item.giftCardCode}</span>
                           </div>
-                        )}                        {item.type === 'box' && item.paidWithGiftCard && (
+                        )}                        
+                        {item.type === 'box' && item.paidWithGiftCard && (
                           <div className="text-sm text-green-600 mt-1 font-medium">
                             🎁 Box offerte avec votre carte cadeau
                             <div className="text-xs text-green-500 mt-1">
@@ -287,26 +322,29 @@ function OrderPage({ setShowLogin }) {
               </div>
             </div>
           )}
-          
-          {/* Moyens de paiement - désactivés si carte cadeau */}
+            {/* Moyens de paiement - désactivés si carte cadeau */}
           <div className={`flex flex-col gap-4 ${isGiftCardPayment ? 'opacity-50 pointer-events-none' : ''}`}>
             <h3 className="text-lg font-medium">
               Choisir un moyen de paiement
             </h3>
-            {paymentMethods.map((method) => (
-              <label key={method.key} className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="radio"
-                  name="payment"
-                  value={method.key}
-                  checked={selectedPayment === method.key}
-                  onChange={() => setSelectedPayment(method.key)}
-                  className="accent-[#DB3D88]"
-                  disabled={isGiftCardPayment}
-                />
-                <span>{method.label}</span>
-              </label>
-            ))}
+            {loadingPaymentMethods ? (
+              <div className="text-gray-500">Chargement des méthodes de paiement...</div>
+            ) : (
+              paymentMethods.map((method) => (
+                <label key={method.key} className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={method.key}
+                    checked={selectedPayment === method.key}
+                    onChange={() => setSelectedPayment(method.key)}
+                    className="accent-[#DB3D88]"
+                    disabled={isGiftCardPayment}
+                  />
+                  <span>{method.label}</span>
+                </label>
+              ))
+            )}
           </div>
           
           <MainButton 

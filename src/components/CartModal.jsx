@@ -79,9 +79,10 @@ function CartModal({ show, setShow }) {
                 <li key={idx} className="py-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     {/* <img src={item.image} alt={item.name} className="h-12 w-12 object-cover rounded" /> */}
-                    <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" className='w-20'/>
-                    <div>
-                      <div className="font-semibold">{item.name}</div>
+                    <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" className='w-20'/>                    <div>
+                      <div className="font-semibold">
+                        {item.type === 'giftcard' ? `Carte cadeau - ${item.name}` : item.name}
+                      </div>
                       <div className="text-sm text-gray-500 flex items-center gap-2">
                         <button
                           className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-300"

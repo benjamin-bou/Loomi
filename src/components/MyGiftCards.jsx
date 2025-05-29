@@ -92,11 +92,7 @@ export default function MyGiftCards() {
         }
       };
 
-      const mappedSubscription = subscriptionMapping[giftCardTypeName];      if (mappedSubscription) {
-        // Ajouter la carte cadeau d'usage au panier (sans la marquer comme utilisée)
-        addGiftCardToCart(giftCard);
-        
-        // Ajouter l'abonnement au panier avec prix à 0 (payé par carte cadeau)
+      const mappedSubscription = subscriptionMapping[giftCardTypeName];      if (mappedSubscription) {        // Ajouter l'abonnement au panier avec prix à 0 (payé par carte cadeau)
         const subscriptionItem = {
           ...mappedSubscription,
           type: 'subscription',
@@ -107,7 +103,8 @@ export default function MyGiftCards() {
           giftCardCode: giftCard.code
         };
         
-        addToCart(subscriptionItem);
+        // Utiliser addGiftCardToCart en passant l'abonnement comme "selectedBox"
+        addGiftCardToCart(giftCard, subscriptionItem);
         
         // Rediriger vers la page de commande
         navigate('/order');

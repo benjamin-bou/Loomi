@@ -100,7 +100,7 @@ export default function OrderCard({ order, user }) {
             {/* Abonnement */}
             {order.subscription && (
               <li>
-                Abonnement : {order.subscription.name || 'Abonnement'}
+                Abonnement : {order.subscription?.subscription_type.label || 'Abonnement'}
               </li>
             )}            {/* Carte cadeau utilisée pour le paiement */}
             {order.giftCard && (
