@@ -19,24 +19,23 @@ function App() {
     }, []);
 
   return (
-    <div className="flex flex-col bg-loomibeige">
-      {/* Hero section */}
+    <div className="flex flex-col bg-loomibeige">      {/* Hero section */}
       <section>
-        <div className="bg-[#D9D9D9] text-white py-16 px-6 rounded-[30px] m-4 h-[635px]">
-          <div className="w-full h-full flex flex-col items-center justify-center gap-8">
-            <img src={logo_phase_1} alt="Logo" className="w-1/2" />
+        <div className="bg-[#D9D9D9] text-white py-8 md:py-16 px-8 md:px-6 rounded-[20px] md:rounded-[30px] m-2 md:m-4 h-[400px] md:h-[635px]">
+          <div className="w-full h-full flex flex-col items-center justify-center gap-4 md:gap-8">
+              <img src={logo_phase_1} alt="Logo" className="w-3/4 md:w-1/2 max-w-[300px]" />
 
           </div>
         </div>
 
         {/* Boxes */}
-        <div className="flex flex-col mt-16 px-[50px]">
-          <h2 className="text-left mb-8">Nos Box</h2>
+        <div className="flex flex-col mt-8 md:mt-16 px-8 md:px-[50px]">
+          <h2 className="text-left mb-4 md:mb-8 text-2xl md:text-3xl">Nos Box</h2>
           <BoxCarousel 
             boxes={boxes}
             slidesToShow={3}
           />
-          <button onClick={() => navigate('/boxes')} className="px-6 py-2 border border-black rounded-xl text-black text-lg hover:cursor-pointer transition mt-15 mx-auto w-50">
+          <button onClick={() => navigate('/boxes')} className="px-8 md:px-6 py-2 border border-black rounded-xl text-black text-base md:text-lg hover:cursor-pointer transition mt-15 mx-auto w-40 md:w-50">
             Découvrir
           </button>
         </div>

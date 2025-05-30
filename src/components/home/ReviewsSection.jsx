@@ -21,7 +21,7 @@ const avis = [
 
 export default function AvisSection() {
   return (
-    <section className="pt-12 mb-2 px-2">
+    <section className="pt-12 mb-2 px-8">
       <div className="max-w-7xl mx-auto">
         {/* Titre */}
         <h2 className="text-center mb-4">

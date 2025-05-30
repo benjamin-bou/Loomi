@@ -66,43 +66,43 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
   return (
     <header className="w-full">
       {/* Partie haute */}
-      <div className="bg-white h-[111px] flex justify-between items-center px-[50px]">
+      <div className="bg-white h-[111px] flex justify-between items-center px-4 md:px-[50px]">
         <div className="flex justify-between items-center bg-white w-full">
           {/* Recherche */}
-          <div className="flex items-center gap-2">
+          <div className="items-center gap-2">
             <input
               type="text"
               placeholder="Recherche"
-              className="border-b border-black outline-none focus:border-gray-600"
+              className="border-b border-black outline-none focus:border-gray-600 hidden md:flex"
             />
             <img src={search} alt="search" className="w-4 h-4 cursor-pointer select-none" />
           </div>
 
           {/* Logo ou image centrale */}
-          <a href="/"><img src={logoToShow} alt="logo" className="h-[50px] cursor-pointer select-none" /></a>
+          <a href="/"><img src={logoToShow} alt="logo" className="h-[25px] md:h-[50px] cursor-pointer select-none" /></a>
 
           {/* Icônes utilisateur et panier */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 cursor-pointer select-none" onClick={handleUserClick}>
-              <img src={user} alt="user" className="w-8 h-8 cursor-pointer select-none"/>
-              <p className="font-bold cursor-pointer select-none">{userName || "Se connecter"}</p>
+          <div className="flex items-center gap-1 md:gap-4">
+            <div className="flex items-center gap-1 md:gap-2 cursor-pointer select-none" onClick={handleUserClick}>
+              <img src={user} alt="user" className="w-4 h-4  md:w-8 md:h-8 cursor-pointer select-none"/>
+              <p className="font-bold cursor-pointer select-none !text-xs !md:text-md">{userName || "Se connecter"}</p>
             </div>
-            <div className="flex items-center gap-4 relative">
+            <div className="flex items-center gap-1 md:gap-4 relative">
               <img
                 src={favorite}
                 alt="favorite"
-                className="w-8 h-8 cursor-pointer select-none"
+                className="w-4 h-4 md:w-8 md:h-8 cursor-pointer select-none"
                 onClick={() => navigate("/profile/favorites")}
               />
               <img
                 src={shoppingCart}
                 onClick={handleCartClick}
                 alt="shopping cart"
-                className="w-8 h-8 cursor-pointer select-none"
+                className="w-4 h-4 md:w-8 md:h-8 cursor-pointer select-none"
               />
               {cart.length > 0 && (
                 <div
-                  className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5  md:w-8 md:h-8 flex items-center justify-center"
                   style={{ transform: 'translate(50%, -50%)' }}
                 >
                   {cart.length}
@@ -115,7 +115,7 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
 
       {/* Barre de navigation */}
       <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
-        <ul className="flex justify-center gap-12 text-white font-medium">
+        <ul className="hidden md:flex justify-center gap-12 text-white font-medium">
           <li><a className="neulis font-light nav-underline" href="/boxes">Nos box</a></li>
           <li><a className="neulis font-light nav-underline" href="/subscriptions">Nos abonnements</a></li>
           <li><a className="neulis font-light nav-underline" href="/gift-cards">Cartes cadeaux</a></li>

@@ -86,7 +86,6 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
       setLoading(true);
       fetchData("/gift-cards")
         .then(data => {
-          console.log("giftcards data:", data);
           setGiftCards(data);
         })
         .catch(error => {
