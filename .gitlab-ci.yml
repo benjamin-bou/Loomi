@@ -1,0 +1,27 @@
+image: node:18
+
+stages:
+  - build_deploy
+
+build_and_deploy:
+  stage: build_deploy
+  tags:
+    - front
+  variables:
+    VITE_API_BASE_URL: $VITE_API_BASE_URL
+  script:
+    - echo "🌍 Génération du fichier .env pour Vite..."
+    - echo "VITE_API_BASE_URL=$VITE_API_BASE_URL" > .env
+    - echo "🔧 Installation des dépendances..."
+    - npm ci
+    - echo "🏗️ Build du frontend avec Vite..."
+    - npm run build
+    - echo "🧹 Nettoyage du dossier de déploiement..."
+    - sudo rm -rf /home/flowadmin/front/build/*
+    - echo "📁 Copie des fichiers buildés..."
+    - sudo cp -r dist/* /home/flowadmin/front/build/
+    - echo "♻️ Redémarrage de Nginx..."
+    - sudo docker compose -f /home/flowadmin/docker-compose.yml restart nginx
+  only:
+    - main
+
