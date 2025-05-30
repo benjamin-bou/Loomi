@@ -8,7 +8,6 @@ export const useFavorites = () => {    // Initialiser directement avec les donn√
         if (savedFavorites) {
             try {
                 const parsed = JSON.parse(savedFavorites);
-                console.log("Favorites charg√©s depuis localStorage:", parsed);
                 return parsed;
             } catch (error) {
                 console.error('Erreur lors du chargement des favoris:', error);

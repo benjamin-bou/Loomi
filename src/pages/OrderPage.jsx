@@ -70,11 +70,6 @@ function OrderPage({ setShowLogin }) {
       .then(data => setUser(data))
       .catch(() => setUser(null));
   }, []);
-  console.log('Panier détaillé:', cart);  
-  console.log('Résumé de la commande:', orderSummary);
-  console.log('Cartes cadeaux dans le panier:', cart.filter(item => item.type === 'giftcard_usage'));
-  console.log('Boxes dans le panier:', cart.filter(item => item.type === 'box'));
-  console.log('Boxes payées avec carte cadeau:', cart.filter(item => item.type === 'box' && item.paidWithGiftCard));// Vérifier s'il y a une carte cadeau dans le panier
   const giftCardInCart = cart.find(item => item.type === 'giftcard_usage');
   const isGiftCardPayment = !!giftCardInCart;
   
@@ -98,9 +93,7 @@ function OrderPage({ setShowLogin }) {
         items: cart,
         payment_method: hasNonFreeItems ? selectedPayment : null,
         gift_card_id: giftCardItem?.originalGiftCard?.id || null,
-      };      console.log('Données envoyées au backend:', paymentData);
-      console.log('Items détaillés du panier:', cart);
-      console.log('Carte cadeau trouvée:', giftCardItem);
+      };
 
       const response = await postData('/order', paymentData);
       
@@ -132,7 +125,6 @@ function OrderPage({ setShowLogin }) {
         // Afficher l'erreur spécifique du backend si disponible
         const errorMessage = response.error || "Erreur lors du paiement. Veuillez réessayer.";
         setError(errorMessage);
-        console.log('Erreur de paiement:', response.error);
       }
     } catch (error) {
       console.error('Erreur lors du paiement:', error);
@@ -413,16 +405,17 @@ function OrderPage({ setShowLogin }) {
                 </label>
               ))
             )}
-          </div>
-            <MainButton 
+          </div>          <MainButton 
             text={isGiftCardPayment ? "Utiliser la carte cadeau" : "Payer"} 
             onClick={handlePayment} 
-            disabled={!orderSummary || orderSummary.length === 0 || 
-              orderSummary.filter(item => 
+            disabled={
+              !orderSummary || 
+              orderSummary.length === 0 || 
+              (!isGiftCardPayment && orderSummary.filter(item => 
                 item.type !== 'giftcard_usage' && 
                 !(item.type === 'box' && item.paidWithGiftCard) &&
                 !(item.type === 'subscription' && item.paidWithGiftCard)
-              ).length === 0
+              ).length === 0)
             } 
           />
         </div>
