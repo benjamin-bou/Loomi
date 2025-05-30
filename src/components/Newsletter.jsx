@@ -9,7 +9,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="bg-[#FFF7F0] py-32 px-4 text-center">
+    <section className="bg-[#FFF7F0] py-32 px-8 text-center">
       <h2 className="text-3xl md:text-4xl font-semibold text-[#1B1B1B] mb-4">
         Abonnez vous à notre newsletter
       </h2>
