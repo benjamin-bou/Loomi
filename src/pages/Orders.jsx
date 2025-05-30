@@ -13,7 +13,6 @@ export default function Orders() {
             setLoading(true);
             try {
                 const data = await fetchData("/orders");
-                console.log(data);
                 setOrders(data.orders);
                 setUser(data.user);
             } catch (error) {

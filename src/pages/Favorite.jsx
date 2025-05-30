@@ -17,13 +17,10 @@ export default function Favorites({ setShowCart }) {
     const fetchBoxes = async () => {
       try {
         setLoading(true);
-        console.log("Favorites in useEffect:", favorites);
         const data = await fetchData("/boxes");
-        console.log("All boxes fetched:", data);
         
         // Filtrer les boîtes qui sont dans les favoris
         const favoriteBoxesData = data.filter(box => favorites.includes(box.id));
-        console.log("Filtered favorite boxes:", favoriteBoxesData);
         setFavoriteBoxes(favoriteBoxesData);
       } catch (error) {
         console.error("Error fetching boxes:", error);
