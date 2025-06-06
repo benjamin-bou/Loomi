@@ -35,9 +35,9 @@ export default function Profile() {
           style={{ transform: "rotate(-90deg)" }}
         />
       {/* Contenu principal */}
-      <div className="relative z-10 px-14 pt-14 ">
-        <h2 className="text-5xl font-bold mb-2">Bienvenue, {userName}</h2>
-        <p className="text-xl mb-10">
+      <div className="relative z-10 px-4 md:px-14 pt-14 ">
+        <h2 className="!text-2xl md:!text-4xl font-bold mb-2">Bienvenue, {userName}</h2>
+        <p className="!text-md mb-10">
           Vous êtes connecté(e) avec l’adresse e-mail : <span className="font-medium">{email}</span>
         </p>
 
@@ -64,7 +64,7 @@ export default function Profile() {
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
         </div>
-      <p className="!text-2xl underline cursor-pointer mb-20 hover:text-loomipink transition-colors" onClick={handleLogout}>Déconnexion</p>
+      <p className="!text-md md:!text-xl underline cursor-pointer mb-20 hover:text-loomipink transition-colors" onClick={handleLogout}>Déconnexion</p>
       </div>
     </div>
     </>

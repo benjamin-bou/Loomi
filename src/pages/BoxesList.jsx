@@ -58,17 +58,17 @@ function BoxesList() {
             Box DIY
           </button>
         </div>
-      </div>      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mx-auto max-w-[1470px] justify-items-center">
+      </div>      
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mx-auto max-w-[1470px]">
         {loading && (
           // Affichage des skeletons pendant le chargement
           <>
             {Array(6).fill(0)?.map((_, index) => (
               <React.Fragment key={`skeleton-${index}`}>
-                <BoxCardSkeleton />
+                <BoxCardSkeleton />                
                 {index === 1 && (
                   <>
-                    {/* Image promotionnelle responsive */}
-                    <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 w-full max-w-[600px] lg:max-w-[710px] h-[250px] md:h-[300px] lg:h-[380px] flex items-center justify-center">
+                    {/* Image promotionnelle responsive */}                    <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
                       <div className="w-full h-full bg-gray-200 rounded-3xl md:rounded-4xl animate-pulse"></div>
                     </div>
                   </>
@@ -77,9 +77,8 @@ function BoxesList() {
             ))}
           </>
         )}
-        
-        {!loading && filteredBoxes.length === 0 && (
-          <div className="col-span-full flex flex-col items-center justify-center w-full h-[300px]">
+          {!loading && filteredBoxes.length === 0 && (
+          <div className="w-full flex flex-col items-center justify-center h-[300px] basis-full">
             <p className="text-lg text-[#FA5D5D]">Aucune boîte trouvée pour ce filtre.</p>
           </div>
         )}
@@ -90,11 +89,9 @@ function BoxesList() {
               isFavorite={isFavorite(box.id)}
               onToggleFavorite={toggleFavorite}
               onClick={() => navigate(`/boxes/${box.id}`)}
-            />
-            {idx === 1 && (
+            />            {idx === 1 && (
               <>
-                {/* Image promotionnelle responsive */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 w-full max-w-[600px] lg:max-w-[710px] h-[250px] md:h-[300px] lg:h-[380px] flex items-center justify-center">
+                {/* Image promotionnelle responsive */}                <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
                   <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-3xl md:rounded-4xl object-cover" alt="spéciale" />
                 </div>
               </>

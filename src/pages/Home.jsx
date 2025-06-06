@@ -42,7 +42,9 @@ function App() {
         <SubscriptionsSection/>
       </section>
       <LoomiHistorySection />
+      <div className="px-4">
       <ReviewsSection />
+      </div>
 
     {/* Newsletter */}
     <Newsletter />

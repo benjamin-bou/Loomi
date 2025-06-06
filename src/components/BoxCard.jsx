@@ -3,10 +3,9 @@ import favoriteFilled from "/images/picto/favorite_filled.svg";
 
 export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) {
   return (
-    <div className="flex flex-col gap-2 md:gap-3 mb-6 md:mb-8">
-      <div 
+    <div className="flex flex-col gap-2 md:gap-3 mb-6 md:mb-8">      <div 
         onClick={onClick}
-        className="bg-white rounded-3xl md:rounded-4xl flex flex-col items-center text-center w-[280px] md:w-[320px] lg:w-[350px] h-[300px] md:h-[340px] lg:h-[380px] relative hover:cursor-pointer"
+        className="bg-white rounded-3xl md:rounded-4xl flex flex-col items-center text-center w-[280px] md:w-[280px] lg:w-[300px] xl:w-[280px] h-[300px] md:h-[300px] lg:h-[320px] xl:h-[300px] relative hover:cursor-pointer"
       >
         <button
           type="button"
@@ -26,11 +25,10 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
           className="w-full h-full rounded-xl"
         /> */}
         <img src="https://dummyimage.com/400x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-3xl md:rounded-4xl" />
-      </div>
-      <div className="flex flex-col gap-1">
-        <h4 className="text-xl md:text-2xl lg:!text-3xl font-light">{box.name}</h4>
-        <p className="text-sm md:text-base">{box.category?.short_name || "Catégorie non spécifiée"}</p>
-        <p className="text-sm md:text-base">{box.base_price?.replace('.', ',')} €</p>
+      </div>      <div className="flex flex-col gap-1">
+        <h4 className="text-lg md:text-xl lg:text-2xl xl:text-xl font-light">{box.name}</h4>
+        <p className="text-xs md:text-sm lg:text-base xl:text-sm">{box.category?.short_name || "Catégorie non spécifiée"}</p>
+        <p className="text-xs md:text-sm lg:text-base xl:text-sm">{box.base_price?.replace('.', ',')} €</p>
       </div>
     </div>
   );

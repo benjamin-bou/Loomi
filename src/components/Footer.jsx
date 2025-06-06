@@ -102,8 +102,8 @@ import {
         {/* Contenu classique */}
         <div className="relative z-10">
           <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">            <div>
-              <h3 className="font-bold text-lg mb-4">Aide et contact</h3>
-              <ul className="space-y-2 text-sm">
+              <h3 className="font-bold !text-lg mb-4">Aide et contact</h3>
+              <ul className="space-y-2 !text-sm">
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={handleMyOrdersClick}>Ma commande</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={handleTrackPackageClick}>Suivre mon colis</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={handleReturnOrderClick}>Retourner ma commande</li>
@@ -111,22 +111,22 @@ import {
                 <li>Contact</li>
               </ul>
             </div>            <div>
-              <h3 className="font-bold text-lg mb-4">Offres</h3>
-              <ul className="space-y-2 text-sm">
+              <h3 className="font-bold !text-lg mb-4">Offres</h3>
+              <ul className="space-y-2 !text-sm">
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/boxes'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos box</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/subscriptions'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos abonnements</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/gift-cards'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Carte cadeaux</li>
               </ul>
             </div>            <div>
-              <h3 className="font-bold text-lg mb-4">À propos</h3>
-              <ul className="space-y-2 text-sm">
+              <h3 className="font-bold !text-lg mb-4">À propos</h3>
+              <ul className="space-y-2 !text-sm">
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/about'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Notre marque</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/about'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos engagements</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold text-lg mb-4">Suivez nous !</h3>
-              <div className="flex items-center gap-4 text-2xl">
+              <h3 className="font-bold !text-lg mb-4">Suivez nous !</h3>
+              <div className="flex items-center gap-4 !text-2xl">
                 <FaInstagram />
                 <FaPinterestP />
                 <FaTiktok />
@@ -138,7 +138,7 @@ import {
     
           <div className="mr-[40%] flex flex-col md:flex-row justify-between items-center text-center gap-6">
             <div>
-              <h3 className="font-bold mb-2">Paiements sécurisés</h3>
+              <h3 className="font-bold !text-lg mb-2">Paiements sécurisés</h3>
               <div className="flex items-center justify-center gap-4 text-3xl">
                 <FaCcVisa />
                 <FaCcApplePay />
@@ -146,7 +146,7 @@ import {
               </div>
             </div>
             <div className="mb-auto">
-              <h3 className="font-bold">Livraisons en France</h3>
+              <h3 className="font-bold !text-lg">Livraisons en France</h3>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ export default function LoomiSteps( {textColor} ) {
         { label: "Je crée", icon: innovation },
     ];    return (
         <>
-            <h2 className={`mb-8 md:mb-12 text-3xl md:text-5xl lg:!text-[60px] text-${textColor ?? 'white'}`}>Comment ça marche ?</h2>
+            <h2 className={`mb-8 md:mb-12 !text-3xl md:text-5xl lg:!text-[60px] text-${textColor ?? 'white'}`}>Comment ça marche ?</h2>
             <div className="flex flex-wrap justify-center md:justify-between gap-6 md:gap-8 lg:gap-12 mb-10 md:mb-20 max-w-[1200px] w-[90%] md:w-[80%] mx-auto">
                 {etapes.map((etape, index) => (                    <div
                         key={index}
