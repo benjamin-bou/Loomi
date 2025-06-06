@@ -79,13 +79,12 @@ function BoxPage({ setShowCart }) {
   if (loading) {
     return <BoxDetailsSkeleton />;
   }
-
   return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <div className="mx-4 md:mx-8 lg:mx-[50px] py-6 md:py-8 lg:py-[50px]">
+      <div className="px-4 xs:!px-6 sm:!px-8 md:!px-12 lg:!px-[50px] py-4 xs:!py-6 sm:!py-8 md:!py-[50px]">
         {/* Route */}
-        <div className="mb-4 md:mb-6">
-          <p className="text-sm md:text-base">
+        <div className="mb-3 xs:!mb-4 sm:!mb-6">
+          <p className="text-xs xs:!text-sm sm:!text-base">
             <span className="cursor-pointer hover:underline" onClick={() => navigate('/boxes')}>
               Nos box
             </span> / {box.name}
@@ -93,18 +92,18 @@ function BoxPage({ setShowCart }) {
         </div>
 
         {/* Détails principaux */}
-        <div className="flex flex-col lg:flex-row justify-between mt-4 w-full gap-6 lg:gap-8">
+        <div className="flex flex-col lg:!flex-row justify-between mt-3 xs:!mt-4 w-full gap-4 xs:!gap-6 sm:!gap-8 lg:!gap-12">
           {/* Images de la box */}
-          <div className="w-full lg:w-[58%]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
-              <div className="col-span-1 h-48 md:h-64 lg:h-96 bg-gray-300 rounded-3xl md:rounded-4xl"></div>
-              <div className="col-span-1 h-48 md:h-64 lg:h-96 bg-gray-300 rounded-3xl md:rounded-4xl"></div>
-              <div className="col-span-1 md:col-span-2 h-48 md:h-64 lg:h-96 bg-gray-300 rounded-3xl md:rounded-4xl"></div>
+          <div className="w-full lg:!w-[58%]">
+            <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
+              <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+              <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+              <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
             </div>
           </div>
 
           {/* Infos de la box */}
-          <div className="w-full lg:w-[34%] mt-6 lg:mt-0">
+          <div className="w-full lg:!w-[34%] mt-4 xs:!mt-6 lg:!mt-0">
             <div className="flex flex-row justify-between items-start">
               <div className="flex flex-col flex-1">
                 <h2 className="text-2xl md:text-3xl lg:!text-[36px] lg:leading-[36px] text-[#1B1B1B]">{box.name}</h2>

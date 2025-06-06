@@ -70,7 +70,7 @@ const MainHeader = ({ setShowLogin, setShowCart, setShowNav }) => {
   return (
     <header className="w-full">
       {/* Partie haute */}
-      <div className="bg-white h-[111px] flex justify-between items-center px-4 md:px-[50px]">
+      <div className="bg-white h-[70px] md:h-[111px] flex justify-between items-center px-4 md:px-[50px]">
         <div className="flex justify-between items-center bg-white w-full">          
           {/* Recherche / Hamburger */}
           <div className="flex items-center gap-2">
