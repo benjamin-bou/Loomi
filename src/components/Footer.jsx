@@ -132,7 +132,10 @@ import {
                 />
                 <FaPinterestP />
                 <FaTiktok />
-                <FaYoutube />
+                <FaYoutube 
+                  className="cursor-pointer hover:text-loomipink transition-colors min-w-[100px]" 
+                  onClick={() => window.open('https://www.youtube.com/@LOOMIBOX', '_blank')}
+                />
                 <FaFacebookF />
               </div>
             </div>
