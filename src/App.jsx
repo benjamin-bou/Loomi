@@ -31,18 +31,20 @@ import OrderSuccessPage from './pages/OrderSuccessPage';
 import MyGiftCardsPage from './pages/MyGiftCardsPage';
 import AuthModal from "./components/AuthModal";
 import CartModal from "./components/CartModal";
+import NavModal from "./components/NavModal";
 import { useState } from "react";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [showNav, setShowNav] = useState(false);
 
-  return (
-    <Router>
+  return (    <Router>
       <ScrollToTop />
-      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} />      
+      <MainHeader setShowLogin={setShowLogin} setShowCart={setShowCart} setShowNav={setShowNav} />      
       <AuthModal show={showLogin} setShow={setShowLogin} />
       <CartModal show={showCart} setShow={setShowCart} />
+      <NavModal show={showNav} setShow={setShowNav} />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />
