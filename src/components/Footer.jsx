@@ -123,11 +123,13 @@ import {
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/about'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Notre marque</li>
                 <li className="cursor-pointer hover:text-loomipink transition-colors" onClick={() => { navigate('/about'); window.scrollTo({top:0, left:0, behavior:'smooth'}); }}>Nos engagements</li>
               </ul>
-            </div>
-            <div>
+            </div>            <div>
               <h3 className="font-bold !text-lg mb-4">Suivez nous !</h3>
               <div className="flex items-center gap-4 !text-2xl">
-                <FaInstagram />
+                <FaInstagram 
+                  className="cursor-pointer hover:text-loomipink transition-colors" 
+                  onClick={() => window.open('https://www.instagram.com/box.loomi/?hl=fr', '_blank')} 
+                />
                 <FaPinterestP />
                 <FaTiktok />
                 <FaYoutube />
