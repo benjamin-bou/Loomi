@@ -64,7 +64,7 @@ export default function Profile() {
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
           </ProfileCard>
         </div>
-      <p className="!text-2xl underline cursor-pointer mb-20" onClick={handleLogout}>Déconnexion</p>
+      <p className="!text-2xl underline cursor-pointer mb-20 hover:text-loomipink transition-colors" onClick={handleLogout}>Déconnexion</p>
       </div>
     </div>
     </>
