@@ -3,6 +3,8 @@ import LoomiSteps from "../components/LoomiSteps";
 import ReviewsSection from "../components/home/ReviewsSection";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../api";
+import l_shape from "/images/picto/l_shape.svg";
+import double_o_shape from "/images/picto/double_o_shape.svg";
 
 export default function Subscriptions() {
   const navigate = useNavigate();
@@ -34,17 +36,14 @@ export default function Subscriptions() {
   return (
     <div className="bg-[#FFF7F0] min-h-screen pb-10">
       <div className="flex flex-col items-center justify-center mx-[50px] mb-32">
-        <h2 className="mt-10 mb-20 text-start self-start">Nos abonnements</h2>
-
+        <h2 className="mt-10 mb-20 text-start self-start">Nos abonnements</h2>        
         {/* ABONNEMENT MENSUEL */}
         <div className="relative w-full max-w-6xl mb-30 flex">
-          {/* Forme rose foncé gauche */}
-          <div
-            className="hidden lg:block absolute -left-30 -bottom-30 w-[153px] h-[411px] bg-loomipink z-50"
-            style={{
-              borderRadius: "55% 45% 65% 35% / 60% 45% 55% 40%",
-              transform: "rotate(-25deg)",
-            }}
+          {/* SVG l_shape à gauche */}
+          <img 
+            src={l_shape} 
+            alt="Forme décorative gauche" 
+            className="hidden lg:block absolute -left-30 -bottom-30 w-[153px] h-[411px] z-50"
           />
           {/* Carte */}
           <div className="bg-white text-black rounded-4xl p-4 grid grid-cols-2 w-full z-20 gap-10">
@@ -66,25 +65,14 @@ export default function Subscriptions() {
               <div className="w-full h-full bg-gray-300 rounded-2xl" />
             </div>
           </div>
-        </div>
-
+        </div>        
         {/* ABONNEMENT MYSTÈRE */}
         <div className="relative w-full max-w-6xl mb-30 flex">
-          {/* Forme rose foncé droite 1 */}
-          <div
-            className="hidden lg:block absolute right-0 bottom-4 w-[140px] h-[140px] bg-loomipink z-50"
-            style={{
-              borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-              transform: "rotate(10deg)",
-            }}
-          />
-          {/* Forme rose foncé droite 2 */}
-          <div
-            className="hidden lg:block absolute right-50 bottom-0 w-[150px] h-[150px] bg-loomipink z-50"
-            style={{
-              borderRadius: "48% 52% 60% 40% / 50% 40% 60% 50%",
-              transform: "rotate(-8deg)",
-            }}
+          {/* SVG double_o_shape à droite */}
+          <img 
+            src={double_o_shape} 
+            alt="Forme décorative droite" 
+            className="hidden lg:block absolute right-0 bottom-0 w-[300px] h-[300px] z-50 transform translate-y-1/2"
           />
           {/* Carte */}
           <div className="bg-white text-black rounded-4xl p-4 grid grid-cols-2 w-full z-20 gap-10">
@@ -94,7 +82,7 @@ export default function Subscriptions() {
                 <p>Recevoir une boîte mystère tous les 3 mois (cette boîte ne figurera aux autres box découvertes ensuite.)</p>
                 <p>Aimez les surprises et l&apos;inattendu ? Découvrez notre Box Mystère : une expérience unique à chaque envoi.</p>
                 <br />
-                <p>Recevez une surprise supplémentaire chaque mois — laissez la curiosité faire le premier pas.</p>
+                <p>Recevez une surprise supplémentaire chaque mois. Laissez la curiosité faire le premier pas.</p>
               </article>
               <div className="flex flex-col justify-center mb-2 gap-6">
                 <p className="!text-3xl !font-medium">33,21 € / 3 MOIS</p>

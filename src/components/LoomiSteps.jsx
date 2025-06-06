@@ -1,26 +1,33 @@
-export default function LoomiSteps( textColor) {
+import subscription from "/images/picto/subscription.svg";
+import box from "/images/picto/box_picto.svg";
+import mailbox from "/images/picto/mailbox.svg";
+import innovation from "/images/picto/innovation_picto.svg";
+
+export default function LoomiSteps( {textColor} ) {
 
     const etapes = [
-        { label: "Je m’abonne", icon: "📝" },
-        { label: "Je reçois ma box", icon: "📦" },
-        { label: "Je découvre", icon: "🔍" },
-        { label: "Je crée", icon: "🎨" },
-      ];
-
-    return (
+        { label: "Je m'abonne", icon: subscription },
+        { label: "Je reçois ma box", icon: mailbox },
+        { label: "Je découvre", icon: box },
+        { label: "Je crée", icon: innovation },
+    ];    return (
         <>
-            <h2 className="mb-6 md:mb-10 text-3xl md:text-5xl lg:!text-[60px]" style={textColor ? {color: textColor} : {color: "white"}}>Comment ça marche ?</h2>
-            <div className="flex flex-wrap justify-center md:justify-between gap-4 md:gap-8 mb-10 md:mb-20 max-w-[1800px] w-[90%] md:w-[70%] mx-auto">
-                {etapes.map((etape, index) => (                <div
-                    key={index}
-                    className="flex flex-col items-center text-center w-20 md:w-32"
-                    style={textColor ? {color: textColor} : {color: "white"}}
-                >
-                    <div className="w-[20vw] md:w-[15vw] h-[20vw] md:h-[15vw] max-w-[100px] max-h-[100px] bg-gray-300 rounded-3xl md:rounded-4xl mb-2 flex items-center justify-center text-lg md:text-2xl">
-                    {etape.icon}
+            <h2 className={`mb-8 md:mb-12 text-3xl md:text-5xl lg:!text-[60px] text-${textColor ?? 'white'}`}>Comment ça marche ?</h2>
+            <div className="flex flex-wrap justify-center md:justify-between gap-6 md:gap-8 lg:gap-12 mb-10 md:mb-20 max-w-[1200px] w-[90%] md:w-[80%] mx-auto">
+                {etapes.map((etape, index) => (                    <div
+                        key={index}
+                        className="flex flex-col items-center text-center w-36 md:w-40 lg:w-44"
+                    >
+                        <div className="w-20 md:w-24 lg:w-28 h-20 md:h-24 lg:h-28 mb-3 md:mb-4 flex items-center justify-center">
+                            <img 
+                                src={etape.icon} 
+                                alt={etape.label} 
+                                className="w-full h-full object-contain"
+                                style={textColor ? {filter: `brightness(0) saturate(100%) ${textColor === 'white' ? 'invert(1)' : 'invert(0)'}`} : {filter: 'brightness(0) saturate(100%) invert(1)'}}
+                            />
+                        </div>
+                        <p className={`text-sm md:text-base lg:text-lg font-medium text-${textColor ?? 'white'}`}>{etape.label}</p>
                     </div>
-                    <p className="text-xs md:text-sm">{etape.label}</p>
-                </div>
                 ))}
             </div>
         </>

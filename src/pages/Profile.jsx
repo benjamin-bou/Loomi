@@ -2,6 +2,7 @@ import { fetchData } from "../api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
+import o_shape from "/images/picto/o_shape.svg";
 
 export default function Profile() {
   const [userName, setUserName] = useState("");
@@ -23,18 +24,16 @@ export default function Profile() {
     window.location.reload(); // Recharge la page pour mettre à jour l'état de l'application
     navigate("/");
   };
-
   return (
     <>
     <div className="bg-[#FFF7F0] relative overflow-x-hidden">
-        {/* Forme rose SVG à droite */}
-        <div
-          className="absolute -right-10 top-[30%] z-0 pointer-events-none bg-loomipink w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
-          style={{
-            borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%"
-          }}
-        >
-        </div>
+        {/* SVG o_shape à droite */}
+        <img 
+          src={o_shape} 
+          alt="Forme décorative" 
+          className="absolute -right-10 top-[30%] z-0 pointer-events-none w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
+          style={{ transform: "rotate(-90deg)" }}
+        />
       {/* Contenu principal */}
       <div className="relative z-10 px-14 pt-14 ">
         <h2 className="text-5xl font-bold mb-2">Bienvenue, {userName}</h2>

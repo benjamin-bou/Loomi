@@ -2,6 +2,8 @@ import LoomiSteps from "../components/LoomiSteps";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useNavigate } from "react-router-dom";
+import o_shape from "/images/picto/o_shape.svg";
+import l_shape from "/images/picto/l_shape.svg";
 
 export default function About() {
   const [relatedBoxes, setRelatedBoxes] = useState([]);
@@ -11,16 +13,14 @@ export default function About() {
       fetchData(`/boxes`)
         .then(data => setRelatedBoxes(data.slice(0, 4)))
         .catch(err => console.error(err));
-    }, []);
-
-    return (
+    }, []);    return (
         <div className="bg-loomibeige min-h-screen font-montserrat relative overflow-x-hidden px-[50px] pt-10">
-          {/* Blob rose en haut à droite */}
-          <div
-            className="absolute -right-12 top-10 z-0 pointer-events-none bg-[#d63d87] w-[32vw] h-[18vw] max-w-[520px] max-h-[300px]"
-            style={{
-              borderRadius: "53% 47% 60% 40% / 63% 49% 51% 37%",
-            }}
+          {/* SVG l_shape en haut à droite */}
+          <img 
+            src={l_shape} 
+            alt="Forme décorative haut" 
+            className="absolute -right-1 top-10 z-0 pointer-events-none w-[170px] h-[460px] max-w-[520px] max-h-[300px]"
+            style={{ transform: "rotate(-112deg)" }}
           />
     
           {/* Première section : Le concept */}
@@ -54,23 +54,21 @@ export default function About() {
                   Why do we use it? Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
                 </p>
               </div>
-            </div>
-    
-            {/* Colonne visuelle droite */}
+            </div>            {/* Colonne visuelle droite */}
             <div className="flex-1 flex flex-col items-end relative min-w-[350px]">
               {/* Bloc gris arrondi */}
               <div className="w-[600px] h-[600px] bg-[#d8d8d8] rounded-3xl flex items-end justify-center mb-8" />
-              {/* Blob rose devant le bloc gris */}
-              <div
-                className="absolute right-[-50px] bottom-0 z-10 pointer-events-none bg-[#d63d87] w-[200px] h-[160px]"
-                style={{
-                  borderRadius: "60% 40% 70% 30% / 53% 60% 40% 47%",
-                }}
+              {/* SVG o_shape devant le bloc gris */}
+              <img 
+                src={o_shape} 
+                alt="Forme décorative" 
+                className="absolute right-[-50px] bottom-1/4 z-10 pointer-events-none w-[290px] h-[260px]"
+                style={{ transform: "rotate(-90deg)" }}
               />
             </div>
           </section>
           <div className="flex flex-col justify-center items-center my-20">
-          <LoomiSteps />
+          <LoomiSteps textColor={"black"}/>
           <div className="p-[50px] mx-auto w-[calc(100vw-100px)]">
             <h2 className="text-2xl text-center mb-12">Découvrez nos box !</h2>
             <div className="flex flex-wrap justify-center gap-8 w-full">

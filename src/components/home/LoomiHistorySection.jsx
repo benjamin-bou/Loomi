@@ -1,4 +1,5 @@
 import React from "react";
+import o_shape from "/images/picto/o_shape.svg";
 
 export default function LoomiHistorySection() {
   return (
@@ -22,11 +23,13 @@ export default function LoomiHistorySection() {
         </div>        {/* Partie droite - Image et forme rose */}
         <div className="flex-1 flex items-center justify-center relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
           {/* Bloc carré gris arrondi */}
-          <div className="w-full h-[300px] md:h-[400px] lg:h-full bg-[#dbdbdb] rounded-[32px] md:rounded-[44px] lg:rounded-[56px] relative z-10"></div>{/* Forme rose */}
+          <div className="w-full h-[300px] md:h-[400px] lg:h-full bg-[#dbdbdb] rounded-[32px] md:rounded-[44px] lg:rounded-[56px] relative z-10"></div>          {/* Forme rose avec o_shape */}
           <div className="absolute left-1/4 md:left-1/3 bottom-[5px] md:bottom-[10px] z-20 w-[80vw] md:w-[100vw] h-[15vw] md:h-[20vw] max-h-[200px] md:max-h-[350px] -translate-x-1/2 md:-translate-x-[60%]">
-            <svg width="100%" height="100%" viewBox="0 0 340 290" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <path d="M340 175C340 248 183.82 307.015 102.19 276.07C20.5596 245.125 1.23299e-05 208.963 1.23299e-05 135.5C1.23299e-05 62.0372 89.6024 1.70745 170 1.70745C250.398 1.70745 340 102 340 175Z" fill="#E62B88"/>
-            </svg>
+            <img 
+              src={o_shape} 
+              alt="O shape decoration" 
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
       </div>

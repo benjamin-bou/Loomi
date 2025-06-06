@@ -10,6 +10,7 @@ import GiftCardsSkeleton from "../components/GiftCardsSkeleton";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useCart } from '../context/CartContext';
+import o_shape from "/images/picto/o_shape.svg";
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
@@ -144,7 +145,8 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
               </div>
             ))}
           </Slider>
-        </section>        {/* Section liste des cartes cadeau */}
+        </section>        
+        {/* Section liste des cartes cadeau */}
         <section className="w-full mt-16 px-20" data-section="gift-cards-list">
           {error && (
             <div className="text-red-500 text-center mb-8">{error}</div>
@@ -155,17 +157,18 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {giftCards && giftCards.length > 0 ? (
                 giftCards.map((giftCard, i) =>
-                  i === giftCards.length - 1 ? (
-                    // Dernière card, plus large avec forme rose foncé décorative
+                  i === giftCards.length - 1 ? (                    // Dernière card, plus large avec forme SVG décorative
                     <div key={giftCard.id || i} className="relative md:col-span-2 w-full">
-                      {/* Forme rose foncé décorative */}
-                      <div
-                        className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] bg-loomipink z-50"
+                      {/* SVG o_shape décoratif */}
+                      <img 
+                        src={o_shape} 
+                        alt="Forme décorative" 
+                        className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] z-50"
                         style={{
-                          borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-                          transform: "rotate(10deg)",
+                          transform: "rotate(-90deg)",
                         }}
-                      />                    <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
+                      />
+                      <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
                         <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{giftCard.name}</h3>
                         <p className="text-center text-base md:text-lg mb-6">{giftCard.description}</p>
                         <MainButton

@@ -69,7 +69,7 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
       <div className="bg-white h-[111px] flex justify-between items-center px-4 md:px-[50px]">
         <div className="flex justify-between items-center bg-white w-full">
           {/* Recherche */}
-          <div className="items-center gap-2">
+          <div className="flex items-center gap-2">
             <input
               type="text"
               placeholder="Recherche"

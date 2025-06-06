@@ -136,17 +136,17 @@ import {
             </div>
           </div>
     
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center text-center gap-6">
+          <div className="mr-[40%] flex flex-col md:flex-row justify-between items-center text-center gap-6">
             <div>
-              <h4 className="font-bold mb-2">Paiements sécurisés</h4>
+              <h3 className="font-bold mb-2">Paiements sécurisés</h3>
               <div className="flex items-center justify-center gap-4 text-3xl">
                 <FaCcVisa />
                 <FaCcApplePay />
                 <FaCcPaypal />
               </div>
             </div>
-            <div>
-              <h4 className="font-bold">Livraisons en France</h4>
+            <div className="mb-auto">
+              <h3 className="font-bold">Livraisons en France</h3>
             </div>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import LoomiSteps from "../LoomiSteps";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import l_shape from "/images/picto/l_shape.svg";
+import o_shape from "/images/picto/o_shape.svg";
 
 const SubscriptionsSection = () => {
   const navigate = useNavigate();
@@ -73,26 +75,18 @@ const SubscriptionsSection = () => {
           </svg>
         </div>        {/* ✅ Contenu principal décalé vers le bas */}
         <div className="relative z-20 mt-[30vw] md:mt-[20vw] mx-8 md:mx-[50px] w-[calc(100%-4rem)] md:w-[calc(100%-100px)] pb-[50px] md:pb-[100px] text-center">
-          <h2 className="pt-16 md:pt-32 lg:pt-0 font-normal text-white mb-8 md:mb-30 text-3xl md:text-5xl lg:!text-[60px]">Nos abonnements</h2>
-
-          <div className="relative flex flex-col lg:flex-row justify-around items-stretch gap-6 md:gap-10 lg:gap-[calc(11vw)] mb-20 md:mb-40 mx-0 xl:mx-[calc(10vw-50px)]">
-            {/* Forme gauche - collée à la carte mensuelle */}
-            <div
-              className="hidden lg:block absolute -left-16 top-3/4 -translate-y-1/2 w-[153px] h-[411px] bg-loomipink z-50"
-              style={{
-                borderRadius: "55% 45% 65% 35% / 60% 45% 55% 40%",
-                transform: "rotate(-25deg)",
-              }}
-            />
-
-            {/* Forme droite - collée à la carte mystère */}
-            <div
-              className="hidden lg:block absolute -right-10 top-2/3 w-[160px] h-[147px] bg-loomipink z-50"
-              style={{
-                borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-                transform: "rotate(12deg)",
-              }}
-            />            {/* Cartes abonnements */}
+          <h2 className="pt-16 md:pt-32 lg:pt-0 font-normal text-white mb-8 md:mb-30 text-3xl md:text-5xl lg:!text-[60px]">Nos abonnements</h2>          <div className="relative flex flex-col lg:flex-row justify-around items-stretch gap-6 md:gap-10 lg:gap-[calc(11vw)] mb-20 md:mb-40 mx-0 xl:mx-[calc(10vw-50px)]">
+            {/* SVG l_shape gauche - collé à la carte mensuelle */}
+            <img
+              src={l_shape}
+              alt="L shape decoration"
+              className="hidden lg:block absolute -left-16 top-3/4 -translate-y-1/2 w-[153px] h-[411px] z-50"
+            />            {/* SVG o_shape droite - collé à la carte mystère */}
+            <img
+              src={o_shape}
+              alt="O shape decoration"
+              className="hidden lg:block absolute -right-10 top-2/3 w-[160px] h-[147px] z-50"
+            />{/* Cartes abonnements */}
             <div className="relative z-20 flex-1 flex flex-col items-center">
               <div className="bg-white text-black rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-md flex flex-col items-center justify-between w-full gap-6 md:gap-10 h-[500px] md:h-[650px]">
                 <h3 className="text-center text-2xl md:!text-4xl">{abonnements[0].title}</h3>
@@ -117,11 +111,8 @@ const SubscriptionsSection = () => {
                 </button>
               </div>
             </div>
-          </div>
-
-
-          {/* Étapes */}
-          <LoomiSteps />          {/* Section carte cadeaux */}
+          </div>          {/* Étapes */}
+          <LoomiSteps textColor="white" />{/* Section carte cadeaux */}
           <div className="relative z-20 w-full py-10 md:py-20">
             <div className="flex flex-col md:flex-row justify-around items-center mx-auto z-10 relative gap-6 md:gap-10">
               {/* Bloc gauche */}

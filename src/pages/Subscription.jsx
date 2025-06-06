@@ -1,6 +1,7 @@
 import { fetchData, postData } from "../api";
 import MainButton from "../components/addOns/MainButton";
 import { useEffect, useState } from "react";
+import l_shape from "/images/picto/l_shape.svg";
 
 export default function Orders() {
   const statusLabel = {
@@ -42,14 +43,14 @@ export default function Orders() {
       }
     }
   };
-
   return (
     <div className="bg-loomibeige relative px-8 py-8 font-montserrat overflow-hidden pb-20">
-      {/* Forme blob en haut à droite */}
-      <div
-        className="absolute -right-10 top-[2vw] z-0 pointer-events-none bg-[#d63d87] w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
-        style={{
-          borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%",        }}
+      {/* SVG l_shape en haut à droite */}
+      <img 
+        src={l_shape} 
+        alt="Forme décorative" 
+        className="absolute -right-10 top-[2vw] z-0 pointer-events-none w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
+        style={{ transform: "rotate(-35deg)" }}
       />
 
       {/* Titre */}

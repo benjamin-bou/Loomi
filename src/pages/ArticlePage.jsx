@@ -1,3 +1,5 @@
+import o_shape from "/images/picto/o_shape.svg";
+
 export default function ArticlePage() {
   return (
       <div className="bg-loomibeige min-h-screen font-montserrat py-0 px-[50px] pb-20">
@@ -24,14 +26,13 @@ export default function ArticlePage() {
           </div>
 
           {/* Colonne image, visible seulement sur desktop */}
-          <div className="w-full lg:w-[40vw] flex flex-col items-center mt-6 lg:mt-0">
-            <div className="relative w-full h-[520px] min-h-[320px] flex items-center justify-center">
+          <div className="w-full lg:w-[40vw] flex flex-col items-center mt-6 lg:mt-0">            <div className="relative w-full h-[520px] min-h-[320px] flex items-center justify-center">
               <div className="w-full h-full bg-[#d8d8d8] rounded-3xl"></div>
-              <div
-                className="absolute right-[-80px] bottom-[-30px] w-64 h-64 bg-[#d63d87] z-10"
-                style={{
-                  borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-                }}
+              <img 
+                src={o_shape} 
+                alt="Forme décorative" 
+                className="absolute right-[-80px] bottom-[-30px] w-64 h-64 z-10"
+                style={{ transform: "rotate(-90deg)" }}
               />
             </div>
           </div>
