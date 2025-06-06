@@ -6,11 +6,11 @@ export default function LoomiHistorySection() {
     <div className="bg-loomibeige flex items-center justify-center mx-8 lg:mx-[50px]">
       <div className="bg-white rounded-[24px] md:rounded-[36px] lg:rounded-[48px] w-[95vw] max-w-[1800px] min-h-[500px] md:min-h-[600px] lg:max-h-[1000px] lg:h-[90vh] p-6 md:p-8 lg:p-12 flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-20 relative overflow-hidden shadow-lg">        {/* Partie gauche - Texte */}
         <div className="flex-1 flex flex-col justify-start">
-          <h1 className="mb-6 md:mb-10 lg:mb-16 text-2xl md:text-4xl lg:text-5xl font-bold">
+          <h1 className="mb-6 md:mb-10 lg:mb-16 !text-4xl lg:text-5xl font-bold">
             Notre histoire
           </h1>
           <div>
-            <h2 className="mb-3 md:mb-4 text-xl md:text-2xl lg:text-3xl font-semibold">
+            <h2 className="mb-3 md:mb-4 !text-xl md:text-2xl lg:text-3xl font-semibold">
               Lorem ipsum
             </h2>
             <p className="text-sm md:text-base lg:text-lg mb-2 leading-relaxed">

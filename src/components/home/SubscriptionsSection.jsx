@@ -122,15 +122,15 @@ const SubscriptionsSection = () => {
                   alt="Carte cadeaux"
                   className="absolute top-0 left-0 w-full h-full object-cover rounded-[30px] md:rounded-[40px]"
                 />
-                <h2 className="relative text-2xl md:text-4xl font-semibold text-black z-10 ml-4 md:ml-6 mt-4 md:mt-6">
+                <h2 className="relative !text-2xl md:text-4xl font-semibold text-black z-10 ml-4 md:ml-6 mt-4 md:mt-6">
                   Carte cadeaux
                 </h2>
               </div>
 
               {/* Bloc droit */}
-              <div className="bg-white rounded-[30px] md:rounded-[40px] w-full h-[300px] md:h-[500px] p-6 md:p-8 flex flex-col justify-end shadow-lg">
+              <div className="bg-white rounded-[30px] md:rounded-[40px] w-full h-full md:h-[500px] p-6 md:p-8 flex flex-col md:justify-end shadow-lg">
                 <div>
-                  <h2 className="text-xl md:text-3xl font-semibold mb-3 md:mb-4">UN CADEAU ORIGINAL ?</h2>
+                  <h2 className="!text-xl md:text-3xl font-semibold mb-3 md:mb-4">UN CADEAU ORIGINAL ?</h2>
                   <p className="text-gray-700 mb-4 md:mb-6 text-sm md:text-base">
                     Vous cherchez une idée originale et pleine de surprises ? Faites plaisir à vos proches avec notre carte cadeau !
                   </p>
