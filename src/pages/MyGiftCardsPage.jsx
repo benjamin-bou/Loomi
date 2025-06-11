@@ -49,7 +49,7 @@ export default function MyGiftCardsPage({ setShowLogin }) {
         )}
       </div>
       
-      <section className="px-4 sm:!px-6 md:!px-8 lg:!px-[10vw] xl:!px-[15vw] relative z-30">
+      <section className="px-4 sm:!px-6 md:!px-8 lg:!px-[10vw] xl:!px-[15vw] relative z-10">
         <div className="bg-loomilightpink text-black rounded-2xl sm:!rounded-3xl md:!rounded-4xl p-3 sm:!p-4 md:!p-6 lg:!p-8 w-full relative overflow-hidden">
           <div className="flex flex-col p-3 sm:!p-4 md:!p-6 lg:!p-8 gap-3 sm:!gap-4 md:!gap-5 text-center relative z-10">
             <h3 className="!text-xs sm:!text-sm md:!text-base lg:!text-lg text-white uppercase font-medium leading-tight">

@@ -70,7 +70,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeActivatedGiftCard = (giftCardId) => {
-    const updatedGiftCards = activatedGiftCards.filter(gc => gc.id !== giftCardId);
+    const updatedGiftCards = activatedGiftCards?.filter(gc => gc?.id !== giftCardId);
     setActivatedGiftCards(updatedGiftCards);
     localStorage.setItem('activatedGiftCards', JSON.stringify(updatedGiftCards));
   };

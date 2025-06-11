@@ -30,18 +30,19 @@ export default function GiftCardActivation({ onClose, onActivationSuccess, user,
         code: giftCardCode.trim().toUpperCase()
       });
 
-      setSuccess(`Carte cadeau activée avec succès ! Type: ${response.giftCard.type}`);
+      setSuccess(`Carte cadeau activée avec succès ! Type: ${response.giftCard?.type}`);
       
       // Appeler le callback de succès si fourni
       if (onActivationSuccess) {
-        onActivationSuccess(response.giftCard);
+        onActivationSuccess(response?.giftCard);
       }
 
       // Fermer automatiquement après 2 secondes
       setTimeout(() => {
         onClose();
         navigate('/profile/gift-cards')
-      }, 2000);    } catch (error) {
+      }, 2000);    
+    } catch (error) {
       console.error('Erreur activation carte cadeau:', error);
       
       // Gestion spécifique des erreurs HTTP

@@ -24,9 +24,9 @@ export default function MyGiftCards() {
         
         // Supprimer les cartes invalides du localStorage
         localGiftCards.forEach(localCard => {
-          const isValid = dbGiftCards.find(dbCard => dbCard.code === localCard.code && !dbCard.used_at);
+          const isValid = dbGiftCards.find(dbCard => dbCard?.code === localCard?.code && !dbCard?.used_at);
           if (!isValid) {
-            removeActivatedGiftCard(localCard.id);
+            removeActivatedGiftCard(localCard?.id);
           }
         });
         
@@ -46,7 +46,7 @@ export default function MyGiftCards() {
     fetchGiftCards();
   }, [activatedGiftCards, removeActivatedGiftCard]);const handleUseGiftCard = (giftCard) => {
     // Vérifier le type de carte cadeau pour déterminer l'action appropriée
-    const giftCardTypeName = giftCard.giftCardType?.name;
+    const giftCardTypeName = giftCard?.giftCardType?.name;
     
     if (giftCardTypeName === '1 BOX') {
       // Pour les cartes "1 BOX", ouvrir le modal de sélection de box
@@ -152,7 +152,7 @@ export default function MyGiftCards() {
         </div>
       ) : (
         <div className="space-y-3 sm:!space-y-4">
-          {myGiftCards.map((giftCard) => {
+          {myGiftCards?.map((giftCard) => {
             // Vérifier si cette carte est actuellement dans le panier
             const isInCart = cart.some(item => 
               item.type === 'giftcard_usage' && item.giftCardCode === giftCard.code
