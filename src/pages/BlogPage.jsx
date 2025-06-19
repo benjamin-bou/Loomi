@@ -1,6 +1,8 @@
 import MainButton from "../components/addOns/MainButton";
 import Newsletter from "../components/Newsletter";
 import { useNavigate } from "react-router-dom";
+import o_shape from "/images/picto/o_shape.svg";
+import blog_image from "/images/blog_image.png";
 
 const articles = [
     {
@@ -53,16 +55,17 @@ const articles = [
             <span className="text-lg mb-2">{articles[0].date}</span>
             <h2 className="text-3xl font-semibold mb-2">{articles[0].title}</h2>
             <p className="text-base mb-6">{articles[0].content}</p>
-            <MainButton text="En savoir plus" onClick={() => navigate(`/blog/${articles[0].id}`)} className="w-[240px]"/>
-            <div className="relative w-full mt-auto">
-              {/* Image grise */}
-              <div className="w-full h-48 bg-gray-300 rounded-3xl" />
-              {/* Blob rose */}
-              <div
-                className="absolute -right-12 -top-10 w-40 h-40 bg-[#d63d87] z-10"
-                style={{
-                  borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-                }}
+            <MainButton text="En savoir plus" onClick={() => navigate(`/blog/${articles[0].id}`)} className="w-[240px]"/>            <div className="relative w-full mt-auto">
+              {/* Image blog */}
+              <div className="w-full h-48 rounded-3xl overflow-hidden">
+                <img src={blog_image} alt="Image blog principal" className="w-full h-full object-cover" />
+              </div>
+              {/* SVG o_shape */}
+              <img 
+                src={o_shape} 
+                alt="Forme décorative" 
+                className="absolute -right-12 -top-10 w-40 h-40 z-10"
+                style={{ transform: "rotate(-90deg)" }}
               />
             </div>
           </div>

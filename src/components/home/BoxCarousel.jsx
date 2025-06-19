@@ -2,8 +2,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../index.css";
-import arrowLeft from "/images/picto/slider/slider_arrow_left.svg";
-import arrowRight from "/images/picto/slider/slider_arrow_right.svg";
 import LoadingImage from "../addOns/LoadingImage";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +20,7 @@ function NextArrow(props) {
   const { slideCount, currentSlide, ...rest } = props;
   return (
     <div {...rest} className="slick-arrow slick-next !right-10 z-20 flex items-center justify-center">
-      <img src={arrowRight} alt="next" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
+      <img src="/images/picto/slider/slider_arrow_right.svg" alt="next" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
     </div>
   );
 }
@@ -32,7 +30,7 @@ function PrevArrow(props) {
   const { slideCount, currentSlide, ...rest } = props;
   return (
     <div {...rest} className="slick-arrow slick-prev !left-8 z-20 flex items-center justify-center">
-      <img src={arrowLeft} alt="prev" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
+      <img src="/images/picto/slider/slider_arrow_left.svg" alt="prev" style={{ width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', maxWidth: '30px', maxHeight: '30px', objectFit: 'contain' }} />
     </div>
   );
 }

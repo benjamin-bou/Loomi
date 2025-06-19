@@ -24,9 +24,9 @@ export default function MyGiftCards() {
         
         // Supprimer les cartes invalides du localStorage
         localGiftCards.forEach(localCard => {
-          const isValid = dbGiftCards.find(dbCard => dbCard.code === localCard.code && !dbCard.used_at);
+          const isValid = dbGiftCards.find(dbCard => dbCard?.code === localCard?.code && !dbCard?.used_at);
           if (!isValid) {
-            removeActivatedGiftCard(localCard.id);
+            removeActivatedGiftCard(localCard?.id);
           }
         });
         
@@ -46,7 +46,7 @@ export default function MyGiftCards() {
     fetchGiftCards();
   }, [activatedGiftCards, removeActivatedGiftCard]);const handleUseGiftCard = (giftCard) => {
     // Vérifier le type de carte cadeau pour déterminer l'action appropriée
-    const giftCardTypeName = giftCard.giftCardType?.name;
+    const giftCardTypeName = giftCard?.giftCardType?.name;
     
     if (giftCardTypeName === '1 BOX') {
       // Pour les cartes "1 BOX", ouvrir le modal de sélection de box
@@ -118,87 +118,85 @@ export default function MyGiftCards() {
       setSelectedGiftCard(giftCard);
       setShowBoxSelection(true);
     }
-  };
-  if (loading) {
+  };  if (loading) {
     return (
-      <div className="bg-white rounded-[2rem] p-8">
+      <div className="bg-white rounded-xl sm:!rounded-2xl md:!rounded-[2rem] p-4 sm:!p-6 md:!p-8">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="space-y-3">
-            <div className="h-20 bg-gray-200 rounded"></div>
-            <div className="h-20 bg-gray-200 rounded"></div>
+          <div className="h-4 sm:!h-5 md:!h-6 bg-gray-200 rounded w-1/3 mb-3 sm:!mb-4"></div>
+          <div className="space-y-2 sm:!space-y-3">
+            <div className="h-16 sm:!h-18 md:!h-20 bg-gray-200 rounded"></div>
+            <div className="h-16 sm:!h-18 md:!h-20 bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
     );
-  }
-  return (
-    <div className="bg-white rounded-[2rem] p-8">
+  }  return (
+    <div className="bg-white rounded-xl sm:!rounded-2xl md:!rounded-[2rem] p-4 sm:!p-6 md:!p-8">
       
       {error && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3 sm:!mb-4">
           <div className="flex items-center">
-            <svg className="w-5 h-5 text-yellow-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 sm:!w-5 sm:!h-5 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
-            <span className="text-yellow-700 text-sm">{error}</span>
+            <span className="text-yellow-700 text-xs sm:!text-sm">{error}</span>
           </div>
         </div>
       )}
       
       {myGiftCards.length === 0 ? (
-        <div className="text-center text-gray-500 py-8">
-          <div className="text-6xl mb-4">🎁</div>
-          <p className="text-lg">Aucune carte cadeau activée</p>
-          <p className="text-sm mt-2">Activez vos cartes cadeaux pour les voir ici</p>
+        <div className="text-center text-gray-500 py-6 sm:!py-8">
+          <div className="text-4xl sm:!text-5xl md:!text-6xl mb-3 sm:!mb-4">🎁</div>
+          <p className="text-base sm:!text-lg font-medium">Aucune carte cadeau activée</p>
+          <p className="text-xs sm:!text-sm mt-1 sm:!mt-2">Activez vos cartes cadeaux pour les voir ici</p>
         </div>
-      ) : (        <div className="space-y-4">
-          {myGiftCards.map((giftCard) => {
+      ) : (
+        <div className="space-y-3 sm:!space-y-4">
+          {myGiftCards?.map((giftCard) => {
             // Vérifier si cette carte est actuellement dans le panier
             const isInCart = cart.some(item => 
               item.type === 'giftcard_usage' && item.giftCardCode === giftCard.code
             );
-            
-            return (
+              return (
             <div 
               key={giftCard.id} 
-              className={`border rounded-lg p-4 ${
+              className={`border rounded-lg p-3 sm:!p-4 ${
                 isInCart || giftCard.used_at 
                   ? 'bg-gray-50 border-gray-200' 
                   : 'bg-green-50 border-green-200'
               }`}
             >
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  <div className="font-medium text-lg">
+              <div className="flex flex-col sm:!flex-row sm:!justify-between sm:!items-start gap-3 sm:!gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm sm:!text-base md:!text-lg break-words">
                     {giftCard.giftCardType?.name || 'Carte cadeau'}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">
-                    Code: <span className="font-mono">{giftCard.code}</span>
+                  <div className="text-xs sm:!text-sm text-gray-600 mt-1">
+                    Code: <span className="font-mono break-all">{giftCard.code}</span>
                   </div>
                   {giftCard.expiration_date && (
-                    <div className="text-sm text-gray-500 mt-1">
+                    <div className="text-xs sm:!text-sm text-gray-500 mt-1">
                       Expire le: {new Date(giftCard.expiration_date).toLocaleDateString('fr-FR')}
                     </div>
                   )}
                 </div>
-                <div className="text-right">
+                <div className="flex-shrink-0 self-start sm:!self-auto">
                   {isInCart ? (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <span className="inline-flex items-center px-2 sm:!px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       Dans le panier
                     </span>
                   ) : giftCard.used_at ? (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    <span className="inline-flex items-center px-2 sm:!px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                       Utilisée
                     </span>
                   ) : (
-                    <div className="flex flex-col items-end gap-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    <div className="flex flex-col items-start sm:!items-end gap-2">
+                      <span className="inline-flex items-center px-2 sm:!px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         Disponible
                       </span>
                       <button
                         onClick={() => handleUseGiftCard(giftCard)}
-                        className="px-4 py-2 bg-[#DB3D88] text-white rounded-lg text-sm font-medium hover:bg-[#C8327A] transition-colors cursor-pointer"
+                        className="px-3 sm:!px-4 py-1.5 sm:!py-2 bg-[#DB3D88] text-white rounded-lg text-xs sm:!text-sm font-medium hover:bg-[#C8327A] transition-colors cursor-pointer w-full sm:!w-auto"
                       >
                         Utiliser
                       </button>
@@ -208,7 +206,7 @@ export default function MyGiftCards() {
               </div>
               
               {giftCard.giftCardType?.description && (
-                <div className="mt-3 text-sm text-gray-600">
+                <div className="mt-2 sm:!mt-3 text-xs sm:!text-sm text-gray-600 break-words">
                   {giftCard.giftCardType.description}
                 </div>
               )}

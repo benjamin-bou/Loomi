@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Login from "../Login";
 import search from "/images/picto/search.svg";
+import hamburger from "/images/picto/hamburger.svg";
 import user from "/images/picto/user.svg";
 import shoppingCart from "/images/picto/shopping-cart.svg";
 import favorite from "/images/picto/favorite.svg";
@@ -12,7 +13,7 @@ import { getTokenPayload } from "../api";
 import { useEffect } from "react";
 import { useCart } from '../context/CartContext';
 
-const MainHeader = ({ setShowLogin, setShowCart }) => {
+const MainHeader = ({ setShowLogin, setShowCart, setShowNav }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
@@ -49,9 +50,12 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
       setShowLogin(true);
     }
   };
-
   const handleCartClick = () => {
       setShowCart(true);
+  }
+
+  const handleHamburgerClick = () => {
+      setShowNav(true);
   }
 
   // Choix du logo selon la route
@@ -66,16 +70,19 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
   return (
     <header className="w-full">
       {/* Partie haute */}
-      <div className="bg-white h-[111px] flex justify-between items-center px-4 md:px-[50px]">
-        <div className="flex justify-between items-center bg-white w-full">
-          {/* Recherche */}
-          <div className="items-center gap-2">
+      <div className="bg-white h-[70px] md:h-[111px] flex justify-between items-center px-4 md:px-[50px]">
+        <div className="flex justify-between items-center bg-white w-full">          
+          {/* Recherche / Hamburger */}
+          <div className="flex items-center gap-2">
             <input
               type="text"
               placeholder="Recherche"
               className="border-b border-black outline-none focus:border-gray-600 hidden md:flex"
-            />
-            <img src={search} alt="search" className="w-4 h-4 cursor-pointer select-none" />
+            />            
+            {/* Icône hamburger sur mobile */}
+            <img src={hamburger} alt="menu" className="w-4 h-4 cursor-pointer select-none md:hidden" onClick={handleHamburgerClick} />
+            {/* Icône recherche sur desktop */}
+            <img src={search} alt="search" className="w-4 h-4 cursor-pointer select-none hidden md:block" />
           </div>
 
           {/* Logo ou image centrale */}
@@ -110,12 +117,12 @@ const MainHeader = ({ setShowLogin, setShowCart }) => {
               )}
             </div>
           </div>
-        </div>
+        </div>      
       </div>
 
-      {/* Barre de navigation */}
-      <nav className="bg-loomilightpink h-[63px] flex items-center justify-center">
-        <ul className="hidden md:flex justify-center gap-12 text-white font-medium">
+      {/* Barre de navigation - masquée sur mobile (< 768px) */}
+      <nav className="hidden md:flex bg-loomilightpink h-[63px] items-center justify-center">
+        <ul className="flex justify-center gap-12 text-white font-medium">
           <li><a className="neulis font-light nav-underline" href="/boxes">Nos box</a></li>
           <li><a className="neulis font-light nav-underline" href="/subscriptions">Nos abonnements</a></li>
           <li><a className="neulis font-light nav-underline" href="/gift-cards">Cartes cadeaux</a></li>
