@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useCart } from '../context/CartContext';
 import o_shape from "/images/picto/o_shape.svg";
+import gift_cards_image_1 from "/images/gift_cards_image_1.png";
+import gift_cards_image_2 from "/images/gift_cards_image_2.png";
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
@@ -72,11 +74,13 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
     {
       title: "La carte cadeau idéale !",
       desc: "Chaque mois, un projet créatif original parfait pour les esprits créatifs.",
-      button: "Offrir"
+      button: "Offrir",
+      image: gift_cards_image_1
     },
     {
       title: <>On vous à offert une carte cadeau ? <br/><br/>Activez la ici !</>,
-      button: "Activer ma carte"
+      button: "Activer ma carte",
+      image: gift_cards_image_2,
     }
   ];
 
@@ -118,15 +122,21 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
       <div className="flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 py-8 sm:py-10 md:py-12 min-h-[600px] gap-12 sm:gap-16 md:gap-20">
         <section className="relative w-full flex justify-center">
           <Slider {...settings} className="w-full max-w-[1500px]">
-            {slides.map((slide, idx) => (
+              {slides.map((slide, idx) => (
               <div key={idx} className="flex justify-center items-center px-4 sm:px-6 md:px-10">
-                <div className="bg-[#D9D9D9] w-full rounded-[20px] sm:rounded-[30px] md:rounded-[40px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px] flex flex-col justify-between items-center px-4 sm:px-8 md:px-24 py-12 sm:py-16 md:py-20">
-                  <h2 className="!text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl font-medium text-center mb-4 sm:mb-6 md:mb-8 mt-2">{slide.title}</h2>
-                  <p className="!text-base sm:!text-lg md:!text-xl lg:!text-2xl text-center font-normal mb-6 sm:mb-7 md:mb-8 leading-snug max-w-2xl">{slide.desc}</p><MainButton
+                <div 
+                  className="w-full rounded-[20px] sm:rounded-[30px] md:rounded-[40px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px] flex flex-col justify-between items-center px-4 sm:px-8 md:px-24 py-12 sm:py-16 md:py-20 bg-cover bg-center bg-no-repeat relative overflow-hidden"
+                  style={{ backgroundImage: `url(${slide.image})` }}
+                >
+                  <h2 className="relative z-10 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl font-medium text-center mb-4 sm:mb-6 md:mb-8 mt-2 text-white drop-shadow-lg">{slide.title}</h2>
+                  <p className="relative z-10 !text-base sm:!text-lg md:!text-xl lg:!text-2xl text-center font-normal mb-6 sm:mb-7 md:mb-8 leading-snug max-w-2xl text-white drop-shadow-lg">{slide.desc}</p>
+                  <MainButton
                     text={slide.button}
+                    className="relative z-10 text-white border-white"
                     onClick={() => {
                       if (slide.button === "Activer ma carte") {
-                        setShowActivation(true);                      } else {
+                        setShowActivation(true);                     
+                       } else {
                         // Défilement fluide vers la section des cartes cadeaux avec offset personnalisé
                         const giftCardsSection = document.querySelector('[data-section="gift-cards-list"]');
                         if (giftCardsSection) {
@@ -213,9 +223,10 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
                   onClick={() => setShowActivation(true)}
                 />
               </div>
-            </div>
-            <div className="w-full h-[200px] sm:!h-[250px] md:!h-full flex justify-center items-center">
-              <div className="w-full h-full bg-gray-300 rounded-xl sm:!rounded-2xl" />
+            </div>            <div className="w-full h-[200px] sm:!h-[250px] md:!h-full flex justify-center items-center">
+              <div className="w-full h-full rounded-xl sm:!rounded-2xl overflow-hidden">
+                <img src={gift_cards_image_2} alt="Activation carte cadeau" className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>        
         </section>

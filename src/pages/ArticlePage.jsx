@@ -1,4 +1,5 @@
 import o_shape from "/images/picto/o_shape.svg";
+import article_image from "/images/article_image.png";
 
 export default function ArticlePage() {
   return (
@@ -26,9 +27,12 @@ export default function ArticlePage() {
           </div>
 
           {/* Colonne image, visible seulement sur desktop */}
-          <div className="w-full lg:w-[40vw] flex flex-col items-center mt-6 lg:mt-0">            <div className="relative w-full h-[520px] min-h-[320px] flex items-center justify-center">
-              <div className="w-full h-full bg-[#d8d8d8] rounded-3xl"></div>
-              <img 
+          <div className="w-full lg:w-[40vw] flex flex-col items-center mt-6 lg:mt-0">              
+            <div className="relative w-full h-[520px] min-h-[320px] flex items-center justify-center">
+              <div className="w-full h-full rounded-3xl overflow-hidden">
+                <img src={article_image} alt="Image article" className="w-full h-full object-cover" />
+              </div>
+              <img
                 src={o_shape} 
                 alt="Forme décorative" 
                 className="absolute right-[-80px] bottom-[-30px] w-64 h-64 z-10"

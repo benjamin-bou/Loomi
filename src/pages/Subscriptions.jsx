@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../api";
 import l_shape from "/images/picto/l_shape.svg";
 import double_o_shape from "/images/picto/double_o_shape.svg";
+import motif_1 from "/images/motif_1.svg";
+import motif_2 from "/images/motif_2.svg";
 
 export default function Subscriptions() {
   const navigate = useNavigate();
@@ -61,9 +63,11 @@ export default function Subscriptions() {
                   S'abonner
                 </button>
               </div>
-            </div>
+            </div>            
             <div className="w-full h-48 sm:h-64 lg:h-full flex justify-center items-center order-1 lg:order-2">
-              <div className="w-full h-full bg-gray-300 rounded-2xl" />
+              <div className="w-full h-full rounded-2xl overflow-hidden">
+                <img src={motif_1} alt="Motif abonnement mensuel" className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>
         </div>
@@ -92,15 +96,17 @@ export default function Subscriptions() {
                   S'abonner
                 </button>
               </div>
-            </div>
+            </div>            
             <div className="w-full h-48 sm:h-64 lg:h-full flex justify-center items-center order-2 lg:order-2">
-              <div className="w-full h-full bg-gray-300 rounded-2xl" />
+              <div className="w-full h-full rounded-2xl overflow-hidden">
+                <img src={motif_2} alt="Motif abonnement mystère" className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>
         </div>
         
         {/* Étapes */}
-        <LoomiSteps textColor={"#000000"}/>
+        <LoomiSteps textColor={"#000000"} iconsColor={"pink"}/>
         {/* Avis */}
         <ReviewsSection />
       </div>

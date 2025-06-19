@@ -78,7 +78,8 @@ const MainHeader = ({ setShowLogin, setShowCart, setShowNav }) => {
               type="text"
               placeholder="Recherche"
               className="border-b border-black outline-none focus:border-gray-600 hidden md:flex"
-            />            {/* Icône hamburger sur mobile */}
+            />            
+            {/* Icône hamburger sur mobile */}
             <img src={hamburger} alt="menu" className="w-4 h-4 cursor-pointer select-none md:hidden" onClick={handleHamburgerClick} />
             {/* Icône recherche sur desktop */}
             <img src={search} alt="search" className="w-4 h-4 cursor-pointer select-none hidden md:block" />
@@ -116,7 +117,8 @@ const MainHeader = ({ setShowLogin, setShowCart, setShowNav }) => {
               )}
             </div>
           </div>
-        </div>      </div>
+        </div>      
+      </div>
 
       {/* Barre de navigation - masquée sur mobile (< 768px) */}
       <nav className="hidden md:flex bg-loomilightpink h-[63px] items-center justify-center">

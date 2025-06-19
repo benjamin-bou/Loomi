@@ -1,4 +1,4 @@
-import React from "react";
+import boxes_pile from "/images/boxes_pile.png";
 import o_shape from "/images/picto/o_shape.svg";
 
 export default function LoomiHistorySection() {
@@ -20,10 +20,14 @@ export default function LoomiHistorySection() {
               <span className="md:hidden"> </span>Lorem unknown printer took a galley of type and scrambled it to make a type specimen book.
             </p>
           </div>
-        </div>        {/* Partie droite - Image et forme rose */}
+        </div>        
+        {/* Partie droite - Image et forme rose */}
         <div className="flex-1 flex items-center justify-center relative min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
-          {/* Bloc carré gris arrondi */}
-          <div className="w-full h-[300px] md:h-[400px] lg:h-full bg-[#dbdbdb] rounded-[32px] md:rounded-[44px] lg:rounded-[56px] relative z-10"></div>          {/* Forme rose avec o_shape */}
+          {/* Image boxes_pile */}
+          <div className="w-full h-[300px] md:h-[400px] lg:h-full rounded-[32px] md:rounded-[44px] lg:rounded-[56px] relative z-10 overflow-hidden">
+            <img src={boxes_pile} alt="Pile de boxes Loomi" className="w-full h-full object-cover" />
+          </div>          
+          {/* Forme rose avec o_shape */}
           <div className="absolute left-1/4 md:left-1/3 bottom-[5px] md:bottom-[10px] z-20 w-[80vw] md:w-[100vw] h-[15vw] md:h-[20vw] max-h-[200px] md:max-h-[350px] -translate-x-1/2 md:-translate-x-[60%]">
             <img 
               src={o_shape} 
