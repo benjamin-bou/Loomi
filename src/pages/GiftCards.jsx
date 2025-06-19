@@ -10,17 +10,20 @@ import GiftCardsSkeleton from "../components/GiftCardsSkeleton";
 import { useEffect, useState } from "react";
 import { fetchData } from "../api";
 import { useCart } from '../context/CartContext';
+import o_shape from "/images/picto/o_shape.svg";
+import gift_cards_image_1 from "/images/gift_cards_image_1.png";
+import gift_cards_image_2 from "/images/gift_cards_image_2.png";
 
 function NextArrow(props) {
   // eslint-disable-next-line no-unused-vars
   const { className, style, onClick } = props;
   return (
     <div
-      className={`slick-arrow slick-next z-20 flex items-center justify-center !right-[60px] top-1/2 -translate-y-1/2`}
+      className={`slick-arrow slick-next z-20 flex items-center justify-center !right-[10px] sm:!right-[30px] md:!right-[60px] top-1/2 -translate-y-1/2`}
       onClick={onClick}
       style={{ ...style, width: 48, height: 48 }}
     >
-      <img src={arrowRight} alt="next" className="w-12 h-12" />
+      <img src={arrowRight} alt="next" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
     </div>
   );
 }
@@ -30,11 +33,11 @@ function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
-      className={`slick-arrow slick-prev z-20 flex items-center justify-center !left-[60px] top-1/2 -translate-y-1/2`}
+      className={`slick-arrow slick-prev z-20 flex items-center justify-center !left-[10px] sm:!left-[30px] md:!left-[60px] top-1/2 -translate-y-1/2`}
       onClick={onClick}
       style={{ ...style, width: 48, height: 48 }}
     >
-      <img src={arrowLeft} alt="prev" className="w-12 h-12" />
+      <img src={arrowLeft} alt="prev" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
     </div>
   );
 }
@@ -71,11 +74,13 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
     {
       title: "La carte cadeau idéale !",
       desc: "Chaque mois, un projet créatif original parfait pour les esprits créatifs.",
-      button: "Offrir"
+      button: "Offrir",
+      image: gift_cards_image_1
     },
     {
       title: <>On vous à offert une carte cadeau ? <br/><br/>Activez la ici !</>,
-      button: "Activer ma carte"
+      button: "Activer ma carte",
+      image: gift_cards_image_2,
     }
   ];
 
@@ -112,21 +117,26 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
         <p className="text-lg text-[#FA5D5D]">{error}</p>
       </div>
     );
-  }
-  return (
+  }  return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <div className="flex flex-col items-center justify-center px-10 py-12 min-h-[600px] gap-20">
+      <div className="flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 py-8 sm:py-10 md:py-12 min-h-[600px] gap-12 sm:gap-16 md:gap-20">
         <section className="relative w-full flex justify-center">
           <Slider {...settings} className="w-full max-w-[1500px]">
-            {slides.map((slide, idx) => (
-              <div key={idx} className="flex justify-center items-center px-10">
-                <div className="bg-[#D9D9D9] w-full rounded-[40px] min-h-[400px] md:min-h-[500px] flex flex-col justify-between items-center px-4 md:px-24 py-20">
-                  <h2 className="text-4xl md:text-5xl font-medium text-center mb-8 mt-2">{slide.title}</h2>
-                  <p className="text-xl md:text-2xl text-center font-normal mb-8 leading-snug max-w-2xl">{slide.desc}</p>                  <MainButton
+              {slides.map((slide, idx) => (
+              <div key={idx} className="flex justify-center items-center px-4 sm:px-6 md:px-10">
+                <div 
+                  className="w-full rounded-[20px] sm:rounded-[30px] md:rounded-[40px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px] flex flex-col justify-between items-center px-4 sm:px-8 md:px-24 py-12 sm:py-16 md:py-20 bg-cover bg-center bg-no-repeat relative overflow-hidden"
+                  style={{ backgroundImage: `url(${slide.image})` }}
+                >
+                  <h2 className="relative z-10 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl font-medium text-center mb-4 sm:mb-6 md:mb-8 mt-2 text-white drop-shadow-lg">{slide.title}</h2>
+                  <p className="relative z-10 !text-base sm:!text-lg md:!text-xl lg:!text-2xl text-center font-normal mb-6 sm:mb-7 md:mb-8 leading-snug max-w-2xl text-white drop-shadow-lg">{slide.desc}</p>
+                  <MainButton
                     text={slide.button}
+                    className="relative z-10 text-white border-white"
                     onClick={() => {
                       if (slide.button === "Activer ma carte") {
-                        setShowActivation(true);                      } else {
+                        setShowActivation(true);                     
+                       } else {
                         // Défilement fluide vers la section des cartes cadeaux avec offset personnalisé
                         const giftCardsSection = document.querySelector('[data-section="gift-cards-list"]');
                         if (giftCardsSection) {
@@ -144,8 +154,9 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
               </div>
             ))}
           </Slider>
-        </section>        {/* Section liste des cartes cadeau */}
-        <section className="w-full mt-16 px-20" data-section="gift-cards-list">
+        </section>        
+        {/* Section liste des cartes cadeau */}
+        <section className="w-full mt-16 px-4 md:px-20" data-section="gift-cards-list">
           {error && (
             <div className="text-red-500 text-center mb-8">{error}</div>
           )}
@@ -155,17 +166,18 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {giftCards && giftCards.length > 0 ? (
                 giftCards.map((giftCard, i) =>
-                  i === giftCards.length - 1 ? (
-                    // Dernière card, plus large avec forme rose foncé décorative
+                  i === giftCards.length - 1 ? (                    // Dernière card, plus large avec forme SVG décorative
                     <div key={giftCard.id || i} className="relative md:col-span-2 w-full">
-                      {/* Forme rose foncé décorative */}
-                      <div
-                        className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] bg-loomipink z-50"
+                      {/* SVG o_shape décoratif */}
+                      <img 
+                        src={o_shape} 
+                        alt="Forme décorative" 
+                        className="hidden lg:block absolute left-50 -bottom-15 w-[140px] h-[140px] z-50"
                         style={{
-                          borderRadius: "52% 48% 46% 54% / 59% 61% 39% 41%",
-                          transform: "rotate(10deg)",
+                          transform: "rotate(-90deg)",
                         }}
-                      />                    <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
+                      />
+                      <div className="bg-white rounded-[40px] flex flex-col items-center justify-between px-8 py-12 min-h-[320px] relative z-20">
                         <h3 className="text-2xl md:text-3xl font-medium text-center mb-4">{giftCard.name}</h3>
                         <p className="text-center text-base md:text-lg mb-6">{giftCard.description}</p>
                         <MainButton
@@ -200,23 +212,24 @@ export default function GiftCards({ setShowCart, setShowLogin }) {
               )}
             </div>
           )}
-        </section>
-        <section>
-          <div className="bg-loomilightpink text-black rounded-4xl my -10 p-4 grid grid-cols-2 w-full z-20 gap-10">
-            <div className="flex flex-col justify-end h-[450px] p-10 gap-5">
-              <h3 className="my-4 text-white uppercase">On vous a offert une carte cadeau ? Activez-la ici !</h3>
-              <div className="flex flex-col mb-2 gap-6">                <MainButton
+        </section>        <section className="px-4 sm:!px-6 md:!px-8">
+          <div className="bg-loomilightpink text-black rounded-4xl my-6 sm:!my-8 md:!my-10 p-4 sm:!p-6 md:!p-8 grid grid-cols-1 md:grid-cols-2 w-full z-20 gap-6 sm:!gap-8 md:!gap-10">
+            <div className="flex flex-col justify-end fmd:!h-[450px] p-4 sm:!p-6 md:!p-10 gap-3 sm:!gap-4 md:!gap-5">
+              <h3 className="my-2 sm:!my-3 md:!my-4 text-white uppercase !text-sm sm:!text-base md:!text-lg lg:!text-xl">On vous a offert une carte cadeau ? Activez-la ici !</h3>
+              <div className="flex flex-col mb-2 gap-4 sm:!gap-5 md:!gap-6">
+                <MainButton
                   text="Activer ma carte"
-                  className="bg-loomipink border-0 text-white max-w-[300px]"
+                  className="bg-loomipink border-0 text-white w-full sm:!max-w-[250px] md:!max-w-[300px] !text-sm sm:!text-base"
                   onClick={() => setShowActivation(true)}
                 />
               </div>
-            </div>
-            <div className="w-full h-full flex justify-center items-center">
-              <div className="w-full h-full bg-gray-300 rounded-2xl" />
+            </div>            <div className="w-full h-[200px] sm:!h-[250px] md:!h-full flex justify-center items-center">
+              <div className="w-full h-full rounded-xl sm:!rounded-2xl overflow-hidden">
+                <img src={gift_cards_image_2} alt="Activation carte cadeau" className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>        
-          </section>
+        </section>
       </div>
         {showActivation && (
         <GiftCardActivation

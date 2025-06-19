@@ -116,34 +116,31 @@ export default function Deliveries() {
       </div>
     );
   }
-
   return (
-    <div className="bg-[#FFF7F0] min-h-screen relative px-8 py-8 overflow-hidden">
+    <div className="bg-[#FFF7F0] min-h-screen relative px-4 sm:!px-6 md:!px-8 lg:!px-12 py-4 sm:!py-6 md:!py-8 overflow-hidden">
       {/* Forme rose SVG à droite */}
       <div
-        className="absolute -right-10 top-[30%] z-0 pointer-events-none bg-loomipink w-[30vw] h-[30vw] max-w-[450px] max-h-[450px]"
+        className="absolute -right-5 sm:!-right-8 md:!-right-10 top-[20%] sm:!top-[25%] md:!top-[30%] z-0 pointer-events-none bg-loomipink w-[40vw] sm:!w-[35vw] md:!w-[30vw] h-[40vw] sm:!h-[35vw] md:!h-[30vw] max-w-[300px] sm:!max-w-[375px] md:!max-w-[450px] max-h-[300px] sm:!max-h-[375px] md:!max-h-[450px]"
         style={{
           borderRadius: "52% 48% 41% 59% / 50% 35% 65% 50%"
         }}
       />
 
-      <div className="relative z-10 mx-[50px]">
+      <div className="relative z-10 w-full sm:!w-[90%] md:!w-[85%] lg:!w-[80%] mx-auto md:!mx-[50px]">
         {/* En-tête */}
-        <div className="mb-8">
-          <h1 className="mb-2">Mes livraisons</h1>
-          <p className="text-lg text-gray-600">
+        <div className="mb-6 sm:!mb-8 text-center sm:!text-left">
+          <h1 className="mb-2 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl !font-bold">Mes livraisons</h1>
+          <p className="text-base sm:!text-lg md:!text-xl text-gray-600">
             Historique de toutes vos livraisons : boîtes achetées et abonnements
           </p>
-        </div>
-
-        {/* Contenu */}
+        </div>        {/* Contenu */}
         {loading ? (
-          <div className="space-y-4">
+          <div className="space-y-4 sm:!space-y-6">
             {[...Array(3)].map((_, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
+              <div key={index} className="bg-white rounded-xl p-4 sm:!p-6 shadow-sm">
                 <div className="animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
-                  <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
+                  <div className="h-3 sm:!h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                  <div className="h-5 sm:!h-6 bg-gray-200 rounded w-1/2 mb-3 sm:!mb-4"></div>
                   <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
                   <div className="h-3 bg-gray-200 rounded w-3/4"></div>
                 </div>
@@ -151,42 +148,41 @@ export default function Deliveries() {
             ))}
           </div>
         ) : deliveries.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-semibold text-gray-600 mb-2">Aucune livraison</h2>
-            <p className="text-gray-500 mb-6">
+          <div className="text-center py-8 sm:!py-12">
+            <div className="text-gray-400 text-4xl sm:!text-5xl md:!text-6xl mb-3 sm:!mb-4">📦</div>
+            <h2 className="text-xl sm:!text-2xl font-semibold text-gray-600 mb-2">Aucune livraison</h2>
+            <p className="text-sm sm:!text-base text-gray-500 mb-4 sm:!mb-6">
               Vous n'avez pas encore de livraisons à afficher.
             </p>
             <button
               onClick={() => navigate('/boxes')}
-              className="bg-loomilightpink text-white px-6 py-3 rounded-xl hover:bg-loomipink transition-colors"
+              className="bg-loomilightpink text-white px-4 sm:!px-6 py-2 sm:!py-3 rounded-xl hover:bg-loomipink transition-colors text-sm sm:!text-base"
             >
               Découvrir nos boîtes
             </button>
           </div>
-        ) : (
-          <div className="space-y-6">
+        ) : (          <div className="space-y-4 sm:!space-y-6">
             {deliveries.map((delivery) => (
-              <div key={delivery.id} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-1">
+              <div key={delivery.id} className="bg-white rounded-xl p-4 sm:!p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex flex-col sm:!flex-row sm:!justify-between sm:!items-start mb-4 space-y-3 sm:!space-y-0">
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:!text-xl font-semibold text-gray-800 mb-2 sm:!mb-1">
                       {delivery.box_name}
                     </h3>
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(delivery.status)}`}>
+                    <div className="flex flex-col sm:!flex-row sm:!items-center gap-2 sm:!gap-3 text-sm text-gray-600">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(delivery.status)} self-start sm:!self-auto`}>
                         {getStatusLabel(delivery.status)}
                       </span>
-                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium self-start sm:!self-auto">
                         {getDeliveryTypeLabel(delivery.delivery_type)}
                       </span>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:!text-right">
                     <p className="text-sm text-gray-500">
                       {delivery.delivery_type === 'order' ? 'Commandée le' : 'Livrée le'}
                     </p>
-                    <p className="font-medium">
+                    <p className="font-medium text-sm sm:!text-base">
                       {formatDate(delivery.delivery_date || delivery.order_date)}
                     </p>
                   </div>
@@ -206,17 +202,17 @@ export default function Deliveries() {
                       <span className="font-medium">Abonnement :</span> {delivery.subscription_name}
                     </p>
                   </div>
-                )}                <div className="flex justify-between items-center">
+                )}                <div className="flex flex-col sm:!flex-row sm:!justify-between sm:!items-center space-y-3 sm:!space-y-0">
                   <div className="text-sm text-gray-600">
                     {delivery.delivery_address && (
-                      <p>📍 {delivery.delivery_address}</p>
+                      <p className="break-words">📍 {delivery.delivery_address}</p>
                     )}
                   </div>
-                  <div className="flex space-x-3">
+                  <div className="flex flex-col sm:!flex-row space-y-2 sm:!space-y-0 sm:!space-x-3">
                     {delivery.can_review && (
                       <button
                         onClick={() => handleReviewClick(delivery)}
-                        className="bg-loomilightpink text-white px-3 py-1 rounded-lg text-sm font-medium hover:bg-loomipink transition-colors cursor-pointer"
+                        className="bg-loomilightpink text-white px-3 py-2 sm:!py-1 rounded-lg text-sm font-medium hover:bg-loomipink transition-colors cursor-pointer w-full sm:!w-auto"
                       >
                         Laisser un avis
                       </button>
@@ -224,7 +220,7 @@ export default function Deliveries() {
                     {delivery.box_id && (
                       <button
                         onClick={() => navigate(`/boxes/${delivery.box_id}`)}
-                        className="text-loomilightpink hover:text-loomipink text-sm font-medium cursor-pointer"
+                        className="text-loomilightpink hover:text-loomipink text-sm font-medium cursor-pointer text-center sm:!text-left"
                       >
                         Voir la boîte →
                       </button>

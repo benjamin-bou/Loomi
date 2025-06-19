@@ -36,39 +36,41 @@ function BoxesList() {
         <p className="text-lg text-[#FA5D5D]">{error}</p>
       </div>
     );
-  }
-  return (
+  }  return (
     <div className="bg-[#FFF7F0] min-h-screen">
-      <div className="flex flex-col items-center justify-center mx-4 md:mx-8 lg:mx-[50px]">
-      <h2 className="mt-6 md:mt-10 mb-4 md:mb-5 text-xl md:text-2xl lg:text-3xl text-start self-start">
-        Nos box
-      </h2>      <div className="flex flex-col md:flex-row items-start md:items-center w-full mb-4 md:mb-5 gap-3 md:gap-6">
-        <div className="flex items-center gap-3 md:gap-6">
-          <p className="text-lg md:!text-2xl">Filtres</p>
-          <img src={filterIcon} alt="Filtre" className="w-6 h-6 md:w-8 md:h-8 cursor-pointer" />
-        </div>
-        <div className="flex flex-wrap gap-2 md:gap-4">
-          <button className={`border rounded-xl md:rounded-2xl px-2 md:px-3 py-1 md:py-2 text-sm md:text-base min-w-[140px] md:min-w-[180px] cursor-pointer ${filter === 'ALL' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('ALL')}>
-            Voir tout
-          </button>
-          <button className={`border rounded-xl md:rounded-2xl px-2 md:px-3 py-1 md:py-2 text-sm md:text-base min-w-[140px] md:min-w-[180px] cursor-pointer ${filter === 'activité manuelle' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('activité manuelle')}>
-            Box&nbsp;activité&nbsp;manuelle
-          </button>
-          <button className={`border rounded-xl md:rounded-2xl px-2 md:px-3 py-1 md:py-2 text-sm md:text-base min-w-[140px] md:min-w-[180px] cursor-pointer ${filter === 'DIY' ? 'bg-loomilightpink text-white' : ''}`} onClick={() => setFilter('DIY')}>
-            Box DIY
-          </button>
-        </div>
-      </div>      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mx-auto max-w-[1470px] justify-items-center">
+      <div className="flex flex-col items-center justify-center px-4 xs:!px-6 sm:!px-8 md:!px-12 lg:!px-[50px]">
+        <h2 className="mt-4 xs:!mt-6 sm:!mt-8 md:!mt-10 mb-3 xs:!mb-4 sm:!mb-5 !text-lg xs:!text-xl sm:!text-2xl md:!text-3xl text-start self-start w-full">
+          Nos box
+        </h2>
+        
+        <div className="flex flex-col sm:!flex-row items-start sm:!items-center w-full mb-3 xs:!mb-4 sm:!mb-5 gap-3 xs:!gap-4 sm:!gap-6">
+          <div className="flex items-center gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
+            <p className="!text-base xs:!text-lg sm:!text-xl md:!text-2xl font-medium">Filtres</p>
+            <img src={filterIcon} alt="Filtre" className="w-5 h-5 xs:!w-6 xs:!h-6 sm:!w-7 sm:!h-7 md:!w-8 md:!h-8 cursor-pointer" />
+          </div>
+          <div className="flex flex-wrap gap-2 xs:!gap-3 sm:!gap-4">
+            <button className={`border rounded-lg xs:!rounded-xl sm:!rounded-2xl px-2 xs:!px-3 sm:!px-4 py-1 xs:!py-2 text-xs xs:!text-sm sm:!text-base min-w-[120px] xs:!min-w-[140px] sm:!min-w-[160px] md:!min-w-[180px] cursor-pointer transition-colors ${filter === 'ALL' ? 'bg-loomilightpink text-white' : 'hover:bg-gray-100'}`} onClick={() => setFilter('ALL')}>
+              Voir tout
+            </button>
+            <button className={`border rounded-lg xs:!rounded-xl sm:!rounded-2xl px-2 xs:!px-3 sm:!px-4 py-1 xs:!py-2 text-xs xs:!text-sm sm:!text-base min-w-[120px] xs:!min-w-[140px] sm:!min-w-[160px] md:!min-w-[180px] cursor-pointer transition-colors ${filter === 'activité manuelle' ? 'bg-loomilightpink text-white' : 'hover:bg-gray-100'}`} onClick={() => setFilter('activité manuelle')}>
+              Box&nbsp;activité&nbsp;manuelle
+            </button>
+            <button className={`border rounded-lg xs:!rounded-xl sm:!rounded-2xl px-2 xs:!px-3 sm:!px-4 py-1 xs:!py-2 text-xs xs:!text-sm sm:!text-base min-w-[120px] xs:!min-w-[140px] sm:!min-w-[160px] md:!min-w-[180px] cursor-pointer transition-colors ${filter === 'DIY' ? 'bg-loomilightpink text-white' : 'hover:bg-gray-100'}`} onClick={() => setFilter('DIY')}>
+              Box DIY
+            </button>
+          </div>
+        </div>      
+        
+        <div className="flex flex-wrap justify-center gap-3 xs:!gap-4 sm:!gap-6 md:!gap-8 mx-auto max-w-[1470px] w-full">
         {loading && (
           // Affichage des skeletons pendant le chargement
           <>
             {Array(6).fill(0)?.map((_, index) => (
               <React.Fragment key={`skeleton-${index}`}>
-                <BoxCardSkeleton />
+                <BoxCardSkeleton />                
                 {index === 1 && (
                   <>
-                    {/* Image promotionnelle responsive */}
-                    <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 w-full max-w-[600px] lg:max-w-[710px] h-[250px] md:h-[300px] lg:h-[380px] flex items-center justify-center">
+                    {/* Image promotionnelle responsive */}                    <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
                       <div className="w-full h-full bg-gray-200 rounded-3xl md:rounded-4xl animate-pulse"></div>
                     </div>
                   </>
@@ -77,9 +79,8 @@ function BoxesList() {
             ))}
           </>
         )}
-        
-        {!loading && filteredBoxes.length === 0 && (
-          <div className="col-span-full flex flex-col items-center justify-center w-full h-[300px]">
+          {!loading && filteredBoxes.length === 0 && (
+          <div className="w-full flex flex-col items-center justify-center h-[300px] basis-full">
             <p className="text-lg text-[#FA5D5D]">Aucune boîte trouvée pour ce filtre.</p>
           </div>
         )}
@@ -90,11 +91,9 @@ function BoxesList() {
               isFavorite={isFavorite(box.id)}
               onToggleFavorite={toggleFavorite}
               onClick={() => navigate(`/boxes/${box.id}`)}
-            />
-            {idx === 1 && (
+            />            {idx === 1 && (
               <>
-                {/* Image promotionnelle responsive */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 w-full max-w-[600px] lg:max-w-[710px] h-[250px] md:h-[300px] lg:h-[380px] flex items-center justify-center">
+                {/* Image promotionnelle responsive */}                <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
                   <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-3xl md:rounded-4xl object-cover" alt="spéciale" />
                 </div>
               </>
