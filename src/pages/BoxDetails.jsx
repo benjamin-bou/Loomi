@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { fetchData } from "../api";
+import { fetchData, getImageUrl } from "../api";
 import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
 import favorite from "/images/picto/favorite.svg";
@@ -92,13 +92,57 @@ function BoxPage({ setShowCart }) {
         </div>
 
         {/* Détails principaux */}
-        <div className="flex flex-col lg:!flex-row justify-between mt-3 xs:!mt-4 w-full gap-4 xs:!gap-6 sm:!gap-8 lg:!gap-12">
-          {/* Images de la box */}
+        <div className="flex flex-col lg:!flex-row justify-between mt-3 xs:!mt-4 w-full gap-4 xs:!gap-6 sm:!gap-8 lg:!gap-12">          {/* Images de la box */}
           <div className="w-full lg:!w-[58%]">
             <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
-              <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
-              <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
-              <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+              {box.images && box.images.length > 0 ? (
+                <>                  {/* Image principale */}
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.images[0].link)}
+                      alt={box.images[0].alt || box.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Image secondaire si disponible */}
+                  {box.images.length > 1 ? (
+                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                      <img 
+                        src={getImageUrl(box.images[1].link)}
+                        alt={box.images[1].alt || box.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  )}
+                  
+                  {/* Image large en bas */}
+                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.images[0].link)}
+                      alt={box.images[0].alt || box.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                      }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                </>
+              )}
             </div>
           </div>
 

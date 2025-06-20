@@ -126,4 +126,19 @@ export function getTokenPayload() {
     }
 }
 
+// Fonction utilitaire pour construire les URLs d'images
+export const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+
+    // Si l'image a déjà une URL complète, la retourner telle quelle
+    if (imagePath.startsWith('http')) {
+        return imagePath;
+    }
+
+    // Construire l'URL complète avec la base URL du serveur (sans /api)
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+    const serverBaseUrl = apiBaseUrl.replace('/api', ''); // Enlever /api pour les ressources statiques
+    return `${serverBaseUrl}${imagePath}`;
+};
+
 export default apiClient;

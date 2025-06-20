@@ -1,5 +1,6 @@
 import favorite from "/images/picto/favorite.svg";
 import favoriteFilled from "/images/picto/favorite_filled.svg";
+import { getImageUrl } from "../api";
 
 export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) {
   return (
@@ -18,14 +19,26 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
             src={isFavorite ? favoriteFilled : favorite}
             alt="Favori"
             className="w-5 h-5 xs:!w-6 xs:!h-6 md:!w-7 lg:!w-8 md:!h-7 lg:!h-8"
+          />        
+          </button>        
+          {/* Affichage de l'image de la boîte */}
+        {box.images && box.images.length > 0 ? (
+          <img 
+            src={getImageUrl(box.images[0].link)}
+            alt={box.images[0].alt || `Boîte ${box.name}`}
+            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover"
+            onError={(e) => {
+              // Fallback en cas d'erreur de chargement
+              e.target.src = "https://dummyimage.com/400x300/#2EC4B6/ffffff&text=Box";
+            }}
           />
-        </button>
-        {/* <img
-          src={`/images/${box.image}`}
-          alt={`Boîte ${box.name}`}
-          className="w-full h-full rounded-xl"
-        /> */}
-        <img src="https://dummyimage.com/400x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover" />
+        ) : (
+          <img 
+            src="https://dummyimage.com/400x300/#2EC4B6/ffffff&text=Box" 
+            alt={`Boîte ${box.name}`}
+            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover" 
+          />
+        )}
       </div>
 
       <div className="flex flex-col gap-0.5 xs:!gap-1 px-1 xs:!px-0">
