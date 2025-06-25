@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import o_shape from "/images/picto/o_shape.svg";
 import l_shape from "/images/picto/l_shape.svg";
 import about_image from "/images/about_image.png";
+import { getImageUrl } from "../utils/imageUtils";
 
 export default function About() {
   const [relatedBoxes, setRelatedBoxes] = useState([]);
@@ -14,7 +15,9 @@ export default function About() {
       fetchData(`/boxes`)
         .then(data => setRelatedBoxes(data.slice(0, 4)))
         .catch(err => console.error(err));
-    }, []);    return (
+    }, []);    
+    console.log(relatedBoxes);
+    return (
         <div className="bg-loomibeige min-h-screen font-montserrat relative overflow-x-hidden px-4 sm:!px-6 md:!px-8 lg:!px-[50px] pt-6 sm:!pt-8 md:!pt-10">
           {/* SVG l_shape en haut à droite */}
           <img 
@@ -70,10 +73,35 @@ export default function About() {
           <div className="flex flex-col justify-center items-center my-12 sm:!my-16 md:!my-20">
           <LoomiSteps textColor={"black"}/>
           <div className="p-4 sm:!p-6 md:!p-8 lg:!p-[50px] mx-auto w-full">
-            <h2 className="!text-lg sm:!text-xl md:!text-2xl text-center mb-8 sm:!mb-10 md:!mb-12">Découvrez nos box !</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:!gap-6 md:!gap-8 w-full justify-items-center">
-              {relatedBoxes.map((related, index) => (
-                <div key={index} className="w-full max-w-[250px] h-[300px] sm:!h-[320px] md:!h-[350px] bg-gray-300 rounded-3xl sm:!rounded-4xl cursor-pointer" onClick={() => navigate(`/boxes/${related.id}`)}></div>
+            <h2 className="!text-lg sm:!text-xl md:!text-2xl text-center mb-8 sm:!mb-10 md:!mb-12">Découvrez nos box !</h2>            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:!gap-6 md:!gap-8 w-full justify-items-center">
+              {relatedBoxes.map((box, index) => (
+                <div 
+                  key={box.id || index} 
+                  className="w-full max-w-[250px] h-[380px] sm:!h-[400px] md:!h-[420px] bg-gray-100 rounded-3xl cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden group relative" 
+                  onClick={() => navigate(`/boxes/${box.id}`)}
+                >
+                  {/* Image de la box - prend toute la taille */}
+                  <div className="w-full h-full rounded-3xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.images?.[0].link)} 
+                      alt={box.title || `Box ${index + 1}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/300x420/e5e5e5/999999?text=Box";
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Overlay avec titre et catégorie en haut */}
+                  <div className="absolute top-0 left-0 right-0 p-6 text-center">
+                    <h3 className=" text-lg sm:!text-xl mb-2 uppercase tracking-wide">
+                      {box.name || `BOX ${index + 1}`}
+                    </h3>
+                    <p className="text-xs font-medium">
+                      {box.category?.name || "Activité manuelle"}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

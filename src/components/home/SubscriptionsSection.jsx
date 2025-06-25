@@ -4,12 +4,15 @@ import motif_2 from "/images/motif_2.png";
 import home_gift_card_image from "/images/home_gift_card_image.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { fetchData } from "../../api";
 import l_shape from "/images/picto/l_shape.svg";
 import o_shape from "/images/picto/o_shape.svg";
 
 const SubscriptionsSection = () => {
   const navigate = useNavigate();
   const [fontSize, setFontSize] = useState(14);
+  const [abonnements, setAbonnements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const updateFontSize = () => {
@@ -27,20 +30,29 @@ const SubscriptionsSection = () => {
     window.addEventListener('resize', updateFontSize);
     return () => window.removeEventListener('resize', updateFontSize);
   }, []);
-  const abonnements = [
-    {
-      title: "ABONNEMENT MENSUEL",
-      description:
-        "Recevez une boîte du catalogue tous les mois afin de découvrir une nouvelle passion",
-      image: motif_1,
-    },
-    {
-      title: "ABONNEMENT MYSTÈRE",
-      description:
-        "Recevez une boîte mystère tous les 3 mois (cette boîte ne figurera aux autres box découvertes ensuite.)",
-      image: motif_2,
-    },
-  ];
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const data = await fetchData("/subscriptions");
+        if (data) {
+          // Assigner les images manuellement selon l'ordre
+          const subscriptionsWithImages = data.map((sub, index) => ({
+            ...sub,
+            image: index === 0 ? motif_1 : motif_2
+          }));
+          setAbonnements(subscriptionsWithImages);
+        } else {
+          console.error("Erreur lors du chargement des abonnements.");
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des abonnements:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubscriptions();
+  }, []);
 
   // Génération dynamique du texte pour le cercle
   const circleText = "BOX CRÉATIVE • ";
@@ -94,34 +106,38 @@ const SubscriptionsSection = () => {
               src={o_shape}
               alt="O shape decoration"
               className="hidden lg:block absolute -right-10 top-2/3 w-[160px] h-[147px] z-50"
-            />
-            {/* Cartes abonnements */}
-            <div className="relative z-20 flex-1 flex flex-col items-center">
-              <div className="bg-white text-black rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-md flex flex-col items-center justify-between w-full gap-6 md:gap-10 h-[500px] md:h-[650px]">                <h3 className="text-center text-2xl md:!text-4xl">{abonnements[0].title}</h3>
-                <p className="text-center text-base md:text-lg px-2">{abonnements[0].description}</p>
-                <div className="w-4/5 lg:w-80 h-40 md:h-60 rounded-3xl md:rounded-4xl overflow-hidden">
-                  <img src={abonnements[0].image} alt={abonnements[0].title} className="w-full h-full object-cover" />
-                </div>
-                <button
-                onClick={() => navigate("/subscriptions")}
-                className="px-4 md:px-6 py-2 border border-black rounded-xl text-black text-lg md:text-xl hover:cursor-pointer transition w-4/5 lg:w-60 h-12 md:h-15">
-                  Découvrir
-                </button>
+            />            {/* Cartes abonnements */}
+            {loading ? (
+              <div className="text-center py-20 text-white">
+                <p>Chargement des abonnements...</p>
               </div>
-            </div>
-            <div className="relative z-20 flex-1 flex flex-col items-center">
-              <div className="bg-white text-black rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-md flex flex-col items-center justify-between w-full gap-6 md:gap-10 h-[500px] md:h-[650px]">                <h3 className="text-center text-2xl md:!text-4xl">{abonnements[1].title}</h3>
-                <p className="text-center text-base md:text-lg px-2">{abonnements[1].description}</p>
-                <div className="w-4/5 lg:w-80 h-40 md:h-60 rounded-3xl md:rounded-4xl overflow-hidden">
-                  <img src={abonnements[1].image} alt={abonnements[1].title} className="w-full h-full object-cover" />
-                </div>
-                <button
-                onClick={() => navigate("/subscriptions")}
-                className="px-4 md:px-6 py-2 border border-black rounded-xl text-black text-lg md:text-xl hover:cursor-pointer transition w-4/5 lg:w-60 h-12 md:h-15">
-                  Découvrir
-                </button>
+            ) : abonnements.length === 0 ? (
+              <div className="text-center py-20 text-white">
+                <p>Aucun abonnement disponible pour le moment.</p>
               </div>
-            </div>
+            ) : (
+              abonnements.map((abonnement) => (
+                <div key={abonnement.id} className="relative z-20 flex-1 flex flex-col items-center">
+                  <div className="bg-white text-black rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-md flex flex-col items-center justify-between w-full gap-6 md:gap-10 h-[500px] md:h-[650px]">
+                    <h3 className="text-center text-2xl md:!text-4xl">{abonnement.label.toUpperCase()}</h3>
+                    <p className="text-center text-base md:text-lg px-2">{abonnement.description}</p>
+                    <div className="w-4/5 lg:w-80 h-40 md:h-60 rounded-3xl md:rounded-4xl overflow-hidden">
+                      <img src={abonnement.image} alt={abonnement.label} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="text-center mb-4">
+                      <p className="text-lg md:text-xl font-semibold text-gray-800">
+                        {abonnement.price}€ / {abonnement.recurrence === 'monthly' ? 'mois' : '3 mois'}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => navigate("/subscriptions")}
+                      className="px-4 md:px-6 py-2 border border-black rounded-xl text-black text-lg md:text-xl hover:cursor-pointer transition w-4/5 lg:w-60 h-12 md:h-15">
+                      Découvrir
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>          
           {/* Étapes */}
           <LoomiSteps textColor="white" />
