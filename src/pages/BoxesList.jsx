@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import BoxCard from "../components/BoxCard";
 import BoxCardSkeleton from "../components/BoxCardSkeleton";
 import { useFavorites } from "../hooks/useFavorites";
+import { getImageUrl } from "../utils/imageUtils";
 
 
 function BoxesList() {
@@ -13,7 +14,20 @@ function BoxesList() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('ALL');
-  const navigate = useNavigate();  const { isFavorite, toggleFavorite } = useFavorites();
+  const navigate = useNavigate();
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  // Fonction pour obtenir l'image de présentation selon le filtre
+  const getPresentationImage = () => {
+    switch (filter) {
+      case 'activité manuelle':
+        return getImageUrl("/images/boxes/pink_boxes_lot.png");
+      case 'DIY':
+        return getImageUrl("/images/boxes/orange_boxes_lot.png");
+      default:
+        return getImageUrl("/images/boxes/pink_boxes_lot.png");
+    }
+  };
 
   const filteredBoxes = filter === 'ALL' ? boxes : boxes.filter(box => box.category.short_name.toLowerCase() === filter.toLowerCase());
   useEffect(() => {
@@ -70,7 +84,8 @@ function BoxesList() {
                 <BoxCardSkeleton />                
                 {index === 1 && (
                   <>
-                    {/* Image promotionnelle responsive */}                    <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
+                    {/* Image promotionnelle responsive */}                    
+                    <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
                       <div className="w-full h-full bg-gray-200 rounded-3xl md:rounded-4xl animate-pulse"></div>
                     </div>
                   </>
@@ -91,10 +106,19 @@ function BoxesList() {
               isFavorite={isFavorite(box.id)}
               onToggleFavorite={toggleFavorite}
               onClick={() => navigate(`/boxes/${box.id}`)}
-            />            {idx === 1 && (
+            />            
+            {idx === 1 && (
               <>
-                {/* Image promotionnelle responsive */}                <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
-                  <img src="https://dummyimage.com/700x300/#2EC4B6/ffffff&text=" className="w-full h-full rounded-3xl md:rounded-4xl object-cover" alt="spéciale" />
+                {/* Image promotionnelle responsive */}
+                <div className="w-full max-w-[580px] lg:max-w-[600px] xl:max-w-[580px] h-[250px] md:h-[300px] lg:h-[320px] xl:h-[300px] flex items-center justify-center basis-full md:basis-auto">
+                  <img 
+                    src={getPresentationImage()} 
+                    className="w-full h-full rounded-3xl md:rounded-4xl object-cover" 
+                    alt="Image de présentation des boîtes" 
+                    onError={(e) => {
+                      e.target.src = "https://dummyimage.com/700x300/#2EC4B6/ffffff&text=Image+non+disponible";
+                    }}
+                  />
                 </div>
               </>
             )}

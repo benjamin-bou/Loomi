@@ -9,6 +9,7 @@ import Newsletter from "../components/Newsletter";
 import BoxDetailsSkeleton from "../components/BoxDetailsSkeleton";
 import ReviewsList from "../components/ReviewsList";
 import { useFavorites } from "../hooks/useFavorites";
+import { getImageUrl } from "../utils/imageUtils";
 
 function BoxPage({ setShowCart }) {
   const { id } = useParams();
