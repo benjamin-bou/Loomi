@@ -39,10 +39,12 @@ function BoxPage({ setShowCart }) {
       content: box?.delivery || "Ici s'affichent les informations de livraison et de retour.",
       type: "text"
     }
-  ];  useEffect(() => {
+  ];
+
+  useEffect(() => {
     setLoading(true);
     fetchData(`/boxes/${id}`)
-      .then(data => { setBox(data); console.log(data); })
+      .then(data => { setBox(data)})
       .catch(err => {
         console.error(err);
         setError("Une erreur est survenue lors du chargement des détails de la boîte.");
@@ -92,84 +94,57 @@ function BoxPage({ setShowCart }) {
 
         {/* Détails principaux */}
         <div className="flex flex-col lg:!flex-row justify-between mt-3 xs:!mt-4 w-full gap-4 xs:!gap-6 sm:!gap-8 lg:!gap-12">          {/* Images de la box */}
-          <div className="w-full lg:!w-[58%]">            {box.images && box.images.length > 0 ? (
-              <div className="flex flex-col gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
-                {/* Container pour les deux premières images avec hauteur identique */}
-                <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6 grid-rows-1">                  {/* Image principale de la boîte */}
-                  <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                    <img
+          <div className="w-full lg:!w-[58%]">
+            <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
+              {box.images && box.images.length > 0 ? (
+                <>                  {/* Image principale */}
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
                       src={getImageUrl(box.images[0].link)}
-                      alt={box.images[0].alt || `${box.name} - Image principale`}
+                      alt={box.images[0].alt || box.name}
                       className="w-full h-full object-cover"
-                      style={{ minWidth: '100%', minHeight: '100%' }}
                       onError={(e) => {
-                        e.target.src = "https://dummyimage.com/600x400/cccccc/cccccc";
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
                       }}
                     />
                   </div>
                   
-                  {/* Image 2 fixe */}
-                  <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                    <img
-                      src={getImageUrl("/images/boxes/box_couture_002.png")}
-                      alt={`${box.name} - Image 2`}
-                      className="w-full h-full object-cover"
-                      style={{ minWidth: '100%', minHeight: '100%' }}
-                      onError={(e) => {
-                        e.target.src = "https://dummyimage.com/600x400/cccccc/cccccc";
-                      }}
-                    />
-                  </div>
-                </div>
-                  {/* Image 3 fixe */}
-                <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                  <img
-                    src={getImageUrl("/images/boxes/box_couture_003.png")}
-                    alt={`${box.name} - Image 3`}
-                    className="w-full h-full object-cover"
-                    style={{ minWidth: '100%', minHeight: '100%' }}
-                    onError={(e) => {
-                      e.target.src = "https://dummyimage.com/600x400/cccccc/cccccc";
-                    }}
-                  />
-                </div>
-              </div>
-            ) : (              <div className="flex flex-col gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
-                {/* Container pour les deux premières images avec hauteur identique */}
-                <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6 grid-rows-1">                  <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                    <img
-                      src="https://dummyimage.com/600x400/cccccc/cccccc"
-                      alt={`${box.name} - Image non disponible`}
-                      className="w-full h-full object-cover"
-                      style={{ minWidth: '100%', minHeight: '100%' }}
-                    />
-                  </div>
+                  {/* Image secondaire si disponible */}
+                  {box.images.length > 1 ? (
+                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                      <img 
+                        src={getImageUrl(box.images[1].link)}
+                        alt={box.images[1].alt || box.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  )}
                   
-                  <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                    <img
-                      src={getImageUrl("/images/boxes/box_couture_002.png")}
-                      alt={`${box.name} - Image 2`}
+                  {/* Image large en bas */}
+                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.images[0].link)}
+                      alt={box.images[0].alt || box.name}
                       className="w-full h-full object-cover"
-                      style={{ minWidth: '100%', minHeight: '100%' }}
                       onError={(e) => {
-                        e.target.src = "https://dummyimage.com/600x400/cccccc/cccccc";
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
                       }}
                     />
                   </div>
-                </div>
-                  <div className="rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center justify-center bg-white">
-                  <img
-                    src={getImageUrl("/images/boxes/box_couture_003.png")}
-                    alt={`${box.name} - Image 3`}
-                    className="w-full h-full object-cover"
-                    style={{ minWidth: '100%', minHeight: '100%' }}
-                    onError={(e) => {
-                      e.target.src = "https://dummyimage.com/600x400/cccccc/cccccc";
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+                </>
+              ) : (
+                <>
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Infos de la box */}
@@ -249,31 +224,20 @@ function BoxPage({ setShowCart }) {
             {Array(4).fill(0).map((_, index) => (
               <div key={index} className="w-full h-64 md:h-80 lg:h-96 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-3xl md:rounded-4xl"></div>
             ))}
-          </div>        ) : relatedBoxes.length > 0 ? (
+          </div>
+        ) : relatedBoxes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 lg:gap-6 w-full">
             {relatedBoxes.map((related, index) => (
               <div 
                 key={index} 
                 onClick={() => navigate(`/boxes/${related.id}`)} 
-                className="w-full h-64 md:h-80 lg:h-96 rounded-3xl md:rounded-4xl cursor-pointer hover:shadow-lg transition-shadow duration-300 overflow-hidden"
-              >                {related.images && related.images.length > 0 ? (
-                  <img
-                    src={getImageUrl(related.images[0].link)}
-                    alt={related.images[0].alt || related.name}
-                    className="w-full h-full object-cover"
-                    style={{ minWidth: '100%', minHeight: '100%' }}
-                    onError={(e) => {
-                      e.target.src = "https://dummyimage.com/400x300/cccccc/cccccc";
-                    }}
-                  />
-                ) : (
-                  <img
-                    src="https://dummyimage.com/400x300/cccccc/cccccc"
-                    alt={related.name}
-                    className="w-full h-full object-cover"
-                    style={{ minWidth: '100%', minHeight: '100%' }}
-                  />
-                )}
+                className="w-full h-64 md:h-80 lg:h-96 bg-gray-300 rounded-3xl md:rounded-4xl cursor-pointer hover:shadow-lg transition-shadow duration-300"
+              >
+                {/* <img
+                  src={`/images/${related.image}`}
+                  alt={related.name}
+                  className="rounded-xl mb-4 w-full h-48 object-cover"
+                /> */}
               </div>
             ))}
           </div>
