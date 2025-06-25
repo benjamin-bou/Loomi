@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchData } from '../api';
+import { fetchData, getImageUrl } from '../api';
 import { useCart } from '../context/CartContext';
 import MainButton from './addOns/MainButton';
 
@@ -115,15 +115,22 @@ export default function BoxSelectionForGiftCard({ giftCard, onClose }) {
                     ? 'border-[#DB3D88] bg-pink-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
-              >
-                <div className="flex items-start space-x-4">
-                  {box.image && (
+              >                
+              <div className="flex items-start space-x-4">
+                  {box.images && box.images.length > 0 ? (
                     <img
-                      src={box.image}
-                      alt={box.name}
+                      src={getImageUrl(box.images[0].link)}
+                      alt={box.images[0].alt || box.name}
                       className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/64x64/F4AECC/ffffff&text=Box";
+                      }}
                     />
-                  )}                  <div className="flex-1">
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center">
+                      <span className="text-xs text-gray-500">Box</span>
+                    </div>
+                  )}<div className="flex-1">
                     <h4 className="font-medium text-lg">{box.name}</h4>
                     {box.description && (
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">

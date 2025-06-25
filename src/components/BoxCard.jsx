@@ -19,9 +19,11 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
             src={isFavorite ? favoriteFilled : favorite}
             alt="Favori"
             className="w-5 h-5 xs:!w-6 xs:!h-6 md:!w-7 lg:!w-8 md:!h-7 lg:!h-8"
-          />        </button>
+          />        
+          </button>        
+          {/* Affichage de l'image de la boîte */}
         {box.images && box.images.length > 0 ? (
-          <img
+          <img 
             src={getImageUrl(box.images[0].link)}
             alt={box.images[0].alt || `Boîte ${box.name}`}
             className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover"
