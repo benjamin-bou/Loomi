@@ -88,7 +88,7 @@ export default function Subscriptions() {
                     <img 
                       src={index === 0 ? motif_1 : motif_2} 
                       alt={`Motif ${abonnement.label.toLowerCase()}`} 
-                      className="w-full h-full object-cover" 
+                      className="w-full h-full object-cover object-center" 
                     />
                   </div>
                 </div>

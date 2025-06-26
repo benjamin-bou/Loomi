@@ -129,7 +129,10 @@ function BoxesList() {
       {/* Section d'abonnement responsive */}
       <div className="bg-loomilightpink h-[200px] md:h-[250px] lg:h-[300px] w-full rounded-3xl md:rounded-4xl flex flex-col justify-center items-center gap-6 md:gap-8 lg:gap-10 mt-8 md:mt-12 lg:mt-15 mx-4 md:mx-8 lg:mx-0 p-4 md:p-6 lg:p-8">
         <h2 className="max-w-4/5 md:max-w-3/5 text-white text-center !text-[20px] md:!text-xl lg:!text-2xl px-4">Une box à découvrir chaque mois, directement chez vous</h2>
-        <button className="bg-loomipink text-white rounded-xl md:rounded-2xl p-2 md:p-3 w-[160px] md:w-[180px] text-sm md:text-base hover:bg-opacity-90 transition-colors">
+        <button 
+          onClick={() => navigate('/subscriptions')}
+          className="bg-loomipink text-white rounded-xl md:rounded-2xl p-2 md:p-3 w-[160px] md:w-[180px] text-sm md:text-base hover:bg-opacity-90 transition-colors cursor-pointer"
+        >
           Abonnez-vous
         </button>
       </div>

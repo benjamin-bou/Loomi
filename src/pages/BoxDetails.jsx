@@ -231,13 +231,36 @@ function BoxPage({ setShowCart }) {
               <div 
                 key={index} 
                 onClick={() => navigate(`/boxes/${related.id}`)} 
-                className="w-full h-64 md:h-80 lg:h-96 bg-gray-300 rounded-3xl md:rounded-4xl cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                className="w-full h-64 md:h-80 lg:h-96 rounded-3xl md:rounded-4xl cursor-pointer hover:shadow-lg transition-shadow duration-300 overflow-hidden relative"
               >
-                {/* <img
-                  src={`/images/${related.image}`}
-                  alt={related.name}
-                  className="rounded-xl mb-4 w-full h-48 object-cover"
-                /> */}
+                {related.images && related.images.length > 0 ? (
+                  <img
+                    src={getImageUrl(related.images[0].link)}
+                    alt={related.images[0].alt || related.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // En cas d'erreur, on affiche une div grise au lieu d'une image externe
+                      e.target.style.display = 'none';
+                      e.target.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                ) : null}
+                
+                {/* Fallback div grise (cachée par défaut, affichée en cas d'erreur) */}
+                <div 
+                  className="w-full h-full bg-gray-300 flex items-center justify-center"
+                  style={{ display: (!related.images || related.images.length === 0) ? 'flex' : 'none' }}
+                >
+                  <span className="text-gray-600 text-lg font-medium">{related.name}</span>
+                </div>
+
+                {/* Overlay avec le nom et la catégorie en haut centré */}
+                <div className="absolute top-0 left-0 right-0 p-4 text-center">
+                  <h3 className="text-sm md:text-base drop-shadow-lg">{related.name}</h3>
+                  {related.category && (
+                    <p className="text-xs md:text-sm opacity-90 drop-shadow-lg">{related.category.short_name}</p>
+                  )}
+                </div>
               </div>
             ))}
           </div>

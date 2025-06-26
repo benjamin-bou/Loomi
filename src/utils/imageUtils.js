@@ -13,7 +13,7 @@ export const getImageUrl = (imagePath) => {
     // S'assurer que le chemin commence par /
     const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
 
-    return `${baseUrl}${cleanPath}`;
+    return `${cleanPath}`;
 };
 
 // Utilitaire pour obtenir l'URL de la première image d'une boîte
