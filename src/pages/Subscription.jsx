@@ -71,7 +71,16 @@ export default function Orders() {
         // Carte d'abonnement
         <div className="mx-2 sm:mx-4 md:mx-8 lg:mx-[50px] bg-white rounded-[2rem] px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 shadow-sm min-h-[320px] sm:min-h-[380px] md:min-h-[420px] relative">
           {/* Image produit */}
-          <div className="bg-[#e5e5e5] rounded-4xl w-full max-w-[300px] h-[200px] sm:h-[250px] md:h-[300px] lg:w-[300px] lg:h-[300px] min-w-[120px] flex-shrink-0 mx-auto lg:mx-0" />
+          <div className="rounded-4xl w-full max-w-[300px] h-[200px] sm:h-[250px] md:h-[300px] lg:w-[300px] lg:h-[300px] min-w-[120px] flex-shrink-0 mx-auto lg:mx-0 overflow-hidden">
+            <img 
+              src="/images/boxes/box_couture_003.png" 
+              alt="Abonnement"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                e.target.src = "https://dummyimage.com/300x300/e5e5e5/999999&text=Abonnement";
+              }}
+            />
+          </div>
 
           {/* Infos commande */}
           <div className="flex flex-col w-full gap-4 justify-between">
