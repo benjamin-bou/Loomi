@@ -2,34 +2,35 @@ import { useState, useEffect, useCallback } from 'react';
 import { fetchData } from '../api';
 import Stars from './Stars';
 
-export default function ReviewsList({ boxId }) {
+export default function SubscriptionReviewsList({ subscriptionTypeId }) {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [ratingDistribution, setRatingDistribution] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
   const fetchReviews = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchData(`/boxes/${boxId}/reviews`);
+      const data = await fetchData(`/subscriptions/${subscriptionTypeId}/reviews`);
       setReviews(data.reviews);
       setAverageRating(data.average_rating);
       setTotalReviews(data.total_reviews);
       setRatingDistribution(data.rating_distribution);
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      console.error('Error fetching subscription reviews:', error);
       setError('Erreur lors du chargement des avis');
     } finally {
       setLoading(false);
     }
-  }, [boxId]);
+  }, [subscriptionTypeId]);
 
   useEffect(() => {
-    if (boxId) {
+    if (subscriptionTypeId) {
       fetchReviews();
     }
-  }, [boxId, fetchReviews]);
+  }, [subscriptionTypeId, fetchReviews]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -38,6 +39,7 @@ export default function ReviewsList({ boxId }) {
       day: 'numeric'
     });
   };
+
   const renderStars = (rating) => {
     return (
       <Stars 
@@ -47,6 +49,7 @@ export default function ReviewsList({ boxId }) {
       />
     );
   };
+
   const getRatingPercentage = (rating) => {
     if (totalReviews === 0) return 0;
     // Le backend retourne déjà les pourcentages, on les additionne juste
@@ -99,7 +102,8 @@ export default function ReviewsList({ boxId }) {
       {totalReviews > 0 && (
         <div className="bg-gray-50 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <div>              <div className="flex items-center space-x-2">
+            <div>
+              <div className="flex items-center space-x-2">
                 <span className="text-3xl font-bold text-gray-800">
                   {averageRating}
                 </span>
@@ -151,7 +155,7 @@ export default function ReviewsList({ boxId }) {
       ) : (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-800">
-            Avis des clients ({totalReviews})
+            Avis des abonnés ({totalReviews})
           </h3>
           
           {reviews.map((review) => (

@@ -129,7 +129,7 @@ export default function Deliveries() {
       <div className="relative z-10 w-full sm:!w-[90%] md:!w-[85%] lg:!w-[80%] mx-auto md:!mx-[50px]">
         {/* En-tête */}
         <div className="mb-6 sm:!mb-8 text-center sm:!text-left">
-          <h1 className="mb-2 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl !font-bold">Mes livraisons</h1>
+          <h1 className="mb-2 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl">Mes livraisons</h1>
           <p className="text-base sm:!text-lg md:!text-xl text-gray-600">
             Historique de toutes vos livraisons : boîtes achetées et abonnements
           </p>
@@ -156,7 +156,7 @@ export default function Deliveries() {
             </p>
             <button
               onClick={() => navigate('/boxes')}
-              className="bg-loomilightpink text-white px-4 sm:!px-6 py-2 sm:!py-3 rounded-xl hover:bg-loomipink transition-colors text-sm sm:!text-base"
+              className="bg-loomilightpink text-white px-4 sm:!px-6 py-2 sm:!py-3 rounded-xl hover:bg-loomipink transition-colors text-sm sm:!text-base cursor-pointer"
             >
               Découvrir nos boîtes
             </button>

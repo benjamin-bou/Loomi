@@ -172,7 +172,9 @@ const OrderSuccessPage = () => {
               {orderData.items?.map((item, index) => (
                 <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                   <div>
-                    <span className="font-medium">{item.name || item.title}</span>
+                    <span className="font-medium">
+                      {item.type === 'subscription' ? (item.label || item.name) : (item.name || item.title)}
+                    </span>
                     {item.quantity > 1 && (
                       <span className="text-gray-500 ml-2">x{item.quantity}</span>
                     )}
