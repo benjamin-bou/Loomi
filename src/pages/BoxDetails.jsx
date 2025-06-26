@@ -216,7 +216,10 @@ function BoxPage({ setShowCart }) {
               >
                 Ajouter au panier
               </button>
-              <button className="neulis text-sm md:text-[15px] bg-[#DB3D88] text-white py-2 md:py-2.5 rounded-xl hover:bg-[#b83272] hover:cursor-pointer transition">
+              <button 
+                onClick={() => navigate('/subscriptions')}
+                className="neulis text-sm md:text-[15px] bg-[#DB3D88] text-white py-2 md:py-2.5 rounded-xl hover:bg-[#b83272] hover:cursor-pointer transition"
+              >
                 S'abonner
               </button>
             </div>
