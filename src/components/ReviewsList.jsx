@@ -49,21 +49,21 @@ export default function ReviewsList({ boxId }) {
   };
   const getRatingPercentage = (rating) => {
     if (totalReviews === 0) return 0;
+    // Le backend retourne déjà les pourcentages, on les additionne juste
     // Pour l'affichage, on groupe les demi-étoiles avec les étoiles entières
-    // Par exemple, 4.5 et 4 sont regroupés sous "4"
-    let count = 0;
+    let percentage = 0;
     if (rating === 5) {
-      count = (ratingDistribution['5'] || 0);
+      percentage = (ratingDistribution['5'] || 0);
     } else if (rating === 4) {
-      count = (ratingDistribution['4.5'] || 0) + (ratingDistribution['4'] || 0);
+      percentage = (ratingDistribution['4.5'] || 0) + (ratingDistribution['4'] || 0);
     } else if (rating === 3) {
-      count = (ratingDistribution['3.5'] || 0) + (ratingDistribution['3'] || 0);
+      percentage = (ratingDistribution['3.5'] || 0) + (ratingDistribution['3'] || 0);
     } else if (rating === 2) {
-      count = (ratingDistribution['2.5'] || 0) + (ratingDistribution['2'] || 0);
+      percentage = (ratingDistribution['2.5'] || 0) + (ratingDistribution['2'] || 0);
     } else if (rating === 1) {
-      count = (ratingDistribution['1.5'] || 0) + (ratingDistribution['1'] || 0) + (ratingDistribution['0.5'] || 0);
+      percentage = (ratingDistribution['1.5'] || 0) + (ratingDistribution['1'] || 0) + (ratingDistribution['0.5'] || 0);
     }
-    return Math.round(count / totalReviews * 100);
+    return Math.round(percentage);
   };
 
   if (loading) {
