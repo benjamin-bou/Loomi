@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useNavigate } from "react-router-dom";
 import Newsletter from "../components/Newsletter";
 import SubscriptionDetailsSkeleton from "../components/SubscriptionDetailsSkeleton";
+import SubscriptionReviewsList from "../components/SubscriptionReviewsList";
 
 function SubscriptionDetails({ setShowCart }) {
   const { id } = useParams();  const [subscription, setSubscription] = useState(null);
@@ -22,19 +23,6 @@ function SubscriptionDetails({ setShowCart }) {
     '/images/boxes/pink_boxes_lot.png'      // 3ème image : pile de boîtes
   ];
 
-  // Images aléatoires pour les abonnements suggérés
-  const allSubscriptionImages = [
-    '/images/boxes/box_couture_001.jpg',
-    '/images/boxes/box_peinture_001.png',
-    '/images/boxes/box_mystere_001.png',
-    '/images/boxes/box_tricot_001.png',
-    '/images/boxes/box_bougie_001.png',
-    '/images/boxes/box_savon_001.png',
-    '/images/boxes/box_poterie_001.jpg',
-    '/images/boxes/pink_boxes_lot.png',
-    '/images/boxes/orange_boxes_lot.png'
-  ];
-
   // Fonction pour traduire la récurrence en français
   const translateRecurrence = (recurrence) => {
     const translations = {
@@ -49,18 +37,29 @@ function SubscriptionDetails({ setShowCart }) {
   const accordionData = [
     {
       title: "Détails de l'abonnement",
-      content: subscription?.details || "Ici s'affichent les détails de l'abonnement.",
+      content: subscription?.description || "Ici s'affichent les détails de l'abonnement.",
       type: "text"
     },
     {
       title: "Avis client",
-      content: subscription?.reviews || "Ici s'affichent les avis clients.",
-      type: "text"
+      content: null,
+      type: "reviews"
     },
     {
       title: "Livraison et gestion",
-      content: subscription?.delivery || "Ici s'affichent les informations de livraison et de gestion de l'abonnement.",
-      type: "delivery"
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-medium text-gray-800 mb-2">📦 Livraison</h4>
+            <p className="text-gray-600">{subscription?.delivery || "Informations de livraison non disponibles."}</p>
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-800 mb-2">⚙️ Gestion</h4>
+            <p className="text-gray-600">{subscription?.return_policy || "Informations de gestion non disponibles."}</p>
+          </div>
+        </div>
+      ),
+      type: "html"
     }
   ];
   useEffect(() => {
@@ -177,11 +176,16 @@ function SubscriptionDetails({ setShowCart }) {
                   </span>
                 </div>
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? (item.type === "delivery" ? 'max-h-[300px] opacity-100 mt-2' : 'max-h-40 opacity-100 mt-2') : 'max-h-0 opacity-0'}`}
-                  style={{}}
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? (item.type === "reviews" ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-96 opacity-100 mt-2') : 'max-h-0 opacity-0'}`}
                 >
-                  <div className={`text-[#666] text-[15px] pr-4 ${item.type === "delivery" ? 'max-h-[250px] overflow-y-auto custom-scrollbar' : ''}`}>
-                    {item.content}
+                  <div className={`text-[#666] text-[15px] pr-4 ${item.type === "reviews" ? 'max-h-[450px] overflow-y-auto custom-scrollbar' : ''}`}>
+                    {item.type === "reviews" ? (
+                      <SubscriptionReviewsList subscriptionTypeId={parseInt(id)} />
+                    ) : item.type === "html" ? (
+                      item.content
+                    ) : (
+                      item.content
+                    )}
                   </div>
                 </div>
               </div>
@@ -198,22 +202,25 @@ function SubscriptionDetails({ setShowCart }) {
             <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
             <div className="flex justify-between gap-4 w-full">
               {relatedSubscriptions.map((related, index) => {
-                // Choisir une image aléatoire pour chaque abonnement suggéré
-                const randomImage = allSubscriptionImages[Math.floor(Math.random() * allSubscriptionImages.length)];
                 return (
                   <div 
                     key={index} 
                     onClick={() => navigate(`/subscriptions/${related.id}`)} 
-                    className="col-span-1 w-full h-96 rounded-4xl overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                    className="col-span-1 w-full h-96 rounded-4xl overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300 relative"
                   >
                     <img
-                      src={randomImage}
+                      src={subscriptionImages[2]}
                       alt={related.label}
                       className="w-full h-full object-cover object-center"
                       onError={(e) => {
                         e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Abonnement";
                       }}
                     />
+                    
+                    {/* Overlay avec le nom de l'abonnement en blanc */}
+                    <div className="absolute top-0 left-0 right-0 p-4 text-center">
+                      <h3 className="text-white text-sm md:text-base drop-shadow-lg font-medium">{related.label}</h3>
+                    </div>
                   </div>
                 );
               })}
