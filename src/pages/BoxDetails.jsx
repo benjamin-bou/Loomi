@@ -26,7 +26,7 @@ function BoxPage({ setShowCart }) {
   const accordionData = [
     {
       title: "Détails du produit",
-      content: box?.details || "Ici s'affichent les détails du produit.",
+      content: box?.description || "Ici s'affichent les détails du produit.",
       type: "text"
     },
     {
@@ -36,8 +36,19 @@ function BoxPage({ setShowCart }) {
     },
     {
       title: "Livraison et retour",
-      content: box?.delivery || "Ici s'affichent les informations de livraison et de retour.",
-      type: "text"
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-medium text-gray-800 mb-2">📦 Livraison</h4>
+            <p className="text-gray-600">{box?.delivery || "Informations de livraison non disponibles."}</p>
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-800 mb-2">↩️ Retour</h4>
+            <p className="text-gray-600">{box?.return_policy || "Informations de retour non disponibles."}</p>
+          </div>
+        </div>
+      ),
+      type: "html"
     }
   ];
 
@@ -230,6 +241,8 @@ function BoxPage({ setShowCart }) {
                     <div className={`text-[#666] text-sm md:text-[15px] pr-4 ${item.type === "reviews" ? 'max-h-[450px] overflow-y-auto custom-scrollbar' : ''}`}>
                       {item.type === "reviews" ? (
                         <ReviewsList boxId={parseInt(id)} />
+                      ) : item.type === "html" ? (
+                        item.content
                       ) : (
                         item.content
                       )}
