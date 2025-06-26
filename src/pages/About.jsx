@@ -16,7 +16,6 @@ export default function About() {
         .then(data => setRelatedBoxes(data.slice(0, 4)))
         .catch(err => console.error(err));
     }, []);    
-    console.log(relatedBoxes);
     return (
         <div className="bg-loomibeige min-h-screen font-montserrat relative overflow-x-hidden px-4 sm:!px-6 md:!px-8 lg:!px-[50px] pt-6 sm:!pt-8 md:!pt-10">
           {/* SVG l_shape en haut à droite */}
@@ -30,11 +29,12 @@ export default function About() {
           {/* Première section : Le concept */}
           <section className="relative z-10 max-w-4xl mb-8 sm:!mb-12 md:!mb-16">
             <h1 className="mb-4 sm:!mb-5 md:!mb-6 !text-xl sm:!text-2xl md:!text-3xl lg:!text-4xl">Le concept Loomi</h1>            <p className="mb-3 !text-sm sm:!text-base leading-relaxed">
-              Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br/><br/>
-              Why do we use it?
+            Loomi, c’est l’envie de redonner goût à l’apprentissage manuel et créatif à travers des boîtes thématiques prêtes à l’emploi. Chaque box contient tout le nécessaire pour découvrir ou approfondir une activité artisanale : tricot, fabrication de savon, calligraphie, couture, etc.
+Que vous soyez débutant ou passionné, Loomi vous accompagne pas à pas avec des instructions claires, du matériel de qualité et une expérience ludique.
+Vous pouvez choisir entre un achat unique ou un abonnement mensuel pour recevoir chaque mois une nouvelle activité et cultiver votre curiosité.
             </p>
             <p className="!text-sm sm:!text-base leading-relaxed">
-              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+              
             </p>
           </section>          {/* Bloc Notre histoire (2 colonnes) */}
           <section className="relative z-10 flex flex-col lg:flex-row gap-6 sm:!gap-8 md:!gap-10 lg:!gap-12">
@@ -44,9 +44,11 @@ export default function About() {
               <div className="mb-6 sm:!mb-7 md:!mb-8">
                 <h3 className="font-medium mb-2 !text-base sm:!text-lg md:!text-xl">Pourquoi ce projet&nbsp;?</h3>
                 <p className="!text-sm sm:!text-base leading-relaxed mb-4">
-                  Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />
-                  It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>              </div>
+                Loomi est né d’un constat simple : nous passons trop de temps derrière nos écrans et trop peu à créer de nos mains.
+Nous voulions proposer une alternative ludique, accessible et inspirante, pour aider chacun à renouer avec le plaisir de faire soi-même.
+C’est en échangeant avec des passionnés, des éducateurs et des artisans que nous avons façonné cette idée : offrir une box complète, belle et utile, qui donne envie de se lancer, seul ou en famille.
+                </p>              
+                </div>
               <div>
                 <h3 className="font-medium mb-2 !text-base sm:!text-lg md:!text-xl">Notre équipe</h3>
                 <p className="!text-sm sm:!text-base leading-relaxed">

@@ -26,7 +26,7 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
           <img 
             src={getImageUrl(box.images[0].link)}
             alt={box.images[0].alt || `Boîte ${box.name}`}
-            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover"
+            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover object-center"
             onError={(e) => {
               e.target.src = "https://dummyimage.com/400x300/cccccc/cccccc";
             }}
@@ -35,7 +35,7 @@ export default function BoxCard({ box, isFavorite, onToggleFavorite, onClick }) 
           <img
             src="https://dummyimage.com/400x300/cccccc/cccccc"
             alt={`Boîte ${box.name}`}
-            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover"
+            className="w-full h-full rounded-2xl xs:!rounded-3xl md:!rounded-4xl object-cover object-center"
           />
         )}
       </div>

@@ -11,8 +11,29 @@ function SubscriptionDetails({ setShowCart }) {
   const [relatedSubscriptions, setRelatedSubscriptions] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart();  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [openAccordion, setOpenAccordion] = useState(null);
+
+  // Images spécifiques pour les abonnements (ordre fixe)
+  const subscriptionImages = [
+    '/images/boxes/box_couture_001.jpg',    // 1ère image : couture
+    '/images/boxes/box_savon_001.png',      // 2ème image : savon
+    '/images/boxes/pink_boxes_lot.png'      // 3ème image : pile de boîtes
+  ];
+
+  // Images aléatoires pour les abonnements suggérés
+  const allSubscriptionImages = [
+    '/images/boxes/box_couture_001.jpg',
+    '/images/boxes/box_peinture_001.png',
+    '/images/boxes/box_mystere_001.png',
+    '/images/boxes/box_tricot_001.png',
+    '/images/boxes/box_bougie_001.png',
+    '/images/boxes/box_savon_001.png',
+    '/images/boxes/box_poterie_001.jpg',
+    '/images/boxes/pink_boxes_lot.png',
+    '/images/boxes/orange_boxes_lot.png'
+  ];
 
   // Fonction pour traduire la récurrence en français
   const translateRecurrence = (recurrence) => {
@@ -28,15 +49,18 @@ function SubscriptionDetails({ setShowCart }) {
   const accordionData = [
     {
       title: "Détails de l'abonnement",
-      content: subscription?.details || "Ici s'affichent les détails de l'abonnement."
+      content: subscription?.details || "Ici s'affichent les détails de l'abonnement.",
+      type: "text"
     },
     {
       title: "Avis client",
-      content: subscription?.reviews || "Ici s'affichent les avis clients."
+      content: subscription?.reviews || "Ici s'affichent les avis clients.",
+      type: "text"
     },
     {
       title: "Livraison et gestion",
-      content: subscription?.delivery || "Ici s'affichent les informations de livraison et de gestion de l'abonnement."
+      content: subscription?.delivery || "Ici s'affichent les informations de livraison et de gestion de l'abonnement.",
+      type: "delivery"
     }
   ];
   useEffect(() => {
@@ -50,7 +74,6 @@ function SubscriptionDetails({ setShowCart }) {
       setRelatedSubscriptions(
         allSubscriptions.filter(s => s.id !== parseInt(id)).slice(0, 4)
       );
-      console.log("Subscription data:", subscriptionData);
     })
     .catch(err => {
       console.error(err);
@@ -83,12 +106,40 @@ function SubscriptionDetails({ setShowCart }) {
       <div className="flex flex-col md:flex-row justify-between mt-4 w-full">
         {/* Images de l'abonnement */}
         <div className="grid grid-cols-2 gap-6 md:w-[58%]">
-          <div className="col-span-1 h-96 bg-gray-300 rounded-4xl"></div>
-          <div className="col-span-1 h-96 bg-gray-300 rounded-4xl"></div>
-          <div className="col-span-2 h-96 bg-gray-300 rounded-4xl"></div>
+          <div className="col-span-1 h-96 rounded-4xl overflow-hidden">
+            <img 
+              src={subscriptionImages[0]} 
+              alt="Box couture - Activité créative incluse dans l'abonnement"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Abonnement";
+              }}
+            />
+          </div>
+          <div className="col-span-1 h-96 rounded-4xl overflow-hidden">
+            <img 
+              src={subscriptionImages[1]} 
+              alt="Box savon - Activité créative incluse dans l'abonnement"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Abonnement";
+              }}
+            />
+          </div>
+          <div className="col-span-2 h-96 rounded-4xl overflow-hidden">
+            <img 
+              src={subscriptionImages[2]} 
+              alt="Collection de boîtes - Activités créatives incluses dans l'abonnement"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Abonnement";
+              }}
+            />
+          </div>
         </div>        {/* Infos de l'abonnement */}
         <div className="md:w-[34%]">
-          <div className="flex flex-row justify-between">            <div className="flex flex-col">
+          <div className="flex flex-row justify-between">            
+            <div className="flex flex-col">
               <h2 className="!text-[36px] leading-[36px] text-[#1B1B1B]">{subscription.label}</h2>
               <p className="!text-[18px] text-[#666] mt-1">{translateRecurrence(subscription.recurrence)}</p>
               <p className="!text-[18px] mt-2">{subscription?.price ? Number(subscription.price).toFixed(2).replace('.', ',') : ''} € / {subscription.duration || 'mois'}</p>
@@ -126,10 +177,10 @@ function SubscriptionDetails({ setShowCart }) {
                   </span>
                 </div>
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0'}`}
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === idx ? (item.type === "delivery" ? 'max-h-[300px] opacity-100 mt-2' : 'max-h-40 opacity-100 mt-2') : 'max-h-0 opacity-0'}`}
                   style={{}}
                 >
-                  <div className="text-[#666] text-[15px] pr-4">
+                  <div className={`text-[#666] text-[15px] pr-4 ${item.type === "delivery" ? 'max-h-[250px] overflow-y-auto custom-scrollbar' : ''}`}>
                     {item.content}
                   </div>
                 </div>
@@ -146,15 +197,26 @@ function SubscriptionDetails({ setShowCart }) {
           <div className="p-[50px] mx-auto">
             <h2 className="text-2xl text-center mb-12">Vous aimerez aussi !</h2>
             <div className="flex justify-between gap-4 w-full">
-              {relatedSubscriptions.map((related, index) => (
-                <div key={index} onClick={() => navigate(`/subscriptions/${related.id}`)} className="col-span-1 w-full h-96 bg-gray-300 rounded-4xl">
-                  {/* <img
-                    src={`/images/${related.image}`}
-                    alt={related.name}
-                    className="rounded-xl mb-4 w-full h-48 object-cover"
-                  /> */}
+              {relatedSubscriptions.map((related, index) => {
+                // Choisir une image aléatoire pour chaque abonnement suggéré
+                const randomImage = allSubscriptionImages[Math.floor(Math.random() * allSubscriptionImages.length)];
+                return (
+                  <div 
+                    key={index} 
+                    onClick={() => navigate(`/subscriptions/${related.id}`)} 
+                    className="col-span-1 w-full h-96 rounded-4xl overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <img
+                      src={randomImage}
+                      alt={related.label}
+                      className="w-full h-full object-cover object-center"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Abonnement";
+                      }}
+                    />
                   </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

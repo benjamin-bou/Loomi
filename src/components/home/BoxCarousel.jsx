@@ -38,15 +38,6 @@ function PrevArrow(props) {
 
 function BoxCarousel({ boxes, slidesToShow }) {
   const navigate = useNavigate();
-  
-  // Debug: afficher les données des boîtes
-  console.log('BoxCarousel - Données reçues:', boxes);
-  if (boxes && boxes.length > 0) {
-    console.log('BoxCarousel - Première boîte:', boxes[0]);
-    if (boxes[0].images) {
-      console.log('BoxCarousel - Images de la première boîte:', boxes[0].images);
-    }
-  }
 
   var settings = {
     className: "center",
@@ -106,12 +97,10 @@ function BoxCarousel({ boxes, slidesToShow }) {
                         const imageUrl = box.images && box.images.length > 0 
                           ? getImageUrl(box.images[0].link)
                           : "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
-                        console.log(`BoxCarousel - URL pour ${box.name}:`, imageUrl);
                         return imageUrl;
                       })()}
                       alt={box.images && box.images.length > 0 ? box.images[0].alt : box.name}
                       onError={(e) => {
-                        console.log(`BoxCarousel - Erreur de chargement pour ${box.name}:`, e.target.src);
                         e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
                       }}
                     />
