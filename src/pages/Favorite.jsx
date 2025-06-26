@@ -58,7 +58,7 @@ export default function Favorites({ setShowCart }) {
         <div className="relative z-10 w-full sm:!w-[90%] md:!w-[85%] lg:!w-[80%] mx-auto">
           {/* En-tête */}
           <div className="mb-4 xs:!mb-6 sm:!mb-8 text-center sm:!text-left">
-            <h1 className="!text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl !font-bold">Mes favoris</h1>
+            <h1 className="!text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl">Mes favoris</h1>
           </div>
 
           {/* Liste de favoris */}

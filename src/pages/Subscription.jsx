@@ -16,7 +16,9 @@ export default function Orders() {
   const [user, setUser] = useState({});
   const [giftCardExtensions, setGiftCardExtensions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(true);  useEffect(() => {
+  const [loading, setLoading] = useState(true);
+  const [showUnsubscribeModal, setShowUnsubscribeModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');  useEffect(() => {
     const fetchOrders = async () => {
       try {
         const data = await fetchData("/my-subscription");
@@ -32,23 +34,23 @@ export default function Orders() {
     fetchOrders();
   }, []);
   const handleUnsubscribe = async () => {
-    if (confirm("Êtes-vous sûr de vouloir annuler votre abonnement ? Cette action est irréversible.")) {
-      setIsLoading(true);
-      try {
-        const response = await postData("/cancel-subscription", {});
-        if (response.message) {
-          // Mettre à jour l'état local
-          window.location.reload(); // Recharger la page pour mettre à jour l'affichage
-          setSubscription(response.subscription);
-        }
-      } catch (error) {
-        console.error("Erreur lors de l'annulation:", error);
-        const errorMessage = error.response?.data?.error || "Une erreur est survenue lors de l'annulation de l'abonnement.";
-        alert(errorMessage);
-      } finally {
-        setIsLoading(false);
+    setIsLoading(true);
+    try {
+      const response = await postData("/cancel-subscription", {});
+      if (response.message) {
+        // Mettre à jour l'état local
+        window.location.reload(); // Recharger la page pour mettre à jour l'affichage
+        setSubscription(response.subscription);
       }
-    }  };  
+    } catch (error) {
+      console.error("Erreur lors de l'annulation:", error);
+      const errorMessage = error.response?.data?.error || "Une erreur est survenue lors de l'annulation de l'abonnement.";
+      setErrorMessage(errorMessage);
+    } finally {
+      setIsLoading(false);
+      setShowUnsubscribeModal(false);
+    }
+  };  
 
   if (loading) {
     return <SubscriptionSkeleton />;
@@ -65,7 +67,7 @@ export default function Orders() {
       />
 
       {/* Titre */}
-      <h1 className="relative z-10 mb-4 sm:mb-6 md:mb-8 mx-4 sm:mx-8 md:mx-[50px] !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl font-bold">Mon abonnement</h1>
+      <h1 className="relative z-10 mb-4 sm:mb-6 md:mb-8 mx-4 sm:mx-8 md:mx-[50px] !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl">Mon abonnement</h1>
 
       {subscription && subscription.id ? (
         // Carte d'abonnement
@@ -188,9 +190,8 @@ export default function Orders() {
             <div className="flex flex-1 items-end justify-center lg:justify-end mt-4 sm:mt-6 lg:mt-8">
               {subscription.status === 'active' && (
                 <MainButton 
-                text={isLoading ? "Annulation..." : "Se désabonner"}
-                onClick={handleUnsubscribe}
-                disabled={isLoading}
+                text="Se désabonner"
+                onClick={() => setShowUnsubscribeModal(true)}
                 >
                 </MainButton>
               )}
@@ -212,6 +213,71 @@ export default function Orders() {
           <p className="!text-lg sm:!text-xl md:!text-xl font-medium mb-4">Pas encore abonné ?</p>
           <p className="!text-sm sm:!text-base md:!text-base mb-6">Parcourez nos différents abonnements et trouvez celui qui vous correspond !</p>
           <MainButton text="Voir les abonnements" onClick={() => window.location.href = '/subscriptions'} />
+        </div>
+      )}
+
+      {/* Modal de confirmation de désabonnement */}
+      {showUnsubscribeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          {/* Contenu de la modal */}
+          <div className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                <span className="text-red-600 text-2xl">⚠️</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Confirmer la résiliation
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Êtes-vous sûr de vouloir annuler votre abonnement ? Cette action est irréversible et votre abonnement prendra fin à la date d'expiration.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setShowUnsubscribeModal(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleUnsubscribe}
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 cursor-pointer"
+                >
+                  {isLoading ? "Annulation..." : "Confirmer"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal d'erreur */}
+      {errorMessage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          {/* Contenu de la modal */}
+          <div className="relative bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                <span className="text-red-600 text-2xl">❌</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Erreur
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {errorMessage}
+              </p>
+              <button
+                onClick={() => setErrorMessage('')}
+                className="w-full px-4 py-2 bg-loomipink text-white rounded-lg hover:bg-loomilightpink transition-colors"
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

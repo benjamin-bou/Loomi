@@ -45,24 +45,24 @@ export default function Profile() {
         {/* Grille de cartes */}
         <div className="flex flex-wrap gap-8 mb-20 justify-center lg:justify-start lg:max-w-4/5">
           <ProfileCard title="Mes commandes" onClick={() => navigate("/profile/orders")}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+            Consultez l'historique de toutes vos commandes : boxes individuelles, abonnements et cartes cadeaux achetées.
           </ProfileCard>
           <ProfileCard title="Mon abonnement" onClick={() => navigate("/profile/subscription")}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+            Gérez votre abonnement actuel : statut, prochaine livraison, résiliation et renouvellement.
           </ProfileCard>          <ProfileCard title="Mes livraisons" onClick={() => navigate("/profile/deliveries")}>
             Consultez l'historique de toutes vos livraisons : boîtes achetées individuellement et boîtes reçues via vos abonnements.
           </ProfileCard>
           <ProfileCard title="Mes favoris" onClick={() => navigate("/profile/favorites")}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+            Retrouvez toutes les boxes que vous avez ajoutées à vos favoris pour ne pas les oublier.
           </ProfileCard>
           <ProfileCard title="Mes cartes cadeaux" onClick={() => navigate("/profile/gift-cards")}>
             Consultez et gérez vos cartes cadeaux activées. Utilisez-les pour vos prochaines commandes.
           </ProfileCard>
           <ProfileCard title="Mes informations" onClick={() => navigate("/profile/informations")}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+            Modifiez vos informations personnelles, adresse de livraison et préférences de compte.
           </ProfileCard>
           <ProfileCard title="Newsletter">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+            Restez informé(e) des nouveautés, offres spéciales et conseils créatifs directement dans votre boîte mail.
           </ProfileCard>
         </div>
       <p className="!text-md md:!text-xl underline cursor-pointer mb-20 hover:text-loomipink transition-colors" onClick={handleLogout}>Déconnexion</p>

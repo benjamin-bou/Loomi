@@ -34,7 +34,7 @@ export default function MyGiftCardsPage({ setShowLogin }) {
 
       <div className="px-4 sm:!px-6 md:!px-8 lg:!px-12 py-6 sm:!py-8 md:!py-12 relative z-20">
         <div className="flex flex-col sm:!flex-row sm:!justify-between sm:!items-center mb-6 sm:!mb-8 text-center sm:!text-left">
-          <h1 className="!text-xl sm:!text-2xl md:!text-3xl lg:!text-4xl !font-bold">Mes cartes cadeaux</h1>
+          <h1 className="!text-xl sm:!text-2xl md:!text-3xl lg:!text-4xl">Mes cartes cadeaux</h1>
         </div>
 
         <MyGiftCards />

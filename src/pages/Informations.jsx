@@ -25,11 +25,11 @@ export default function Informations() {
             style={{ transform: "rotate(-45deg)" }}
           />
           
-          <h1 className="mb-8 xs:!mb-10 sm:!mb-12 md:!mb-16 !text-xl xs:!text-2xl sm:!text-3xl md:!text-4xl font-bold text-center sm:!text-left relative z-20">Mes informations</h1>
+          <h1 className="mb-8 xs:!mb-10 sm:!mb-12 md:!mb-16 !text-xl xs:!text-2xl sm:!text-3xl md:!text-4xl text-center sm:!text-left relative z-20">Mes informations</h1>
           <div className="flex flex-col lg:!flex-row gap-8 xs:!gap-10 sm:!gap-12 md:!gap-16 lg:!gap-20 xl:!gap-32 relative z-20">
             {/* Bloc Contact */}
             <div className="flex-1">
-              <h2 className="mb-4 xs:!mb-5 sm:!mb-6 !text-lg xs:!text-xl sm:!text-2xl md:!text-3xl font-semibold text-center sm:!text-left">Contact</h2>
+              <h2 className="mb-4 xs:!mb-5 sm:!mb-6 !text-lg xs:!text-xl sm:!text-2xl md:!text-3xl text-center sm:!text-left">Contact</h2>
               <div className="space-y-2 xs:!space-y-3 sm:!space-y-4 text-sm xs:!text-base sm:!text-lg md:!text-xl text-center sm:!text-left">
                 <p className="break-words"><span className="font-medium">Nom :</span> {user.last_name}</p>
                 <p className="break-words"><span className="font-medium">Prénom :</span> {user.first_name}</p>
@@ -39,7 +39,7 @@ export default function Informations() {
             </div>
             {/* Bloc Adresse de livraison */}
             <div className="flex-1">
-              <h2 className="mb-4 xs:!mb-5 sm:!mb-6 !text-lg xs:!text-xl sm:!text-2xl md:!text-3xl font-semibold text-center sm:!text-left">Adresse de livraison</h2>
+              <h2 className="mb-4 xs:!mb-5 sm:!mb-6 !text-lg xs:!text-xl sm:!text-2xl md:!text-3xl text-center sm:!text-left">Adresse de livraison</h2>
               <div className="space-y-2 xs:!space-y-3 sm:!space-y-4 text-sm xs:!text-base sm:!text-lg md:!text-xl text-center sm:!text-left">
                 <p className="break-words"><span className="font-medium">Nom :</span> {user.last_name}</p>
                 <p className="break-words"><span className="font-medium">Prénom :</span> {user.first_name}</p>
