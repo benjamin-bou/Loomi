@@ -109,7 +109,7 @@ const MainHeader = ({ setShowLogin, setShowCart, setShowNav }) => {
               />
               {cart.length > 0 && (
                 <div
-                  className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5  md:w-8 md:h-8 flex items-center justify-center"
+                  className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5  md:w-6 md:h-6 flex items-center justify-center"
                   style={{ transform: 'translate(50%, -50%)' }}
                 >
                   {cart.length}

@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import Newsletter from "../components/Newsletter";
 import MainButton from "../components/addOns/MainButton";
 import OrderStep1 from "./OrderStep1";
+import { getImageUrl } from '../utils/imageUtils';
 
 function OrderPage({ setShowLogin }) {
   const [orderSummary, setOrderSummary] = useState(null);
@@ -246,68 +247,97 @@ function OrderPage({ setShowLogin }) {
                   .map((item, idx) => (
                   <li key={idx} className="mb-4 border-b pb-3">
                     <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          {item.type === 'box' && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                              📦 Box
-                            </span>
+                      <div className="flex items-start gap-4 flex-1">
+                        {/* Image de l'item */}
+                        <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                          {item.type === 'box' && item.images && item.images.length > 0 ? (
+                            <img 
+                              src={getImageUrl(item.images[0].link)} 
+                              alt={item.images[0].alt || item.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.src = "https://dummyimage.com/64x48/2EC4B6/ffffff&text=Box";
+                              }}
+                            />
+                          ) : item.type === 'subscription' ? (
+                            <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                              <span className="text-white text-xs font-medium">🔄</span>
+                            </div>
+                          ) : item.type === 'giftcard' || item.type === 'giftcard_usage' ? (
+                            <div className="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                              <span className="text-white text-xs font-medium">🎁</span>
+                            </div>
+                          ) : (
+                            <img 
+                              src="https://dummyimage.com/64x48/2EC4B6/ffffff&text=Item" 
+                              alt={item.name}
+                              className="w-full h-full object-cover"
+                            />
                           )}
-                          {item.type === 'giftcard' && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                              🎁 Carte cadeau
-                            </span>
-                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.type === 'box' && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                📦 Box
+                              </span>
+                            )}
+                            {item.type === 'giftcard' && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                🎁 Carte cadeau
+                              </span>
+                            )}
+                            {item.type === 'giftcard_usage' && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                🎫 Paiement par carte cadeau
+                              </span>
+                            )}
+                            {item.type === 'subscription' && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                🔄 Abonnement
+                              </span>
+                            )}
+                          </div>
+                          <div className="font-semibold text-lg">
+                            {item.type === 'subscription' ? (item.label || item.name) : item.name}
+                          </div>
+                          {item.description && item.type !== 'subscription' && (
+                            <div className="text-sm text-gray-600 mt-1">
+                              {item.description}
+                            </div>
+                          )}     
+                          {item.label && item.type === 'subscription' && (
+                            <div className="text-sm text-gray-600 mt-1">
+                              {item.label}
+                            </div>
+                          )}                                   
                           {item.type === 'giftcard_usage' && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              🎫 Paiement par carte cadeau
-                            </span>
+                            <div className="text-sm text-green-600 mt-1">
+                              Code: <span className="font-mono">{item.giftCardCode}</span>
+                            </div>
+                          )}                        
+                          {item.type === 'box' && item.paidWithGiftCard && (
+                            <div className="text-sm text-green-600 mt-1 font-medium">
+                              🎁 Box offerte avec votre carte cadeau
+                              <div className="text-xs text-green-500 mt-1">
+                                "{item.name}" - Prix original: {item.originalPrice}€
+                              </div>
+                            </div>
                           )}
-                          {item.type === 'subscription' && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                              🔄 Abonnement
-                            </span>
+                          {item.type === 'subscription' && item.paidWithGiftCard && (
+                            <div className="text-sm text-green-600 mt-1 font-medium">
+                              🎁 Abonnement offert avec votre carte cadeau
+                              <div className="text-xs text-green-500 mt-1">
+                                "{item.name}" - Prix original: {item.originalPrice || item.price}€
+                              </div>
+                            </div>
+                          )}
+                          {item.type === 'box' && !item.paidWithGiftCard && !isGiftCardPayment && (
+                            <div className="text-sm text-gray-600 mt-1">
+                              📦 Box achetée
+                            </div>
                           )}
                         </div>
-                        <div className="font-semibold text-lg">
-                          {item.name}
-                        </div>
-                        {item.description && item.type !== 'subscription' && (
-                          <div className="text-sm text-gray-600 mt-1">
-                            {item.description}
-                          </div>
-                        )}     
-                        {item.label && item.type === 'subscription' && (
-                          <div className="text-sm text-gray-600 mt-1">
-                            {item.label}
-                          </div>
-                        )}                                   
-                        {item.type === 'giftcard_usage' && (
-                          <div className="text-sm text-green-600 mt-1">
-                            Code: <span className="font-mono">{item.giftCardCode}</span>
-                          </div>
-                        )}                        
-                        {item.type === 'box' && item.paidWithGiftCard && (
-                          <div className="text-sm text-green-600 mt-1 font-medium">
-                            🎁 Box offerte avec votre carte cadeau
-                            <div className="text-xs text-green-500 mt-1">
-                              "{item.name}" - Prix original: {item.originalPrice}€
-                            </div>
-                          </div>
-                        )}
-                        {item.type === 'subscription' && item.paidWithGiftCard && (
-                          <div className="text-sm text-green-600 mt-1 font-medium">
-                            🎁 Abonnement offert avec votre carte cadeau
-                            <div className="text-xs text-green-500 mt-1">
-                              "{item.name}" - Prix original: {item.originalPrice || item.price}€
-                            </div>
-                          </div>
-                        )}
-                        {item.type === 'box' && !item.paidWithGiftCard && !isGiftCardPayment && (
-                          <div className="text-sm text-gray-600 mt-1">
-                            📦 Box achetée
-                          </div>
-                        )}
                       </div>                      <div className="text-right ml-4">                        <div className={`font-medium ${item.type === 'giftcard_usage' ? 'text-green-600' : (item.type === 'box' && item.paidWithGiftCard) ? 'text-green-600' : (item.type === 'subscription' && item.paidWithGiftCard) ? 'text-green-600' : 'text-gray-700'}`}>
                           {item.type === 'giftcard_usage' ? 'Gratuit' : 
                            (item.type === 'box' && item.paidWithGiftCard) ? 'Offert' :

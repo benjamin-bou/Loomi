@@ -4,6 +4,7 @@ import trashIcon from '/images/picto/search.svg';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/imageUtils';
 
 function CartModal({ show, setShow }) {
   const navigate = useNavigate();
@@ -78,15 +79,53 @@ function CartModal({ show, setShow }) {
               {cart.map((item, idx) => (
                 <li key={idx} className="py-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    {/* <img src={item.image} alt={item.name} className="h-12 w-12 object-cover rounded" /> */}
-                    <img src="https://dummyimage.com/400x300/2EC4B6/ffffff&text=Boite" className='w-20'/>                    <div>
+                    {/* Image de l'item */}
+                    <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-gray-100">
+                      {item.type === 'box' && item.images && item.images.length > 0 ? (
+                        <img 
+                          src={getImageUrl(item.images[0].link)} 
+                          alt={item.images[0].alt || item.name}
+                          className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            e.target.src = "https://dummyimage.com/80x64/2EC4B6/ffffff&text=Box";
+                          }}
+                        />
+                      ) : item.type === 'subscription' ? (
+                        <img 
+                          src="/images/boxes/box_couture_003.png" 
+                          alt="Abonnement"
+                          className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            e.target.src = "https://dummyimage.com/80x64/FF9500/ffffff&text=Abo";
+                          }}
+                        />
+                      ) : item.type === 'giftcard' ? (
+                        <img 
+                          src="/images/gift_cards_image_1.png" 
+                          alt="Carte cadeau"
+                          className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            e.target.src = "https://dummyimage.com/80x64/9333EA/ffffff&text=Gift";
+                          }}
+                        />
+                      ) : (
+                        <img 
+                          src="https://dummyimage.com/80x64/2EC4B6/ffffff&text=Item" 
+                          alt={item.name}
+                          className="w-full h-full object-cover object-center"
+                        />
+                      )}
+                    </div>
+                    <div>
                       <div className="font-semibold">
-                        {item.type === 'giftcard' ? `Carte cadeau - ${item.name}` : item.name}
+                        {item.type === 'giftcard' ? `Carte cadeau - ${item.name}` : 
+                         item.type === 'subscription' ? (item.label || item.name) : 
+                         item.name}
                       </div>
                       <div className="text-sm text-gray-500 flex items-center gap-2">
                         <button
                           className="px-2 py-1 bg-gray-200 rounded cursor-pointer hover:bg-gray-300"
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item.id, false, item.type)}
                         >
                           -
                         </button>
@@ -106,7 +145,7 @@ function CartModal({ show, setShow }) {
                     </div>
                     <button
                       className=""
-                      onClick={() => removeFromCart(item.id, true)}
+                      onClick={() => removeFromCart(item.id, true, item.type)}
                     >
                       <img src={trashIcon} alt="Supprimer" className="min-h-5 min-w-5 cursor-pointer" />
                     </button>

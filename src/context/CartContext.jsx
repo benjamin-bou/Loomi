@@ -15,7 +15,10 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (item) => {
     const updatedCart = [...cart];
-    const existingItem = updatedCart.find((cartItem) => cartItem.id === item.id);
+    // Utiliser une clé composite incluant le type ET l'ID pour différencier les items
+    const existingItem = updatedCart.find((cartItem) => 
+      cartItem.id === item.id && cartItem.type === item.type
+    );
 
     if (existingItem) {
       existingItem.quantity += 1;
@@ -25,12 +28,14 @@ export const CartProvider = ({ children }) => {
 
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };  const removeFromCart = (id, removeAll = false) => {
+  };  const removeFromCart = (id, removeAll = false, itemType = null) => {
     let updatedCart;
 
     if (removeAll) {
       // Trouver l'item à supprimer
-      const itemToRemove = cart.find(item => item.id === id);
+      const itemToRemove = cart.find(item => 
+        item.id === id && (itemType ? item.type === itemType : true)
+      );
       
       // Si c'est une carte cadeau, supprimer aussi les items reliés
       if (itemToRemove && itemToRemove.type === 'giftcard_usage') {
@@ -41,15 +46,19 @@ export const CartProvider = ({ children }) => {
         );
         // Supprimer la carte cadeau et tous les items reliés
         updatedCart = cart.filter((item) => 
-          item.id !== id && 
-          !relatedItems.some(relatedItem => relatedItem.id === item.id)
+          !(item.id === id && item.type === itemToRemove.type) && 
+          !relatedItems.some(relatedItem => 
+            relatedItem.id === item.id && relatedItem.type === item.type
+          )
         );
       } else {
-        updatedCart = cart.filter((item) => item.id !== id);
+        updatedCart = cart.filter((item) => 
+          !(item.id === id && (itemType ? item.type === itemType : true))
+        );
       }
     } else {
       updatedCart = cart.map((item) => {
-        if (item.id === id) {
+        if (item.id === id && (itemType ? item.type === itemType : true)) {
           return { ...item, quantity: item.quantity - 1 };
         }
         return item;
