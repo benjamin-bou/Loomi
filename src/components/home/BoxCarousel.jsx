@@ -94,6 +94,7 @@ function BoxCarousel({ boxes, slidesToShow }) {
                   >                    <img
                       className="h-full w-full object-cover"
                       src={(() => {
+                        console.log(box.images);
                         const imageUrl = box.images && box.images.length > 0 
                           ? getImageUrl(box.images[0].link)
                           : "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";

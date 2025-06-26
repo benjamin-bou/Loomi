@@ -97,40 +97,37 @@ function BoxPage({ setShowCart }) {
           <div className="w-full lg:!w-[58%]">
             <div className="grid grid-cols-1 sm:!grid-cols-2 gap-2 xs:!gap-3 sm:!gap-4 md:!gap-6">
               {box.images && box.images.length > 0 ? (
-                <>                  {/* Image principale */}
+                <>
+                  {/* Image principale - toujours la première image de la boîte */}
                   <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
                     <img 
                       src={getImageUrl(box.images[0].link)}
                       alt={box.images[0].alt || box.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center"
                       onError={(e) => {
                         e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
                       }}
                     />
                   </div>
                   
-                  {/* Image secondaire si disponible */}
-                  {box.images.length > 1 ? (
-                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
-                      <img 
-                        src={getImageUrl(box.images[1].link)}
-                        alt={box.images[1].alt || box.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
-                  )}
+                  {/* Image secondaire - fixe selon la catégorie */}
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.category?.short_name === 'DIY' ? '/images/boxes/orange_boxes_lot.png' : '/images/boxes/pink_boxes_lot.png')}
+                      alt={`Collection de boîtes ${box.category?.short_name || 'créatives'}`}
+                      className="w-full h-full object-cover object-center"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                      }}
+                    />
+                  </div>
                   
-                  {/* Image large en bas */}
+                  {/* Image large en bas - toujours box_couture_003 */}
                   <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
                     <img 
-                      src={getImageUrl(box.images[0].link)}
-                      alt={box.images[0].alt || box.name}
-                      className="w-full h-full object-cover"
+                      src={getImageUrl('/images/boxes/box_couture_003.png')}
+                      alt="Atelier couture créatif"
+                      className="w-full h-full object-cover object-center"
                       onError={(e) => {
                         e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
                       }}
@@ -139,9 +136,38 @@ function BoxPage({ setShowCart }) {
                 </>
               ) : (
                 <>
-                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
-                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
-                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 bg-gray-300 rounded-2xl xs:!rounded-3xl md:!rounded-4xl"></div>
+                  {/* Fallback - première image grise */}
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src="https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box"
+                      alt={box.name}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                  
+                  {/* Fallback - deuxième image selon la catégorie */}
+                  <div className="col-span-1 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl(box.category?.short_name === 'DIY' ? '/images/boxes/orange_boxes_lot.png' : '/images/boxes/pink_boxes_lot.png')}
+                      alt={`Collection de boîtes ${box.category?.short_name || 'créatives'}`}
+                      className="w-full h-full object-cover object-center"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Fallback - troisième image fixe */}
+                  <div className="col-span-1 sm:!col-span-2 h-40 xs:!h-48 sm:!h-56 md:!h-64 lg:!h-96 rounded-2xl xs:!rounded-3xl md:!rounded-4xl overflow-hidden">
+                    <img 
+                      src={getImageUrl('/images/boxes/box_couture_003.png')}
+                      alt="Atelier couture créatif"
+                      className="w-full h-full object-cover object-center"
+                      onError={(e) => {
+                        e.target.src = "https://dummyimage.com/400x300/D9D9D9/D9D9D9&text=Box";
+                      }}
+                    />
+                  </div>
                 </>
               )}
             </div>
