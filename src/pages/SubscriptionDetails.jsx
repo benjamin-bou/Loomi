@@ -156,9 +156,6 @@ function SubscriptionDetails({ setShowCart }) {
             >
               Ajouter au panier
             </button>
-            <button className="neulis text-[15px] bg-[#DB3D88] text-white py-2 rounded-xl hover:bg-[#b83272] hover:cursor-pointer transition">
-              S’abonner
-            </button>
           </div>
 
           {/* Accordéon infos */}
