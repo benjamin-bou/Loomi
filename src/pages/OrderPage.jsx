@@ -260,9 +260,14 @@ function OrderPage({ setShowLogin }) {
                               }}
                             />
                           ) : item.type === 'subscription' ? (
-                            <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                              <span className="text-white text-xs font-medium">🔄</span>
-                            </div>
+                            <img 
+                              src="/images/boxes/box_couture_003.png" 
+                              alt="Abonnement"
+                              className="w-full h-full object-cover object-center"
+                              onError={(e) => {
+                                e.target.src = "https://dummyimage.com/64x48/FF9500/ffffff&text=Abo";
+                              }}
+                            />
                           ) : item.type === 'giftcard' || item.type === 'giftcard_usage' ? (
                             <div className="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
                               <span className="text-white text-xs font-medium">🎁</span>
